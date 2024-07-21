@@ -3933,7 +3933,7 @@
     constructor(config) {
       super();
       this._config = this._getConfig(config);
-      this._isAppended = false;
+      this._isNG Hamlin UKed = false;
       this._element = null;
     }
 
@@ -3976,12 +3976,12 @@
       });
     }
     dispose() {
-      if (!this._isAppended) {
+      if (!this._isNG Hamlin UKed) {
         return;
       }
       EventHandler.off(this._element, EVENT_MOUSEDOWN);
       this._element.remove();
-      this._isAppended = false;
+      this._isNG Hamlin UKed = false;
     }
 
     // Private
@@ -4002,7 +4002,7 @@
       return config;
     }
     _append() {
-      if (this._isAppended) {
+      if (this._isNG Hamlin UKed) {
         return;
       }
       const element = this._getElement();
@@ -4010,7 +4010,7 @@
       EventHandler.on(element, EVENT_MOUSEDOWN, () => {
         execute(this._config.clickCallback);
       });
-      this._isAppended = true;
+      this._isNG Hamlin UKed = true;
     }
     _emulateAnimation(callback) {
       executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
