@@ -1,0 +1,8 @@
+name = "verifsage-form-proxy"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+# Set this to your real site's origin once deployed, e.g. "https://verifsage.com"
+# Using "*" works for testing but should be locked down before going live.
+ALLOWED_ORIGIN = "*"

@@ -9,6 +9,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BLBJL4Y8QB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BLBJL4Y8QB');
+</script>
 <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaReady&render=explicit" async defer></script>
 <style>
   :root{
@@ -1060,42 +1069,38 @@
 
   // ---------- Google reCAPTCHA (v2 checkbox, explicit render) ----------
   // Replace with your real site key from https://www.google.com/recaptcha/admin
-  const RECAPTCHA_SITE_KEY = 'YOUR_RECAPTCHA_SITE_KEY';
+  const RECAPTCHA_SITE_KEY = '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E';
+  // Replace with the *.workers.dev URL printed after you deploy cloudflare-worker/
+  const WORKER_URL = 'https://https://verifsage-form-proxy.verifsage.workers.dev.workers.dev';
   let wRecaptchaId = null;
   let cRecaptchaId = null;
 
   window.onRecaptchaReady = function(){
-    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') return; // don't render with a placeholder key
+    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E') return; // don't render with a placeholder key
     wRecaptchaId = grecaptcha.render('w_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
     cRecaptchaId = grecaptcha.render('c_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
   };
 
-  // ---------- HubSpot form submission ----------
-  function submitToHubspot(portalId, formId, fields, consentText){
-    const url = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
-    return fetch(url, {
+  // ---------- Submit through the verification proxy ----------
+  // The proxy verifies the reCAPTCHA token server-side with Google (using a
+  // secret key that never touches the browser), then forwards to HubSpot.
+  function submitViaWorker(portalId, formId, fields, recaptchaToken){
+    return fetch(WORKER_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
+        recaptchaToken,
+        portalId,
+        formId,
         fields: fields.map(f => ({ name: f.name, value: f.value })),
-        context: {
-          pageUri: window.location.href,
-          pageName: document.title
-        },
-        legalConsentOptions: {
-          consent: {
-            consentToProcess: true,
-            text: consentText
-          }
-        }
+        pageUri: window.location.href,
+        pageName: document.title
       })
-    }).then(res => {
-      if(!res.ok) throw new Error('HubSpot submission failed: ' + res.status);
-      return res.json();
+    }).then(res => res.json()).then(data => {
+      if(!data.ok) throw new Error(data.error || 'Submission failed');
+      return data;
     });
   }
-
-  const CONSENT_TEXT = 'I agree to allow Verifsage to store and process my personal data.';
 
   // Waitlist form -> HubSpot
   const form = document.getElementById('waitlistForm');
@@ -1111,12 +1116,14 @@
     }
     if(!document.getElementById('wconsent').checked) return;
 
-    if(RECAPTCHA_SITE_KEY !== 'YOUR_RECAPTCHA_SITE_KEY'){
-      const recaptchaResponse = grecaptcha.getResponse(wRecaptchaId);
-      if(!recaptchaResponse){
-        alert('Please complete the reCAPTCHA check before submitting.');
-        return;
-      }
+    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E' || WORKER_URL.includes('https://verifsage-form-proxy.verifsage.workers.dev')){
+      alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
+      return;
+    }
+    const recaptchaResponse = grecaptcha.getResponse(wRecaptchaId);
+    if(!recaptchaResponse){
+      alert('Please complete the reCAPTCHA check before submitting.');
+      return;
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -1126,11 +1133,11 @@
     const company = document.getElementById('wcompany').value.trim();
     const message = company ? `Company: ${company}` : '';
 
-    submitToHubspot(form.dataset.portalId, form.dataset.formId, [
+    submitViaWorker(form.dataset.portalId, form.dataset.formId, [
       { name: 'fullname', value: fullname },
       { name: 'email', value: document.getElementById('wemail').value.trim() },
       { name: 'message', value: message }
-    ], CONSENT_TEXT).then(()=>{
+    ], recaptchaResponse).then(()=>{
       form.style.display = 'none';
       success.classList.add('show');
     }).catch(err=>{
@@ -1155,23 +1162,25 @@
     }
     if(!document.getElementById('cconsent').checked) return;
 
-    if(RECAPTCHA_SITE_KEY !== 'YOUR_RECAPTCHA_SITE_KEY'){
-      const recaptchaResponse = grecaptcha.getResponse(cRecaptchaId);
-      if(!recaptchaResponse){
-        alert('Please complete the reCAPTCHA check before submitting.');
-        return;
-      }
+    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E' || WORKER_URL.includes('https://verifsage-form-proxy.verifsage.workers.dev')){
+      alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
+      return;
+    }
+    const recaptchaResponse = grecaptcha.getResponse(cRecaptchaId);
+    if(!recaptchaResponse){
+      alert('Please complete the reCAPTCHA check before submitting.');
+      return;
     }
 
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
-    submitToHubspot(contactForm.dataset.portalId, contactForm.dataset.formId, [
+    submitViaWorker(contactForm.dataset.portalId, contactForm.dataset.formId, [
       { name: 'fullname', value: document.getElementById('cname').value.trim() },
       { name: 'email', value: document.getElementById('cemail').value.trim() },
       { name: 'what_can_we_help_you_with_', value: document.getElementById('ctopic').value.trim() },
       { name: 'message', value: document.getElementById('cmessage').value.trim() }
-    ], CONSENT_TEXT).then(()=>{
+    ], recaptchaResponse).then(()=>{
       contactForm.style.display = 'none';
       contactSuccess.classList.add('show');
     }).catch(err=>{
@@ -1180,6 +1189,16 @@
       submitBtn.textContent = 'Something went wrong — try again';
       if(cRecaptchaId !== null) grecaptcha.reset(cRecaptchaId);
     });
+  });
+
+  // track section jumps
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+          gtag('event', 'select_content', {
+              content_type: 'section_jump',
+              item_id: this.getAttribute('href') // e.g., "#pricing"
+          });
+      });
   });
 </script>
 
