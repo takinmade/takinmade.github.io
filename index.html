@@ -1,1171 +1,939 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifsage — Global KYC & KYB. One API. Zero Compromise.</title>
+<meta name="description" content="Verify people and businesses anywhere in the world. Stop fraud. Stay compliant. All through one powerful, seamless Verifsage API.">
+<link rel="icon" href="verifsage-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a2226;
+    --ink-soft:#123338;
+    --teal:#2f98a3;
+    --teal-deep:#1c6a73;
+    --teal-bright:#3fb0ba;
+    --green:#7fc07a;
+    --green-soft:#bfe6b8;
+    --paper:#f6f8f6;
+    --white:#ffffff;
+    --line:rgba(10,34,38,.12);
+    --line-light:rgba(255,255,255,.14);
+    --ink-70: rgba(10,34,38,.7);
+    --ink-50: rgba(10,34,38,.5);
+    --white-70: rgba(255,255,255,.72);
+    --white-50: rgba(255,255,255,.52);
+    --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
+    --radius: 18px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(.16,.84,.32,1);
+  }
 
-  <title>Home - NG Hamlin UK</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Instrument Sans', sans-serif;
+    margin:0;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  p{margin:0;}
+  a{color:inherit; text-decoration:none;}
+  ul{margin:0; padding:0; list-style:none;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  ::selection{background:var(--green-soft); color:var(--ink);}
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  /* ---------- Eyebrow / label ---------- */
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--teal-deep);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow .mark-mini{width:20px; height:20px;}
+  section .eyebrow.on-dark{color:var(--green-soft);}
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  /* ---------- Signature chevron mark ---------- */
+  .chevron-mark rect{transform-origin:center;}
+  .scan-line{
+    animation: scan 3.4s var(--ease) infinite;
+  }
+  @keyframes scan{
+    0%{ transform:translateY(-40px); opacity:0;}
+    12%{ opacity:1;}
+    55%{ opacity:1;}
+    70%{ transform:translateY(140px); opacity:0;}
+    100%{ transform:translateY(140px); opacity:0;}
+  }
+  .bar-draw rect{
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    animation: draw 1.1s var(--ease) forwards;
+  }
+  .bar-draw rect:nth-child(2){animation-delay:.12s;}
+  .bar-draw rect:nth-child(3){animation-delay:.24s;}
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,248,246,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{
+    height:76px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{height:34px; width:auto; display:block;}
+  .nav-links{display:flex; gap:34px; align-items:center;}
+  .nav-links a{
+    font-size:14.5px; font-weight:500; color:var(--ink-70);
+    transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--teal-deep);}
+  .nav-cta{
+    padding:11px 22px; border-radius:100px;
+    background:var(--ink); color:var(--white);
+    font-size:14px; font-weight:600;
+    transition:transform .25s var(--ease), background .25s;
+  }
+  .nav-cta:hover{background:var(--teal-deep); transform:translateY(-1px);}
+  .nav-toggle{display:none;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 28px; border-radius:100px;
+    font-weight:600; font-size:15px; border:1px solid transparent;
+    transition:transform .25s var(--ease), box-shadow .25s, background .25s, color .25s, border-color .25s;
+  }
+  .btn-primary{
+    background:var(--grad); color:var(--ink);
+    box-shadow:0 10px 30px -12px rgba(47,152,163,.55);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 16px 34px -12px rgba(47,152,163,.7);}
+  .btn-ghost{
+    background:transparent; color:var(--white); border-color:var(--line-light);
+  }
+  .btn-ghost:hover{border-color:var(--white-70); background:rgba(255,255,255,.06);}
+  .btn-ghost.dark{color:var(--ink); border-color:var(--line);}
+  .btn-ghost.dark:hover{border-color:var(--ink); background:rgba(10,34,38,.04);}
+  .btn-arrow{transition:transform .25s var(--ease);}
+  .btn:hover .btn-arrow{transform:translateX(3px);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(120% 140% at 15% -10%, #133b41 0%, var(--ink) 55%, #071619 100%);
+    color:var(--white);
+    padding:74px 0 0;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+    padding:56px 0 90px;
+  }
+  .hero h1{
+    font-size:clamp(38px, 5vw, 62px);
+    line-height:1.04;
+    font-weight:700;
+    max-width:640px;
+  }
+  .hero h1 .grad-text{
+    background:var(--grad);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero .sub{
+    margin-top:24px; font-size:18px; line-height:1.6; color:var(--white-70);
+    max-width:520px;
+  }
+  .hero-ctas{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
+  .trust-strip{
+    margin-top:64px; padding-top:26px; border-top:1px solid var(--line-light);
+  }
+  .trust-strip .label{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--white-50); margin-bottom:14px;
+  }
+  .trust-row{display:flex; flex-wrap:wrap; gap:10px 26px; font-size:14.5px; color:var(--white-70); font-weight:500;}
+  .trust-row span{position:relative; padding-left:14px;}
+  .trust-row span::before{
+    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+    width:5px; height:5px; border-radius:50%; background:var(--green);
+  }
+
+  .hero-visual{
+    position:relative; height:460px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-visual svg{width:100%; height:100%; max-width:420px;}
+  .hero-visual .glow{
+    position:absolute; inset:-60px; border-radius:50%;
+    background:radial-gradient(circle, rgba(47,152,163,.35), transparent 65%);
+    filter:blur(10px);
+  }
+
+  /* ---------- Section base ---------- */
+  .section{padding:110px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,42px); line-height:1.12; font-weight:700;}
+  .section-head p{margin-top:18px; font-size:17px; line-height:1.65; color:var(--ink-70);}
+  .section.dark{background:var(--ink); color:var(--white);}
+  .section.dark .section-head h2{color:var(--white);}
+  .section.dark .section-head p{color:var(--white-70);}
+
+  /* ---------- Why section ---------- */
+  .why{background:var(--white);}
+  .why-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;}
+  .why-copy p{font-size:17px; line-height:1.75; color:var(--ink-70); margin-bottom:18px;}
+  .why-copy strong{color:var(--ink); font-weight:600;}
+  .compare{
+    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
+    background:var(--paper);
+  }
+  .compare-row{
+    display:grid; grid-template-columns:1fr 1fr;
+  }
+  .compare-row + .compare-row{border-top:1px solid var(--line);}
+  .compare-cell{padding:20px 22px; font-size:14.5px; line-height:1.5;}
+  .compare-cell.old{color:var(--ink-50); border-right:1px solid var(--line);}
+  .compare-cell.old::before{content:'— '; }
+  .compare-cell.new{color:var(--ink); font-weight:500;}
+  .compare-cell.new::before{content:'✓ '; color:var(--teal-deep); font-weight:700;}
+  .compare-head{
+    display:grid; grid-template-columns:1fr 1fr;
+    background:var(--ink);
+  }
+  .compare-head div{
+    padding:14px 22px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--white-70);
+  }
+  .compare-head div:first-child{border-right:1px solid var(--line-light);}
+  .compare-head div:last-child{color:var(--green-soft);}
+
+  /* ---------- Features ---------- */
+  .features{background:var(--paper);}
+  .feature-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .feature-card{
+    background:var(--white); padding:34px 30px; min-height:230px;
+    display:flex; flex-direction:column; gap:16px;
+    transition:background .25s;
+  }
+  .feature-card:hover{background:#fbfdfb;}
+  .feature-icon{
+    width:44px; height:44px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--green-soft), rgba(47,152,163,.16));
+  }
+  .feature-icon svg{width:22px; height:22px;}
+  .feature-card h3{font-size:19px; font-weight:600;}
+  .feature-card p{font-size:14.5px; line-height:1.6; color:var(--ink-70);}
+  .features-cta{margin-top:44px; display:flex; justify-content:flex-start;}
+
+  /* ---------- Industries ---------- */
+  .industries{background:var(--white);}
+  .industry-strip{
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .industry-chip{
+    padding:16px 24px; border:1px solid var(--line); border-radius:100px;
+    font-size:15px; font-weight:500; display:flex; align-items:center; gap:10px;
+    transition:border-color .25s, transform .25s var(--ease), background .25s;
+    background:var(--paper);
+  }
+  .industry-chip:hover{border-color:var(--teal); transform:translateY(-2px); background:var(--white);}
+  .industry-chip i{
+    width:8px; height:8px; border-radius:2px;
+    background:var(--grad); display:inline-block; transform:rotate(20deg);
+  }
+
+  /* ---------- Compliance ---------- */
+  .compliance{background:var(--ink); color:var(--white);}
+  .compliance-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:64px; align-items:start;}
+  .compliance-copy p{font-size:16.5px; line-height:1.7; color:var(--white-70); margin-top:20px;}
+  .compliance-copy .callout{
+    margin-top:32px; padding:20px 22px; border-left:2px solid var(--green);
+    font-size:15.5px; color:var(--white-70); font-style:normal; line-height:1.6;
+  }
+  .cert-row{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .cert-badge{
+    border:1px dashed var(--line-light); border-radius:100px;
+    padding:9px 16px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--white-70); letter-spacing:.02em;
+  }
+  .sec-list{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light); border:1px solid var(--line-light); border-radius:var(--radius); overflow:hidden;}
+  .sec-item{background:#0e2b30; padding:28px 26px; display:flex; flex-direction:column; gap:12px;}
+  .sec-item h4{font-size:16.5px; font-weight:600; color:var(--white);}
+  .sec-item p{font-size:14px; line-height:1.6; color:var(--white-70);}
+  .sec-item .n{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--green-soft);}
+
+  /* ---------- Developers ---------- */
+  .dev{background:var(--paper);}
+  .dev-grid{display:grid; grid-template-columns:.95fr 1.05fr; gap:56px; align-items:center;}
+  .dev-list li{
+    display:flex; align-items:flex-start; gap:12px; font-size:15.5px; color:var(--ink); padding:13px 0;
+    border-top:1px solid var(--line);
+  }
+  .dev-list li:first-child{border-top:none;}
+  .dev-list li b{font-weight:600;}
+  .dev-list .dot{width:6px; height:6px; margin-top:8px; border-radius:50%; background:var(--teal); flex:none;}
+  .dev-cta{margin-top:30px;}
+
+  .code-panel{
+    background:#0c2226; border-radius:var(--radius); overflow:hidden;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:0 30px 60px -30px rgba(10,34,38,.5);
+  }
+  .code-topbar{
+    display:flex; align-items:center; gap:8px; padding:14px 18px;
+    background:#0a1c1f; border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .code-topbar span{width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.16);}
+  .code-topbar .file{
+    margin-left:10px; font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--white-50);
+  }
+  pre.code{
+    margin:0; padding:26px; font-family:'IBM Plex Mono', monospace; font-size:13.2px;
+    line-height:1.75; color:#cdece8; overflow-x:auto;
+  }
+  .code .k{color:#7fc07a;}
+  .code .s{color:#7fd4dd;}
+  .code .c{color:rgba(255,255,255,.35);}
+  .code .p{color:#e7f3f1;}
+
+  /* ---------- Waitlist ---------- */
+  .waitlist{
+    background:radial-gradient(120% 160% at 85% 0%, #12403f 0%, var(--ink) 55%);
+    color:var(--white);
+  }
+  .waitlist-grid{display:grid; grid-template-columns:1fr .9fr; gap:56px; align-items:center;}
+  .benefit-list{display:flex; flex-direction:column; gap:0; margin-top:34px;}
+  .benefit-list li{
+    display:flex; align-items:center; gap:14px; padding:15px 0; border-top:1px solid var(--line-light);
+    font-size:15.5px; color:var(--white-70);
+  }
+  .benefit-list li:first-child{border-top:none;}
+  .benefit-list svg{flex:none;}
+  .waitlist-form{
+    background:rgba(255,255,255,.04); border:1px solid var(--line-light); border-radius:var(--radius);
+    padding:36px;
+  }
+  .waitlist-form h3{font-size:20px; font-weight:600; margin-bottom:8px;}
+  .waitlist-form .hint{font-size:14px; color:var(--white-70); margin-bottom:24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12.5px; color:var(--white-50); margin-bottom:8px; font-family:'IBM Plex Mono', monospace; letter-spacing:.04em;}
+  .field input{
+    width:100%; padding:14px 16px; border-radius:10px; border:1px solid var(--line-light);
+    background:rgba(255,255,255,.03); color:var(--white); font-size:15px; font-family:inherit;
+    transition:border-color .2s;
+  }
+  .field input::placeholder{color:var(--white-50);}
+  .field input:focus{outline:none; border-color:var(--teal-bright);}
+  .waitlist-form .btn-primary{width:100%; justify-content:center; margin-top:6px;}
+  .form-note{font-size:12.5px; color:var(--white-50); margin-top:14px; text-align:center;}
+  .form-success{
+    display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:10px;
+    background:rgba(127,192,122,.12); border:1px solid rgba(127,192,122,.35); color:var(--green-soft);
+    font-size:14.5px; margin-top:16px;
+  }
+  .form-success.show{display:flex;}
+
+  /* ---------- FAQ ---------- */
+  .faq{background:var(--white);}
+  .faq-list{border-top:1px solid var(--line);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%; background:none; border:none; text-align:left;
+    padding:26px 0; display:flex; align-items:center; justify-content:space-between; gap:20px;
+    font-size:18px; font-weight:600; color:var(--ink);
+  }
+  .faq-q .plus{
+    width:26px; height:26px; flex:none; position:relative;
+  }
+  .faq-q .plus::before, .faq-q .plus::after{
+    content:''; position:absolute; background:var(--ink); border-radius:2px;
+  }
+  .faq-q .plus::before{width:16px; height:2px; top:12px; left:5px;}
+  .faq-q .plus::after{width:2px; height:16px; top:5px; left:12px; transition:transform .3s var(--ease);}
+  .faq-item.open .faq-q .plus::after{transform:rotate(90deg); opacity:0;}
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height .4s var(--ease);
+  }
+  .faq-a p{padding:0 0 26px; font-size:15.5px; line-height:1.7; color:var(--ink-70); max-width:680px;}
+
+  /* ---------- Footer / final CTA ---------- */
+  .final-cta{
+    background:var(--ink); color:var(--white); text-align:center; padding:120px 0 90px;
+    position:relative; overflow:hidden;
+  }
+  .final-cta h2{
+    font-size:clamp(30px,4.6vw,52px); font-weight:700; max-width:760px; margin:0 auto; line-height:1.1;
+    color:var(--white);
+  }
+  .final-cta .sub{
+    margin:22px auto 0; max-width:520px; font-size:17px; color:var(--white-70); line-height:1.6;
+  }
+  .final-cta .btn{margin-top:38px;}
+
+  footer{background:var(--ink); border-top:1px solid var(--line-light); padding:80px 0 34px;}
+  .footer-top{
+    display:grid; grid-template-columns:1.3fr repeat(4, .8fr); gap:40px;
+    padding-bottom:56px; border-bottom:1px solid var(--line-light);
+  }
+  .footer-brand-col{display:flex; flex-direction:column; gap:18px; max-width:280px;}
+  .footer-brand{display:flex; align-items:center; gap:10px;}
+  .footer-brand img{height:28px;}
+  .footer-tagline{font-size:14px; line-height:1.6; color:var(--white-50);}
+  .footer-social{display:flex; gap:12px; margin-top:6px;}
+  .footer-social a{
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--line-light);
+    display:flex; align-items:center; justify-content:center;
+    transition:border-color .2s, background .2s, transform .2s var(--ease);
+  }
+  .footer-social a:hover{border-color:var(--teal-bright); background:rgba(63,176,186,.1); transform:translateY(-2px);}
+  .footer-social svg{width:16px; height:16px; stroke:var(--white-70); fill:none;}
+  .footer-col h5{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--white-50); margin-bottom:18px; font-weight:500;
+  }
+  .footer-col ul{display:flex; flex-direction:column; gap:13px;}
+  .footer-col a{font-size:14.5px; color:var(--white-70); transition:color .2s;}
+  .footer-col a:hover{color:var(--white);}
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+    padding-top:28px;
+  }
+  .footer-links{display:flex; gap:26px; flex-wrap:wrap;}
+  .footer-links a{font-size:13.5px; color:var(--white-50); transition:color .2s;}
+  .footer-links a:hover{color:var(--white);}
+  .footer-copy{font-size:13px; color:var(--white-50); font-family:'IBM Plex Mono', monospace;}
+
+  @media (max-width: 900px){
+    .footer-top{grid-template-columns:1fr 1fr;}
+    .footer-brand-col{grid-column:1 / -1; max-width:none;}
+  }
+  @media (max-width: 560px){
+    .footer-top{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .7s var(--ease), transform .7s var(--ease);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px){
+    .hero-grid, .why-grid, .compliance-grid, .dev-grid, .waitlist-grid{grid-template-columns:1fr;}
+    .hero-visual{height:320px; order:-1;}
+    .feature-grid{grid-template-columns:repeat(2,1fr);}
+    .sec-list{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+  }
+  @media (max-width: 560px){
+    .wrap{padding:0 20px;}
+    .section{padding:76px 0;}
+    .feature-grid{grid-template-columns:1fr;}
+    .compare-row, .compare-head{grid-template-columns:1fr;}
+    .compare-cell.old{border-right:none; border-bottom:1px solid var(--line);}
+    .compare-head div:first-child{border-right:none; border-bottom:1px solid var(--line-light);}
+    .footer-row{flex-direction:column; align-items:flex-start;}
+    .hero-ctas{flex-direction:column; align-items:stretch;}
+    .btn{justify-content:center;}
+  }
+</style>
 </head>
+<body>
 
-<body class="index-page" data-bs-spy="scroll" data-bs-target="#navmenu">
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-    <div class="container-fluid d-flex align-items-center justify-content-between">
-
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-        <img src="assets/img/logo.jpeg" alt="">
-        <h1>NG Hamlin UK</h1>
-        <span>.</span>
-      </a>
-
-      <!-- Nav Menu -->
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="index.html#hero" class="active">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
-          <li><a href="index.html#services">Services</a></li>
-          <li><a href="index.html#portfolio">Portfolio</a></li>
-          <li><a href="index.html#team">Team</a></li>
-          <li><a href="blog.html">Blog</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
-        </ul>
-
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav><!-- End Nav Menu -->
-
-      <a class="btn-getstarted" href="index.html#about">Get Started</a>
-
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <img src="verifsage-logo.png" alt="Verifsage">
     </div>
-  </header><!-- End Header -->
-
-  <main id="main">
-
-    <!-- Hero Section - Home Page -->
-    <section id="hero" class="hero">
-
-      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
-
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-10">
-            <h2 data-aos="fade-up" data-aos-delay="100">Welcome to Our Website</h2>
-            <p data-aos="fade-up" data-aos-delay="200">We are team of talented designers making websites with Bootstrap</p>
-          </div>
-          <div class="col-lg-5">
-            <form action="#" class="sign-up-form d-flex" data-aos="fade-up" data-aos-delay="300">
-              <input type="text" class="form-control" placeholder="Enter email address">
-              <input type="submit" class="btn btn-primary" value="Sign up">
-            </form>
-          </div>
-        </div>
-      </div>
-
-    </section><!-- End Hero Section -->
-
-    <!-- Clients Section - Home Page -->
-    <section id="clients" class="clients">
-
-      <div class="container-fluid" data-aos="fade-up">
-
-        <div class="row gy-4">
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-2 col-md-3 col-6 client-logo">
-            <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Clients Section -->
-
-    <!-- About Us Section - Home Page -->
-    <section id="about" class="about">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-          <h2>About Us</h2>
-          <p></p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-          <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-              <strong>Company Profile</strong>
-              <p>
-                NG Hamlin UK was birthed in 2021 as part of our vision to expand internationally. Our
-                parent company in Nigeria has a long and storied history in consulting and have been
-                pioneers in the industry for many years and are known for taking innovative steps.
-                We took a leap to explore business opportunities in the United Kingdom slowly introducing
-                ourselves and seeking business solutions for small to medium companies (SME’s).
-                Today we are slowly navigating and introducing our robust Business solutions Consultancy
-                services such as Data Management, Document Management, Project Management, IT
-                Trainings, Cloud Services and Web Designs.
-              </p>
-              <p>
-                We are very proud of our achievements in a short period of time. Information Technology
-                completely changes the way we analyse and present data. We have embraced new
-                technologies and have ensured that our clients receive cutting edge analytics. As we go on
-                towards the future, we intend to exploit the full potential of new technologies to power our
-                services.
-              </p>
-              <p>
-                  <strong>Our Mission</strong>: To approach every client’s business as if it were our own. We believe a
-                  consulting firm should be more than an advisor. We put ourselves in our clients’ shoes, align
-                  our incentives with their objectives, and collaborate to unlock the full potential of their
-                  business. This builds deep and enjoyable relationships.
-              </p>
-              <p>
-              <strong>Company Values</strong>: Safety, Innovation, Trust (SIT)
-              </p>
-          </div>
-      </div>
-
-</section><!-- End About Us Section -->
-
-    <!-- Stats Section - Home Page -->
-    <section id="stats" class="stats">
-
-      <img src="assets/img/stats-bg.jpg" alt="" data-aos="fade-in">
-
-      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Clients</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Projects</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Hours Of Support</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item text-center w-100 h-100">
-              <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Workers</p>
-            </div>
-          </div><!-- End Stats Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Stats Section -->
-
-    <!-- Services Section - Home Page -->
-    <section id="services" class="services">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-briefcase"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Lorem Ipsum</a></h4>
-                <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-              </div>
-            </div>
-          </div>
-          <!-- End Service Item -->
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-card-checklist"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Dolor Sitema</a></h4>
-                <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-bar-chart"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Sed ut perspiciatis</a></h4>
-                <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-binoculars"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Magni Dolores</a></h4>
-                <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-brightness-high"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Nemo Enim</a></h4>
-                <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-6 " data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item d-flex">
-              <div class="icon flex-shrink-0"><i class="bi bi-calendar4-week"></i></div>
-              <div>
-                <h4 class="title"><a href="services-details.html" class="stretched-link">Eiusmod Tempor</a></h4>
-                <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
-              </div>
-            </div>
-          </div><!-- End Service Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Services Section -->
-
-    <!-- Features Section - Home Page -->
-    <section id="features" class="features">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Features</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4 align-items-center features-item">
-          <div class="col-lg-5 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-            <h3>Corporis temporibus maiores provident</h3>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-            </p>
-            <a href="#" class="btn btn-get-started">Get Started</a>
-          </div>
-          <div class="col-lg-7 order-1 order-lg-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
-            <div class="image-stack">
-              <img src="assets/img/features-light-1.jpg" alt="" class="stack-front">
-              <img src="assets/img/features-light-2.jpg" alt="" class="stack-back">
-            </div>
-          </div>
-        </div><!-- Features Item -->
-
-        <div class="row gy-4 align-items-stretch justify-content-between features-item ">
-          <div class="col-lg-6 d-flex align-items-center features-img-bg" data-aos="zoom-out">
-            <img src="assets/img/features-light-3.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-5 d-flex justify-content-center flex-column" data-aos="fade-up">
-            <h3>Sunt consequatur ad ut est nulla</h3>
-            <p>Cupiditate placeat cupiditate placeat est ipsam culpa. Delectus quia minima quod. Sunt saepe odit aut quia voluptatem hic voluptas dolor doloremque.</p>
-            <ul>
-              <li><i class="bi bi-check"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check"></i><span> Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check"></i> <span>Facilis ut et voluptatem aperiam. Autem soluta ad fugiat</span>.</li>
-            </ul>
-            <a href="#" class="btn btn-get-started align-self-start">Get Started</a>
-          </div>
-        </div><!-- Features Item -->
-
-      </div>
-
-    </section><!-- End Features Section -->
-
-    <!-- Portfolio Section - Home Page -->
-    <section id="portfolio" class="portfolio">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Portfolio</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-product">Card</li>
-            <li data-filter=".filter-branding">Web</li>
-          </ul><!-- End Portfolio Filters -->
-
-          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>App 1</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-1.jpg" title="App 1" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Product 1</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" title="Product 1" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Branding 1</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-3.jpg" title="Branding 1" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>App 2</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-4.jpg" title="App 2" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-5.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Product 2</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-5.jpg" title="Product 2" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-6.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Branding 2</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-6.jpg" title="Branding 2" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-7.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>App 3</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-7.jpg" title="App 3" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-8.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Product 3</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-8.jpg" title="Product 3" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-9.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Branding 3</h4>
-                <p>Lorem ipsum, dolor sit</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-9.jpg" title="Branding 2" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Portfolio Section -->
-
-    <!-- Pricing Section - Home Page -->
-    <section id="pricing" class="pricing">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Pricing</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="zoom-in" data-aos-delay="100">
-
-        <div class="row g-4">
-
-          <div class="col-lg-4">
-            <div class="pricing-item">
-              <h3>Free Plan</h3>
-              <div class="icon">
-                <i class="bi bi-box"></i>
-              </div>
-              <h4><sup>$</sup>0<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
-            </div>
-          </div><!-- End Pricing Item -->
-
-          <div class="col-lg-4">
-            <div class="pricing-item featured">
-              <h3>Business Plan</h3>
-              <div class="icon">
-                <i class="bi bi-rocket"></i>
-              </div>
-
-              <h4><sup>$</sup>29<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
-            </div>
-          </div><!-- End Pricing Item -->
-
-          <div class="col-lg-4">
-            <div class="pricing-item">
-              <h3>Developer Plan</h3>
-              <div class="icon">
-                <i class="bi bi-send"></i>
-              </div>
-              <h4><sup>$</sup>49<span> / month</span></h4>
-              <ul>
-                <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-                <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-                <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-                <li><i class="bi bi-check"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li><i class="bi bi-check"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <div class="text-center"><a href="#" class="buy-btn">Buy Now</a></div>
-            </div>
-          </div><!-- End Pricing Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Pricing Section -->
-
-    <!-- Faq Section - Home Page -->
-    <section id="faq" class="faq">
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="content px-xl-5">
-              <h3><span>Frequently Asked </span><strong>Questions</strong></h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-              </p>
-            </div>
-          </div>
-
-          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="faq-container">
-              <div class="faq-item faq-active">
-                <h3><span class="num">1.</span> <span>Non consectetur a erat nam at lectus urna duis?</span></h3>
-                <div class="faq-content">
-                  <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <h3><span class="num">2.</span> <span>Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque?</span></h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <h3><span class="num">3.</span> <span>Dolor sit amet consectetur adipiscing elit pellentesque?</span></h3>
-                <div class="faq-content">
-                  <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <h3><span class="num">4.</span> <span>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</span></h3>
-                <div class="faq-content">
-                  <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-              <div class="faq-item">
-                <h3><span class="num">5.</span> <span>Tempus quam pellentesque nec nam aliquam sem et tortor consequat?</span></h3>
-                <div class="faq-content">
-                  <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
-                </div>
-                <i class="faq-toggle bi bi-chevron-right"></i>
-              </div><!-- End Faq item-->
-
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- End Faq Section -->
-
-    <!-- Team Section - Home Page -->
-    <section id="team" class="team">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-5">
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
-            <div class="member-img">
-              <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Walter White</h4>
-              <span>Chief Executive Officer</span>
-              <p>Aliquam iure quaerat voluptatem praesentium possimus unde laudantium vel dolorum distinctio dire flow</p>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="200">
-            <div class="member-img">
-              <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Sarah Jhonson</h4>
-              <span>Product Manager</span>
-              <p>Labore ipsam sit consequatur exercitationem rerum laboriosam laudantium aut quod dolores exercitationem ut</p>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="300">
-            <div class="member-img">
-              <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>William Anderson</h4>
-              <span>CTO</span>
-              <p>Illum minima ea autem doloremque ipsum quidem quas aspernatur modi ut praesentium vel tque sed facilis at qui</p>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="400">
-            <div class="member-img">
-              <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Amanda Jepson</h4>
-              <span>Accountant</span>
-              <p>Magni voluptatem accusamus assumenda cum nisi aut qui dolorem voluptate sed et veniam quasi quam consectetur</p>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="500">
-            <div class="member-img">
-              <img src="assets/img/team/team-5.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Brian Doe</h4>
-              <span>Marketing</span>
-              <p>Qui consequuntur quos accusamus magnam quo est molestiae eius laboriosam sunt doloribus quia impedit laborum velit</p>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="600">
-            <div class="member-img">
-              <img src="assets/img/team/team-6.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Josepha Palas</h4>
-              <span>Operation</span>
-              <p>Sint sint eveniet explicabo amet consequatur nesciunt error enim rerum earum et omnis fugit eligendi cupiditate vel</p>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Team Section -->
-
-    <!-- Call-to-action Section - Home Page -->
-    <section id="call-to-action" class="call-to-action">
-
-      <img src="assets/img/cta-bg.jpg" alt="">
-
-      <div class="container">
-        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
-          <div class="col-xl-10">
-            <div class="text-center">
-              <h3>Call To Action</h3>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <a class="cta-btn" href="#">Call To Action</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section><!-- End Call-to-action Section -->
-
-    <!-- Testimonials Section - Home Page -->
-    <section id="testimonials" class="testimonials">
-
-      <div class="container">
-
-        <div class="row align-items-center">
-
-          <div class="col-lg-5 info" data-aos="fade-up" data-aos-delay="100">
-            <h3>Testimonials</h3>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
-            </p>
-          </div>
-
-          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="swiper">
-              <template class="swiper-config">
-                {
-                "loop": true,
-                "speed" : 600,
-                "autoplay": {
-                "delay": 5000
-                },
-                "slidesPerView": "auto",
-                "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-                }
-                }
-              </template>
-              <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Saul Goodman</h3>
-                        <h4>Ceo & Founder</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Sara Wilsson</h3>
-                        <h4>Designer</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Jena Karlis</h3>
-                        <h4>Store Owner</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Matt Brandon</h3>
-                        <h4>Freelancer</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>John Larson</h3>
-                        <h4>Entrepreneur</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-              </div>
-              <div class="swiper-pagination"></div>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- End Testimonials Section -->
-
-    <!-- Recent-posts Section - Home Page -->
-    <section id="recent-posts" class="recent-posts">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Recent Posts</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <article>
-
-              <div class="post-img">
-                <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
-              </div>
-
-              <p class="post-category">Politics</p>
-
-              <h2 class="title">
-                <a href="blog-details.html">Dolorum optio tempore voluptas dignissimos</a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/blog/blog-author.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Maria Doe</p>
-                  <p class="post-date">
-                    <time datetime="2022-01-01">Jan 1, 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <article>
-
-              <div class="post-img">
-                <img src="assets/img/blog/blog-2.jpg" alt="" class="img-fluid">
-              </div>
-
-              <p class="post-category">Sports</p>
-
-              <h2 class="title">
-                <a href="blog-details.html">Nisi magni odit consequatur autem nulla dolorem</a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/blog/blog-author-2.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Allisa Mayer</p>
-                  <p class="post-date">
-                    <time datetime="2022-01-01">Jun 5, 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-          <div class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <article>
-
-              <div class="post-img">
-                <img src="assets/img/blog/blog-3.jpg" alt="" class="img-fluid">
-              </div>
-
-              <p class="post-category">Entertainment</p>
-
-              <h2 class="title">
-                <a href="blog-details.html">Possimus soluta ut id suscipit ea ut in quo quia et soluta</a>
-              </h2>
-
-              <div class="d-flex align-items-center">
-                <img src="assets/img/blog/blog-author-3.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
-                <div class="post-meta">
-                  <p class="post-author">Mark Dower</p>
-                  <p class="post-date">
-                    <time datetime="2022-01-01">Jun 22, 2022</time>
-                  </p>
-                </div>
-              </div>
-
-            </article>
-          </div><!-- End post list item -->
-
-        </div><!-- End recent posts list -->
-
-      </div>
-
-    </section><!-- End Recent-posts Section -->
-
-    <!-- Contact Section - Home Page -->
-    <section id="contact" class="contact">
-
-      <!--  Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6">
-
-            <div class="row gy-4">
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="200">
-                  <i class="bi bi-geo-alt"></i>
-                  <h3>Address</h3>
-                  <p>A108 Adam Street</p>
-                  <p>New York, NY 535022</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="300">
-                  <i class="bi bi-telephone"></i>
-                  <h3>Call Us</h3>
-                  <p>+1 5589 55488 55</p>
-                  <p>+1 6678 254445 41</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="400">
-                  <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
-                  <p>info@example.com</p>
-                  <p>contact@example.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="500">
-                  <i class="bi bi-clock"></i>
-                  <h3>Open Hours</h3>
-                  <p>Monday - Friday</p>
-                  <p>9:00AM - 05:00PM</p>
-                </div>
-              </div><!-- End Info Item -->
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
-        </div>
-
-      </div>
-
-    </section><!-- End Contact Section -->
-
-  </main>
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-
-    <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="d-none">NG Hamlin UK</span>
-          </a>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Useful Links</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contact Us</h4>
-          <p>A108 Adam Street</p>
-          <p>New York, NY 535022</p>
-          <p>United States</p>
-          <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-          <p><strong>Email:</strong> <span>info@example.com</span></p>
-        </div>
-
-      </div>
+    <div class="nav-links">
+      <a href="#features">Platform</a>
+      <a href="#industries">Industries</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#developers">Developers</a>
+      <a href="#faq">FAQ</a>
     </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>&copy; <span>Copyright</span> <strong class="px-1">NG Hamlin UK</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
-  </footer><!-- End Footer -->
-
-  <!-- Scroll Top Button -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
   </div>
+</nav>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow on-dark">
+          <svg class="mark-mini" viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="8" height="32" rx="4" fill="url(#g1)"/><rect x="16" y="10" width="8" height="26" rx="4" fill="url(#g1)"/><rect x="28" y="16" width="8" height="20" rx="4" fill="url(#g1)"/><defs><linearGradient id="g1" x1="4" y1="4" x2="36" y2="36"><stop stop-color="#7fc07a"/><stop offset="1" stop-color="#2f98a3"/></linearGradient></defs></svg>
+          Global KYC / KYB Infrastructure
+        </div>
+        <h1>Global KYC &amp; KYB. <span class="grad-text">One API.</span> Zero Compromise.</h1>
+        <p class="sub">Verify people and businesses anywhere in the world. Stop fraud. Stay compliant. All through one powerful, seamless Verifsage API.</p>
+        <div class="hero-ctas">
+          <a href="#waitlist" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></a>
+          <a href="#developers" class="btn btn-ghost">Watch the Demo</a>
+        </div>
+        <div class="trust-strip">
+          <div class="label">Built for leaders in</div>
+          <div class="trust-row">
+            <span>Fintech</span><span>Banking</span><span>Crypto</span><span>Payments</span><span>Marketplaces</span><span>Web3</span>
+          </div>
+        </div>
+      </div>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+      <div class="hero-visual">
+        <div class="glow"></div>
+        <svg viewBox="0 0 300 320" fill="none">
+          <defs>
+            <linearGradient id="heroGrad" x1="0" y1="0" x2="300" y2="320">
+              <stop stop-color="#7fc07a"/>
+              <stop offset="0.55" stop-color="#2f98a3"/>
+              <stop offset="1" stop-color="#164e56"/>
+            </linearGradient>
+            <clipPath id="clipBars">
+              <rect x="20" y="0" width="34" height="300" rx="17"/>
+              <rect x="90" y="34" width="34" height="266" rx="17"/>
+              <rect x="160" y="68" width="34" height="232" rx="17"/>
+            </clipPath>
+          </defs>
+          <g class="bar-draw" stroke="url(#heroGrad)" stroke-width="1">
+            <rect x="20" y="0" width="34" height="300" rx="17" fill="url(#heroGrad)" opacity="0.96"/>
+            <rect x="90" y="34" width="34" height="266" rx="17" fill="url(#heroGrad)" opacity="0.88"/>
+            <rect x="160" y="68" width="34" height="232" rx="17" fill="url(#heroGrad)" opacity="0.78"/>
+          </g>
+          <g clip-path="url(#clipBars)">
+            <rect class="scan-line" x="0" y="-40" width="300" height="26" fill="rgba(255,255,255,.55)"/>
+          </g>
+          <g stroke="#3fb0ba" stroke-width="2.4" stroke-linecap="round" opacity="0.9">
+            <path d="M232 40a26 26 0 0 1 26 26" fill="none"/>
+            <path d="M226 54a18 18 0 0 1 18 18" fill="none"/>
+            <path d="M240 26a40 40 0 0 1 40 40" fill="none"/>
+            <path d="M220 66a10 10 0 0 1 10 10" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ WHY VERIFSAGE ============ -->
+<section class="section why" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="reveal">
+        <div class="eyebrow">
+          <span class="mono">01</span> — The Problem
+        </div>
+        <h2>The World's Next Verification Leader.</h2>
+        <div class="why-copy" style="margin-top:22px;">
+          <p>Businesses no longer need clunky, fragmented solutions. They need speed, scale, and trust in one platform.</p>
+          <p>Legacy KYC/KYB providers are too slow. Compliance teams get stuck in manual reviews. Customers drop off. Fraudsters still find loopholes.</p>
+          <p><strong>Verifsage is here to change that.</strong> We're the bold challenger — delivering the flexibility, global coverage, and compliance-ready tools that the next generation of businesses demand.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="compare">
+          <div class="compare-head">
+            <div>Legacy providers</div>
+            <div>Verifsage</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell old">Fragmented tools, multiple vendors</div>
+            <div class="compare-cell new">One API for KYC, KYB &amp; AML</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell old">Manual review bottlenecks</div>
+            <div class="compare-cell new">No-code orchestration, live in hours</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell old">Rigid, slow integrations</div>
+            <div class="compare-cell new">Developer-first, production-ready fast</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-cell old">Opaque pricing &amp; coverage</div>
+            <div class="compare-cell new">180+ countries, clear &amp; transparent</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CORE FEATURES ============ -->
+<section class="section features" id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="mono">02</span> — The Platform</div>
+      <h2>Why Teams Choose Verifsage.</h2>
+    </div>
+    <div class="feature-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/></svg></div>
+        <h3>Global Reach, One API</h3>
+        <p>Seamless KYC, KYB, and AML checks across 180+ countries.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg></div>
+        <h3>Next-Level KYB</h3>
+        <p>UBO mapping, registry lookups, document capture, and continuous monitoring.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3c3 2 6 2 8 1v7c0 5-3.5 8-8 10-4.5-2-8-5-8-10V4c2 1 5 1 8-1z"/></svg></div>
+        <h3>Friction-Right KYC</h3>
+        <p>ID documents, biometrics, liveness checks — tough on fraud, smooth for real users.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <h3>Built-In AML</h3>
+        <p>Real-time sanctions, PEP, and adverse media screening.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round"/></svg></div>
+        <h3>No-Code Orchestration</h3>
+        <p>Drag-and-drop flows. Launch in hours, not weeks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/></svg></div>
+        <h3>Compliance by Design</h3>
+        <p>GDPR/UK-GDPR aligned, full audit trails, regional data hosting.</p>
+      </div>
+    </div>
+    <div class="features-cta reveal">
+      <a href="#compliance" class="btn btn-ghost dark">Discover Verifsage <span class="btn-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section class="section industries" id="industries">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="mono">03</span> — Where We Work</div>
+      <h2>One Platform. Many Industries.</h2>
+      <p>Verifsage empowers ambitious businesses across:</p>
+    </div>
+    <div class="industry-strip reveal">
+      <div class="industry-chip"><i></i>Fintech &amp; Payments</div>
+      <div class="industry-chip"><i></i>Crypto &amp; Web3</div>
+      <div class="industry-chip"><i></i>Marketplaces</div>
+      <div class="industry-chip"><i></i>BNPL &amp; Lending</div>
+      <div class="industry-chip"><i></i>Remittance &amp; FX</div>
+      <div class="industry-chip"><i></i>Gig &amp; Mobility</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPLIANCE & SECURITY ============ -->
+<section class="section compliance" id="compliance">
+  <div class="wrap">
+    <div class="compliance-grid">
+      <div class="compliance-copy reveal">
+        <div class="eyebrow on-dark"><span class="mono">04</span> — Trust</div>
+        <h2 style="color:#fff;">Verifsage: Trust First, Always.</h2>
+        <p>With Verifsage, compliance isn't just a checkbox. It's the backbone of everything we do.</p>
+        <div class="callout">Every verification, every data point, every access log — built to be audited, not just approved.</div>
+        <div class="cert-row">
+          <span class="cert-badge">ISO 27001 — in progress</span>
+          <span class="cert-badge">SOC 2 Type II — in progress</span>
+        </div>
+      </div>
+      <div class="sec-list reveal">
+        <div class="sec-item">
+          <div class="n">SECURITY</div>
+          <h4>Enterprise-grade Security</h4>
+          <p>Encryption in transit and at rest, role-based access, complete audit logs.</p>
+        </div>
+        <div class="sec-item">
+          <div class="n">RETENTION</div>
+          <h4>Policy-Driven Retention</h4>
+          <p>GDPR/UK-GDPR baked in, DSR workflows, data minimisation.</p>
+        </div>
+        <div class="sec-item">
+          <div class="n">RESIDENCY</div>
+          <h4>Regional Data Residency</h4>
+          <p>Choose UK, EU, or US to meet sovereignty and latency needs.</p>
+        </div>
+        <div class="sec-item">
+          <div class="n">ASSURANCE</div>
+          <h4>Certifications Underway</h4>
+          <p>ISO 27001 &amp; SOC 2 Type II in progress, backed by third-party audits.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOR DEVELOPERS ============ -->
+<section class="section dev" id="developers">
+  <div class="wrap">
+    <div class="dev-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="mono">05</span> — For Builders</div>
+        <h2>An API Developers Love.</h2>
+        <p style="margin-top:18px; font-size:16.5px; line-height:1.7; color:var(--ink-70);">Verifsage is built for builders. Our clean, well-documented API gets you from prototype to production without surprises.</p>
+        <ul class="dev-list" style="margin-top:26px;">
+          <li><span class="dot"></span><span><b>REST &amp; GraphQL APIs</b> — use whichever fits your stack.</span></li>
+          <li><span class="dot"></span><span><b>Sandbox that mirrors production</b> — no surprises at launch.</span></li>
+          <li><span class="dot"></span><span><b>SDKs for iOS, Android, and Web</b> — native, not bolted on.</span></li>
+          <li><span class="dot"></span><span><b>Real-time decisions</b> — verify in seconds, not days.</span></li>
+          <li><span class="dot"></span><span><b>Instant webhooks &amp; retries</b> — your system always stays in sync.</span></li>
+        </ul>
+        <div class="dev-cta">
+          <a href="#waitlist" class="btn btn-primary">Get Early API Access <span class="btn-arrow">→</span></a>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="code-panel">
+          <div class="code-topbar">
+            <span></span><span></span><span></span>
+            <span class="file">verify_business.sh</span>
+          </div>
+          <pre class="code"><span class="c">// Run a KYB check in one call</span>
+<span class="p">curl</span> https://api.verifsage.com/v1/kyb/checks \
+  <span class="k">-H</span> <span class="s">"Authorization: Bearer sk_live_••••"</span> \
+  <span class="k">-H</span> <span class="s">"Content-Type: application/json"</span> \
+  <span class="k">-d</span> <span class="s">'{
+    "entity_name": "Lagos Trade Co.",
+    "country": "NG",
+    "checks": ["registry", "ubo", "aml_screen"]
+  }'</span>
+
+<span class="c">// Response — 340ms</span>
+{
+  <span class="p">"status"</span>: <span class="s">"passed"</span>,
+  <span class="p">"risk_score"</span>: 12,
+  <span class="p">"ubo_verified"</span>: <span class="k">true</span>,
+  <span class="p">"sanctions_hits"</span>: 0
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST ============ -->
+<section class="section waitlist" id="waitlist">
+  <div class="wrap">
+    <div class="waitlist-grid">
+      <div class="reveal">
+        <div class="eyebrow on-dark"><span class="mono">06</span> — Early Access</div>
+        <h2 style="color:#fff;">Be First. Be Verifsage.</h2>
+        <p style="margin-top:18px; font-size:17px; line-height:1.65; color:var(--white-70); max-width:460px;">The future of verification is almost here. Get ahead of the curve with early access and exclusive perks.</p>
+        <ul class="benefit-list">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Priority sandbox access</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Smooth migration support</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Founders' office hours</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Early-bird launch pricing</li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="waitlist-form">
+          <h3>Join the Verifsage Waitlist</h3>
+          <p class="hint">Takes 20 seconds. No spam, ever.</p>
+          <form id="waitlistForm">
+            <div class="field">
+              <label for="wname">Full name</label>
+              <input id="wname" type="text" placeholder="Ada Okafor" required>
+            </div>
+            <div class="field">
+              <label for="wemail">Work email</label>
+              <input id="wemail" type="email" placeholder="you@company.com" required>
+            </div>
+            <div class="field">
+              <label for="wcompany">Company</label>
+              <input id="wcompany" type="text" placeholder="Company name">
+            </div>
+            <button type="submit" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>
+            You're on the list. We'll be in touch soon.
+          </div>
+          <div class="form-note">By joining, you agree to receive early-access updates from Verifsage.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section faq" id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="mono">07</span> — Questions</div>
+      <h2>Frequently Asked.</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q"><span>When does Verifsage launch?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>We're opening sandbox access to waitlisters soon. Production rollout follows.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>How is Verifsage different from Trulioo or Onfido?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>Verifsage delivers faster integrations, deeper KYB coverage, clearer pricing, and more control.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>Which regions are covered?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>180+ countries with constant expansion.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><span>What about compliance certifications?</span><span class="plus"></span></button>
+        <div class="faq-a"><p>We're on track for ISO 27001 &amp; SOC 2 Type II, with independent pen tests every release.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final-cta">
+  <div class="wrap reveal">
+    <div class="eyebrow on-dark" style="justify-content:center;">Verifsage — The Next Trulioo</div>
+    <h2>Global verification without friction.</h2>
+    <p class="sub">Join Verifsage today and shape the future of KYC/KYB.</p>
+    <a href="#waitlist" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></a>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <div class="footer-brand">
+          <img src="verifsage-logo.png" alt="Verifsage">
+        </div>
+        <p class="footer-tagline">Global KYC &amp; KYB verification, built on one API. Verify people and businesses anywhere in the world.</p>
+        <p class="footer-tagline" style="margin-top:-8px;">Questions? <a href="mailto:hello@verifsage.com" style="color:var(--white); text-decoration:underline;">hello@verifsage.com</a></p>
+        <div class="footer-social">
+          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="Verifsage on LinkedIn">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M6.5 8.5v9M6.5 5.5v.01M11 17.5v-5.2c0-1.8 1.2-2.8 2.7-2.8 1.4 0 2.3 1 2.3 2.8v5.2M11 12.3v5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener" aria-label="Verifsage on X">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19" stroke-linecap="round"/></svg>
+          </a>
+          <a href="https://github.com" target="_blank" rel="noopener" aria-label="Verifsage on GitHub">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.4c0-1 .3-1.6.7-2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.4 5.8.5.4.9 1.2.9 2.4V21" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="mailto:hello@verifsage.com" aria-label="Email Verifsage">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#industries">Industries</a></li>
+          <li><a href="#compliance">Compliance &amp; Security</a></li>
+          <li><a href="#developers">Developers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#why">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#developers">API Docs</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#waitlist">Waitlist</a></li>
+          <li><a href="status.html">Status</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="cookies.html">Cookie Policy</a></li>
+          <li><a href="data-processing.html">Data Processing</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-row">
+      <div class="footer-copy">© 2026 VERIFSAGE</div>
+      <div class="footer-links">
+        <a href="terms.html">Terms &amp; Conditions</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o=>{
+        o.classList.remove('open');
+        o.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Waitlist form (front-end only demo)
+  const form = document.getElementById('waitlistForm');
+  const success = document.getElementById('formSuccess');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    form.style.display = 'none';
+    success.classList.add('show');
+  });
+</script>
 
 </body>
-
 </html>
