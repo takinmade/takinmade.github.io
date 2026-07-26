@@ -1069,14 +1069,14 @@
 
   // ---------- Google reCAPTCHA (v2 checkbox, explicit render) ----------
   // Replace with your real site key from https://www.google.com/recaptcha/admin
-  const RECAPTCHA_SITE_KEY = '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E';
+  const RECAPTCHA_SITE_KEY = '6LdkHGctAAAAAFUneubvG8CTo5qjsX_zUPPXd64T';
   // Replace with the *.workers.dev URL printed after you deploy cloudflare-worker/
-  const WORKER_URL = 'https://https://verifsage-form-proxy.verifsage.workers.dev.workers.dev';
+  const WORKER_URL = 'https://verifsage-form-proxy.verifsage.workers.dev.workers.dev';
   let wRecaptchaId = null;
   let cRecaptchaId = null;
 
   window.onRecaptchaReady = function(){
-    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E') return; // don't render with a placeholder key
+    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') return; // don't render with a placeholder key
     wRecaptchaId = grecaptcha.render('w_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
     cRecaptchaId = grecaptcha.render('c_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
   };
@@ -1116,7 +1116,7 @@
     }
     if(!document.getElementById('wconsent').checked) return;
 
-    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E' || WORKER_URL.includes('https://verifsage-form-proxy.verifsage.workers.dev')){
+    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
       alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
       return;
     }
@@ -1162,7 +1162,7 @@
     }
     if(!document.getElementById('cconsent').checked) return;
 
-    if(RECAPTCHA_SITE_KEY === '6LdADmctAAAAANk0hXleoYmG-GIDdYUIGa1wpN3E' || WORKER_URL.includes('https://verifsage-form-proxy.verifsage.workers.dev')){
+    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
       alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
       return;
     }
