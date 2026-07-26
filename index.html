@@ -159,6 +159,7 @@
     line-height:1.04;
     font-weight:700;
     max-width:640px;
+    color:var(--white);
   }
   .hero h1 .grad-text{
     background:var(--grad);
@@ -363,7 +364,47 @@
   }
   .form-success.show{display:flex;}
 
-  /* ---------- FAQ ---------- */
+  /* ---------- Contact ---------- */
+  .contact{background:var(--white);}
+  .contact-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:64px; align-items:start;}
+  .contact-copy p{font-size:16.5px; line-height:1.7; color:var(--ink-70); margin-top:18px; max-width:420px;}
+  .contact-detail{margin-top:34px; display:flex; flex-direction:column; gap:18px;}
+  .contact-detail div{display:flex; align-items:flex-start; gap:14px;}
+  .contact-detail .ico{
+    width:38px; height:38px; border-radius:10px; flex:none;
+    background:linear-gradient(135deg, var(--green-soft), rgba(47,152,163,.16));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .contact-detail .ico svg{width:18px; height:18px;}
+  .contact-detail h4{font-size:15.5px; font-weight:600; margin-bottom:3px;}
+  .contact-detail p{margin:0; font-size:14px; color:var(--ink-70); max-width:none;}
+  .contact-form{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:36px;
+  }
+  .contact-form .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .contact-form .field label{color:var(--ink-50);}
+  .contact-form .field input, .contact-form .field textarea{
+    width:100%; padding:14px 16px; border-radius:10px; border:1px solid var(--line);
+    background:var(--white); color:var(--ink); font-size:15px; font-family:inherit;
+    transition:border-color .2s;
+  }
+  .contact-form .field textarea{resize:vertical; min-height:120px;}
+  .contact-form .field input::placeholder, .contact-form .field textarea::placeholder{color:var(--ink-50);}
+  .contact-form .field input:focus, .contact-form .field textarea:focus{outline:none; border-color:var(--teal);}
+  .contact-form .btn-primary{width:100%; justify-content:center; margin-top:6px;}
+  .contact-success{
+    display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:10px;
+    background:rgba(127,192,122,.12); border:1px solid rgba(127,192,122,.35); color:var(--teal-deep);
+    font-size:14.5px; margin-top:16px;
+  }
+  .contact-success.show{display:flex;}
+
+  @media (max-width: 900px){
+    .contact-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 560px){
+    .contact-form .row2{grid-template-columns:1fr;}
+  }
   .faq{background:var(--white);}
   .faq-list{border-top:1px solid var(--line);}
   .faq-item{border-bottom:1px solid var(--line);}
@@ -480,6 +521,7 @@
       <a href="#compliance">Compliance</a>
       <a href="#developers">Developers</a>
       <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </div>
     <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
   </div>
@@ -811,6 +853,65 @@
   </div>
 </section>
 
+<!-- ============ CONTACT ============ -->
+<section class="section contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-copy reveal">
+        <div class="eyebrow"><span class="mono">08</span> — Get in Touch</div>
+        <h2>Let's Talk Verification.</h2>
+        <p>Questions about coverage, pricing, or getting your team set up? Send us a note and we'll get back to you.</p>
+        <div class="contact-detail">
+          <div>
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3c3 2 6 2 8 1v7c0 5-3.5 8-8 10-4.5-2-8-5-8-10V4c2 1 5 1 8-1z"/></svg></div>
+            <div>
+              <h4>Enterprise &amp; partnerships</h4>
+              <p>Fill out the form and select "Enterprise" — our team typically replies within one business day.</p>
+            </div>
+          </div>
+          <div>
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round"/></svg></div>
+            <div>
+              <h4>Developers &amp; API access</h4>
+              <p>Ask about the sandbox and we'll fast-track your early access request.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="contact-form">
+          <form id="contactForm">
+            <div class="row2">
+              <div class="field">
+                <label for="cname">Full name</label>
+                <input id="cname" type="text" placeholder="Ada Okafor" required>
+              </div>
+              <div class="field">
+                <label for="cemail">Work email</label>
+                <input id="cemail" type="email" placeholder="you@company.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="ctopic">What can we help with?</label>
+              <input id="ctopic" type="text" placeholder="Enterprise, API access, general question...">
+            </div>
+            <div class="field">
+              <label for="cmessage">Message</label>
+              <textarea id="cmessage" placeholder="Tell us a bit about what you're looking for" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow">→</span></button>
+          </form>
+          <div class="contact-success" id="contactSuccess">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>
+            Thanks — we've received your message and will be in touch soon.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FINAL CTA ============ -->
 <section class="final-cta">
   <div class="wrap reveal">
@@ -821,7 +922,7 @@
   </div>
 </section>
 
-<footer id="contact">
+<footer>
   <div class="wrap">
     <div class="footer-top">
       <div class="footer-brand-col">
@@ -829,7 +930,7 @@
           <img src="verifsage-logo.png" alt="Verifsage">
         </div>
         <p class="footer-tagline">Global KYC &amp; KYB verification, built on one API. Verify people and businesses anywhere in the world.</p>
-        <p class="footer-tagline" style="margin-top:-8px;">Questions? <a href="mailto:hello@verifsage.com" style="color:var(--white); text-decoration:underline;">hello@verifsage.com</a></p>
+        <p class="footer-tagline" style="margin-top:-8px;">Questions? <a href="#contact" style="color:var(--white); text-decoration:underline;">Get in touch</a></p>
         <div class="footer-social">
           <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="Verifsage on LinkedIn">
             <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M6.5 8.5v9M6.5 5.5v.01M11 17.5v-5.2c0-1.8 1.2-2.8 2.7-2.8 1.4 0 2.3 1 2.3 2.8v5.2M11 12.3v5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -840,7 +941,7 @@
           <a href="https://github.com" target="_blank" rel="noopener" aria-label="Verifsage on GitHub">
             <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.4c0-1 .3-1.6.7-2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.4 5.8.5.4.9 1.2.9 2.4V21" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="mailto:hello@verifsage.com" aria-label="Email Verifsage">
+          <a href="#contact" aria-label="Contact Verifsage">
             <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
@@ -932,6 +1033,15 @@
     e.preventDefault();
     form.style.display = 'none';
     success.classList.add('show');
+  });
+
+  // Contact form (front-end only demo)
+  const contactForm = document.getElementById('contactForm');
+  const contactSuccess = document.getElementById('contactSuccess');
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    contactForm.style.display = 'none';
+    contactSuccess.classList.add('show');
   });
 </script>
 
