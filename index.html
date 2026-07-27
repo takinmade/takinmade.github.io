@@ -19,6 +19,7 @@
   gtag('config', 'G-BLBJL4Y8QB');
 </script>
 <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaReady&render=explicit" async defer></script>
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/148975546.js"></script>
 <style>
   :root{
     --ink:#0a2226;
@@ -1076,10 +1077,20 @@
   let cRecaptchaId = null;
 
   window.onRecaptchaReady = function(){
-    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') return; // don't render with a placeholder key
-    wRecaptchaId = grecaptcha.render('w_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
-    cRecaptchaId = grecaptcha.render('c_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
+  	if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') return; // don't render with a placeholder key
+    try{
+      wRecaptchaId = grecaptcha.render('w_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
+      cRecaptchaId = grecaptcha.render('c_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
+    }catch(err){
+      console.error('reCAPTCHA failed to render — check that RECAPTCHA_SITE_KEY is a valid v2 "checkbox" key and that this domain is registered for it in the reCAPTCHA admin console.', err);
+    }
   };
+
+  // ---------- HubSpot tracking cookie (links submissions to known visitors) ----------
+  function getCookie(name){
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match.pop()) : '';
+  }
 
   // ---------- Submit through the verification proxy ----------
   // The proxy verifies the reCAPTCHA token server-side with Google (using a
@@ -1094,7 +1105,8 @@
         formId,
         fields: fields.map(f => ({ name: f.name, value: f.value })),
         pageUri: window.location.href,
-        pageName: document.title
+        pageName: document.title,
+        hutk: getCookie('hubspotutk')
       })
     }).then(res => res.json()).then(data => {
       if(!data.ok) throw new Error(data.error || 'Submission failed');
@@ -1117,7 +1129,11 @@
     if(!document.getElementById('wconsent').checked) return;
 
     if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
-      alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
+      alert('Form submission isn\'t configured yet — add your Worker URL in the script.');
+      return;
+    }
+    if(wRecaptchaId === null){
+      alert('reCAPTCHA is still loading — please wait a moment and try again. If this keeps happening, double-check your reCAPTCHA site key and that this domain is registered for it.');
       return;
     }
     const recaptchaResponse = grecaptcha.getResponse(wRecaptchaId);
@@ -1164,6 +1180,10 @@
 
     if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
       alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
+      return;
+    }
+    if(cRecaptchaId === null){
+      alert('reCAPTCHA is still loading — please wait a moment and try again. If this keeps happening, double-check your reCAPTCHA site key and that this domain is registered for it.');
       return;
     }
     const recaptchaResponse = grecaptcha.getResponse(cRecaptchaId);

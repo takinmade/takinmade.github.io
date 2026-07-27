@@ -35,7 +35,7 @@ export default {
       return json({ ok: false, error: 'Invalid JSON body' }, 400, headers);
     }
 
-    const { recaptchaToken, portalId, formId, fields, pageUri, pageName } = body;
+    const { recaptchaToken, portalId, formId, fields, pageUri, pageName, hutk } = body;
 
     if (!recaptchaToken) {
       return json({ ok: false, error: 'Missing reCAPTCHA token' }, 400, headers);
@@ -65,6 +65,10 @@ export default {
     }
 
     // ---- 2. Forward the submission to HubSpot ----
+    // CF-Connecting-IP is set by Cloudflare's network to the real visitor IP,
+    // not the Worker's own IP — pass it through so HubSpot logs the actual visitor.
+    const visitorIp = request.headers.get('CF-Connecting-IP') || '';
+
     let hsRes;
     try {
       hsRes = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`, {
@@ -74,7 +78,9 @@ export default {
           fields,
           context: {
             pageUri: pageUri || '',
-            pageName: pageName || ''
+            pageName: pageName || '',
+            ipAddress: visitorIp,
+            ...(hutk ? { hutk } : {})
           },
           legalConsentOptions: {
             consent: {
