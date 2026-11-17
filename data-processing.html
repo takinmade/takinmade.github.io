@@ -1,74 +1,1669 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Processing Agreement — Verifsage</title>
-<link rel="icon" href="verifsage-logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#0a2226; --teal:#2f98a3; --teal-deep:#1c6a73; --teal-bright:#3fb0ba;
-    --green:#7fc07a; --green-soft:#bfe6b8; --paper:#f6f8f6; --white:#ffffff;
-    --line:rgba(10,34,38,.12); --line-light:rgba(255,255,255,.14);
-    --white-70:rgba(255,255,255,.72); --white-50:rgba(255,255,255,.52);
-    --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
-  }
-  *{box-sizing:border-box;}
-  body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
-  a{color:inherit; text-decoration:none;}
-  .nav{position:sticky; top:0; z-index:10; background:rgba(246,248,246,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
-  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
-  .nav .wrap{height:76px; display:flex; align-items:center; justify-content:space-between;}
-  .nav img{height:34px;}
-  .nav a.back{font-size:14.5px; font-weight:600; color:var(--teal-deep); display:flex; align-items:center; gap:8px;}
-  main{padding:100px 0 140px;}
-  .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-deep); margin-bottom:18px;}
-  h1{font-family:'Instrument Sans',sans-serif; font-size:clamp(32px,4.5vw,48px); font-weight:700; letter-spacing:-0.02em; max-width:680px; line-height:1.1; margin:0 0 22px;}
-  .lede{font-size:17px; line-height:1.7; color:rgba(10,34,38,.7); max-width:560px; margin-bottom:44px;}
-  .notice{
-    border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px;
-    background:var(--white); padding:26px 28px; max-width:620px; font-size:15px; line-height:1.7; color:rgba(10,34,38,.75);
-  }
-  .notice strong{color:var(--ink);}
-  .cta-row{margin-top:40px; display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:100px; font-weight:600; font-size:14.5px;}
-  .btn-primary{background:var(--grad); color:var(--ink);}
-  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
-  footer{background:var(--ink); padding:34px 0; border-top:1px solid var(--line-light);}
-  footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
-  footer img{height:24px;}
-  .fcopy{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--white-50);}
-</style>
-</head>
-<body>
-<nav class="nav">
-  <div class="wrap">
-    <img src="verifsage-logo.png" alt="Verifsage">
-    <a class="back" href="index.html">&larr; Back to home</a>
-  </div>
-</nav>
-<main>
-  <div class="wrap">
-    <div class="eyebrow">Legal</div>
-    <h1>Data Processing Agreement</h1>
-    <p class="lede">Our commitments as a data processor, including regional data residency, retention, and sub-processor terms.</p>
-    <div class="notice">
-      <strong>This page is coming soon.</strong> Our DPA template is in legal review and will be available to download here, alongside our UK, EU, and US hosting options.
-    </div>
-    <div class="cta-row">
-      <a href="index.html#waitlist" class="btn btn-primary">Join the Verifsage Waitlist →</a>
-      <a href="index.html" class="btn btn-ghost">Back to home</a>
-    </div>
-  </div>
-</main>
-<footer>
-  <div class="wrap">
-    <img src="verifsage-logo.png" alt="Verifsage">
-    <span class="fcopy">© 2026 VERIFSAGE</span>
-  </div>
-</footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Processing Agreement — Verifsage</title>
+    <meta
+      name="description"
+      content="Verifsage&#x27;s commitments as a data processor, including security measures, subprocessors and international transfers."
+    />
+    <link rel="icon" href="verifsage-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+  Built from "Verifsage Data Processing Agreement - Legal Research and Website-Ready Draft.docx".
+  Wording is the client's. Placeholders are highlighted as [[...]]; search for "[[" to find them.
+  Drafting notes from the source that are NOT for publication are kept as HTML comments
+  (search for "DRAFTING NOTE"). Delete the `.todo` rule in the <style> block once done.
+-->
+    <style>
+      :root {
+        --ink: #0a2226;
+        --teal: #2f98a3;
+        --teal-deep: #1c6a73;
+        --teal-bright: #3fb0ba;
+        --green: #7fc07a;
+        --green-soft: #bfe6b8;
+        --paper: #f6f8f6;
+        --white: #ffffff;
+        --line: rgba(10, 34, 38, 0.12);
+        --line-light: rgba(255, 255, 255, 0.14);
+        --ink-70: rgba(10, 34, 38, 0.72);
+        --ink-50: rgba(10, 34, 38, 0.52);
+        --white-70: rgba(255, 255, 255, 0.72);
+        --white-50: rgba(255, 255, 255, 0.52);
+        --grad: linear-gradient(
+          120deg,
+          var(--green) 0%,
+          var(--teal) 60%,
+          var(--teal-deep) 100%
+        );
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(246, 248, 246, 0.85);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      .nav .wrap {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nav img {
+        height: 48px;
+      }
+      .nav a.back {
+        font-size: 14.5px;
+        font-weight: 600;
+        color: var(--teal-deep);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      main {
+        padding: 90px 0 130px;
+      }
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal-deep);
+        margin-bottom: 18px;
+      }
+      h1 {
+        font-family: "Instrument Sans", sans-serif;
+        font-size: clamp(32px, 4.5vw, 48px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        max-width: 680px;
+        line-height: 1.1;
+        margin: 0 0 22px;
+      }
+      .lede {
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--ink-70);
+        max-width: 620px;
+        margin: 0;
+      }
+      .meta {
+        margin-top: 18px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px;
+        color: var(--ink-50);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 64px;
+        margin-top: 64px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 110px;
+        font-size: 14px;
+      }
+      .toc p {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11.5px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-50);
+        margin: 0 0 14px;
+      }
+      .toc ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .toc a {
+        color: var(--ink-70);
+      }
+      .toc a:hover {
+        color: var(--teal-deep);
+      }
+
+      .policy {
+        max-width: 720px;
+      }
+      .policy section {
+        padding-top: 8px;
+        margin-bottom: 52px;
+        scroll-margin-top: 100px;
+      }
+      .policy h2 {
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 16px;
+      }
+      .policy h3 {
+        font-family: "Instrument Sans", sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 30px 0 10px;
+      }
+      .policy p,
+      .policy li {
+        font-size: 15.5px;
+        line-height: 1.75;
+        color: var(--ink-70);
+      }
+      .policy p {
+        margin: 0 0 14px;
+      }
+      .policy ul {
+        margin: 0 0 14px;
+        padding-left: 20px;
+      }
+      .policy li {
+        margin-bottom: 6px;
+      }
+      .policy strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .policy a.inline {
+        color: var(--teal-deep);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--white);
+        margin: 14px 0 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        min-width: 560px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 13px 16px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-50);
+        font-weight: 500;
+        background: var(--paper);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      td code {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--ink);
+        white-space: nowrap;
+      }
+      td {
+        color: var(--ink-70);
+        line-height: 1.55;
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .tag-necessary {
+        background: #e3f1f2;
+        color: var(--teal-deep);
+      }
+      .tag-analytics {
+        background: #e7f4e5;
+        color: #2f6b2a;
+      }
+
+      .settings-box {
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--teal);
+        border-radius: 12px;
+        background: var(--white);
+        padding: 22px 24px;
+        margin: 18px 0;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 22px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 14.5px;
+        border: 0;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .btn-primary {
+        background: var(--grad);
+        color: var(--ink);
+      }
+
+      /* Draft highlight for placeholders. Delete this rule before publishing. */
+      .todo {
+        background: #fff1b8;
+        color: var(--ink);
+        padding: 0 4px;
+        border-radius: 3px;
+      }
+
+      footer {
+        background: var(--ink);
+        padding: 34px 0;
+        border-top: 1px solid var(--line-light);
+      }
+      footer .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      footer img {
+        height: 40px;
+      }
+      .flinks {
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+        font-size: 13.5px;
+        color: var(--white-50);
+      }
+      .flinks a:hover {
+        color: var(--white);
+      }
+      .fcopy {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px;
+        color: var(--white-50);
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 32px;
+          margin-top: 44px;
+        }
+        .toc {
+          position: static;
+          padding: 20px 22px;
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          background: var(--white);
+        }
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          padding: 0 20px;
+        }
+        main {
+          padding: 60px 0 90px;
+        }
+      }
+      .toc {
+        max-height: calc(100vh - 140px);
+        overflow: auto;
+        padding-right: 8px;
+      }
+      .toc ol {
+        counter-reset: none;
+      }
+      .policy .clauses {
+        list-style: none;
+        padding-left: 0;
+        margin: 0 0 14px;
+      }
+      .policy .clauses li {
+        padding-left: 2.2em;
+        text-indent: -2.2em;
+      }
+      .policy .sub {
+        margin-left: 0;
+      }
+      .policy .num {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--teal-deep);
+        margin-right: 6px;
+      }
+      .policy .def strong {
+        color: var(--ink);
+      }
+      .policy address {
+        font-style: normal;
+        font-size: 15.5px;
+        line-height: 1.75;
+        color: var(--ink-70);
+        margin: 0 0 14px;
+      }
+      .policy .schedule-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--teal-deep);
+        margin: 0 0 6px;
+      }
+      .policy section.schedule {
+        border-top: 1px solid var(--line);
+        padding-top: 40px;
+      }
+      .policy .options {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--white);
+        padding: 16px 20px;
+        margin: 0 0 14px;
+      }
+      .policy .options p:last-child {
+        margin-bottom: 0;
+      }
+      @media (max-width: 900px) {
+        .toc {
+          max-height: 260px;
+        }
+      }
+      @media print {
+        .nav,
+        .toc,
+        footer {
+          display: none;
+        }
+        .layout {
+          display: block;
+        }
+        body {
+          background: #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap">
+        <a href="index.html"
+          ><img src="verifsage-logo.png" alt="Verifsage"
+        /></a>
+        <a class="back" href="index.html">&larr; Back to home</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="wrap">
+        <div class="eyebrow">Legal</div>
+        <h1>Data Processing Agreement</h1>
+        <p class="lede">
+          Our commitments when we process personal data on behalf of customers,
+          including security, subprocessors, breach notification and
+          international transfers.
+        </p>
+        <p class="meta">Last updated: <span class="todo">[[DATE]]</span></p>
+
+        <div class="layout">
+          <aside class="toc" aria-label="On this page">
+            <p>On this page</p>
+            <ol>
+              <li><a href="#parties">Parties and scope</a></li>
+              <li><a href="#clause-1">1. Definitions</a></li>
+              <li><a href="#clause-2">2. Scope and roles</a></li>
+              <li><a href="#clause-3">3. Details of Processing</a></li>
+              <li><a href="#clause-4">4. Confidentiality and personnel</a></li>
+              <li><a href="#clause-5">5. Security</a></li>
+              <li><a href="#clause-6">6. Subprocessors</a></li>
+              <li><a href="#clause-7">7. Data Subject requests</a></li>
+              <li><a href="#clause-8">8. Compliance assistance</a></li>
+              <li><a href="#clause-9">9. Personal Data Breaches</a></li>
+              <li>
+                <a href="#clause-10">10. Audits and information rights</a>
+              </li>
+              <li><a href="#clause-11">11. International transfers</a></li>
+              <li>
+                <a href="#clause-12"
+                  >12. Government and third-party access requests</a
+                >
+              </li>
+              <li><a href="#clause-13">13. Return and deletion</a></li>
+              <li>
+                <a href="#clause-14">14. Records and regulatory cooperation</a>
+              </li>
+              <li><a href="#clause-15">15. Liability and indemnities</a></li>
+              <li><a href="#clause-16">16. Confidentiality</a></li>
+              <li><a href="#clause-17">17. Priority</a></li>
+              <li><a href="#clause-18">18. Changes to law</a></li>
+              <li><a href="#clause-19">19. Term and survival</a></li>
+              <li>
+                <a href="#clause-20">20. Governing law and jurisdiction</a>
+              </li>
+              <li><a href="#clause-21">21. Electronic incorporation</a></li>
+              <li>
+                <a href="#schedule-one">Schedule One: Details of Processing</a>
+              </li>
+              <li>
+                <a href="#schedule-two"
+                  >Schedule Two: Technical and Organisational Measures</a
+                >
+              </li>
+              <li>
+                <a href="#schedule-three"
+                  >Schedule Three: Authorised Subprocessors</a
+                >
+              </li>
+              <li>
+                <a href="#schedule-four"
+                  >Schedule Four: International Transfer Mechanisms</a
+                >
+              </li>
+              <li><a href="#privacy-contact">Privacy contact</a></li>
+            </ol>
+          </aside>
+
+          <article class="policy">
+            <section id="parties">
+              <h2>Parties and scope</h2>
+              <p>
+                This Data Processing Agreement ("DPA") forms part of the
+                agreement,
+                <a class="inline" href="terms.html">Terms of Service</a>, Order
+                Form or other written or electronic agreement governing the
+                customer's use of the Verifsage services (the "Agreement")
+                between:
+              </p>
+              <p>
+                (1) <span class="todo">[[VERIFSAGE LEGAL ENTITY NAME]]</span>, a
+                company incorporated in
+                <span class="todo">[[JURISDICTION]]</span> under company number
+                <span class="todo">[[NUMBER]]</span>, whose registered office is
+                at
+                <span class="todo">[[REGISTERED ADDRESS]]</span> ("Verifsage",
+                "Processor", "we", "us" or "our"); and
+              </p>
+              <p>
+                (2) the customer identified in the Agreement ("Customer" or
+                "Controller").
+              </p>
+              <p>
+                This DPA applies where Verifsage Processes Personal Data on
+                behalf of Customer in connection with the Services. By entering
+                into the Agreement or using the Services, each party agrees to
+                this DPA.
+              </p>
+              <p>
+                Where Customer acts as a Processor on behalf of another
+                Controller, references in this DPA to Customer as Controller
+                shall include Customer acting as Processor and Verifsage shall
+                act as Customer's Subprocessor to the extent applicable.
+              </p>
+            </section>
+
+            <section id="clause-1">
+              <h2>1. Definitions</h2>
+              <p><span class="num">1.1</span>In this DPA:</p>
+              <p>
+                "Applicable Data Protection Law" means all laws and regulations
+                applicable to the Processing of Personal Data under this DPA,
+                including, as applicable:
+              </p>
+              <p>(a) Regulation (EU) 2016/679 ("EU GDPR");</p>
+              <p>
+                (b) the EU GDPR as incorporated into the law of the United
+                Kingdom and amended from time to time ("UK GDPR");
+              </p>
+              <p>(c) the Data Protection Act 2018;</p>
+              <p>
+                (d) the Data (Use and Access) Act 2025 to the extent applicable;
+              </p>
+              <p>
+                (e) applicable national legislation implementing, supplementing
+                or replacing the foregoing; and
+              </p>
+              <p>
+                (f) binding regulatory requirements relating to privacy, data
+                protection or the Processing of Personal Data.
+              </p>
+              <p>
+                "Controller", "Data Subject", "Personal Data", "Personal Data
+                Breach", "Processing", "Processor" and "Supervisory Authority"
+                have the meanings given to them under Applicable Data Protection
+                Law.
+              </p>
+              <p>
+                "Customer Personal Data" means Personal Data Processed by
+                Verifsage on behalf of Customer in connection with the Services.
+              </p>
+              <p>
+                "EU SCCs" means the standard contractual clauses annexed to
+                Commission Implementing Decision (EU) 2021/914 of 4 June 2021,
+                as amended, replaced or superseded.
+              </p>
+              <p>
+                "Restricted Transfer" means a transfer of Personal Data that
+                requires an adequacy mechanism, appropriate safeguard or other
+                lawful transfer mechanism under Applicable Data Protection Law.
+              </p>
+              <p>
+                "Services" means the products and services supplied by Verifsage
+                under the Agreement.
+              </p>
+              <p>
+                "Subprocessor" means a third party appointed by or on behalf of
+                Verifsage to Process Customer Personal Data.
+              </p>
+              <p>
+                "UK Addendum" means the International Data Transfer Addendum to
+                the EU Commission Standard Contractual Clauses issued by the UK
+                Information Commissioner's Office, as amended, replaced or
+                superseded.
+              </p>
+              <p>
+                <span class="num">1.2</span>Capitalised terms not defined in
+                this DPA have the meanings given to them in the Agreement.
+              </p>
+            </section>
+
+            <section id="clause-2">
+              <h2>2. Scope and roles</h2>
+              <p>
+                <span class="num">2.1</span>Customer is the Controller and
+                Verifsage is the Processor in respect of Customer Personal Data,
+                except where Customer acts as Processor for another Controller,
+                in which case Verifsage is a Subprocessor.
+              </p>
+              <p>
+                <span class="num">2.2</span>Each party shall comply with the
+                obligations applicable to it under Applicable Data Protection
+                Law.
+              </p>
+              <p>
+                <span class="num">2.3</span>Customer is responsible for
+                determining the purposes and lawful basis of the Processing,
+                providing any notices required to Data Subjects, obtaining any
+                required consents, and ensuring that its instructions to
+                Verifsage comply with Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">2.4</span>Verifsage shall Process Customer
+                Personal Data only:
+              </p>
+              <p>(a) to provide, secure, maintain and support the Services;</p>
+              <p>
+                (b) in accordance with the Agreement, this DPA and Customer's
+                documented instructions; or
+              </p>
+              <p>(c) where required by applicable law.</p>
+              <p>
+                <span class="num">2.5</span>If applicable law requires Verifsage
+                to Process Customer Personal Data other than on Customer's
+                documented instructions, Verifsage shall inform Customer before
+                carrying out that Processing unless the applicable law prohibits
+                such disclosure.
+              </p>
+              <p>
+                <span class="num">2.6</span>Verifsage shall promptly inform
+                Customer if, in Verifsage's reasonable opinion, an instruction
+                infringes Applicable Data Protection Law. Verifsage may suspend
+                the affected Processing until the parties resolve the issue.
+              </p>
+            </section>
+
+            <section id="clause-3">
+              <h2>3. Details of Processing</h2>
+              <p>
+                <span class="num">3.1</span>The subject matter, duration, nature
+                and purpose of the Processing, categories of Personal Data and
+                categories of Data Subjects are set out in Schedule One.
+              </p>
+              <p>
+                <span class="num">3.2</span>Processing will continue for the
+                duration of the Agreement and for such additional period as is
+                necessary to return or delete Customer Personal Data in
+                accordance with this DPA or to comply with applicable law.
+              </p>
+            </section>
+
+            <section id="clause-4">
+              <h2>4. Confidentiality and personnel</h2>
+              <p>
+                <span class="num">4.1</span>Verifsage shall ensure that persons
+                authorised to Process Customer Personal Data:
+              </p>
+              <p>
+                (a) have access only where reasonably necessary to perform their
+                responsibilities;
+              </p>
+              <p>
+                (b) are subject to appropriate contractual or statutory
+                confidentiality obligations; and
+              </p>
+              <p>
+                (c) receive appropriate privacy and information-security
+                awareness or training relevant to their roles.
+              </p>
+              <p>
+                <span class="num">4.2</span>Verifsage shall take reasonable
+                steps to ensure the reliability of personnel with access to
+                Customer Personal Data.
+              </p>
+            </section>
+
+            <section id="clause-5">
+              <h2>5. Security</h2>
+              <p>
+                <span class="num">5.1</span>Taking into account the state of the
+                art, implementation costs, and the nature, scope, context and
+                purposes of Processing together with the risk to Data Subjects,
+                Verifsage shall implement and maintain appropriate technical and
+                organisational measures designed to protect Customer Personal
+                Data against accidental or unlawful destruction, loss,
+                alteration, unauthorised disclosure of or access to Customer
+                Personal Data.
+              </p>
+              <p>
+                <span class="num">5.2</span>The measures maintained by Verifsage
+                shall include the measures described in Schedule Two.
+              </p>
+              <p>
+                <span class="num">5.3</span>Verifsage may update its technical
+                and organisational measures from time to time provided that such
+                changes do not materially reduce the overall level of protection
+                afforded to Customer Personal Data during the term of the
+                Agreement.
+              </p>
+              <p>
+                <span class="num">5.4</span>Customer acknowledges that security
+                involves responsibilities on both sides. Customer shall use the
+                Services in accordance with Verifsage's security documentation,
+                protect account credentials, maintain appropriate access
+                controls for its users and promptly notify Verifsage of
+                suspected compromise affecting the Services.
+              </p>
+            </section>
+
+            <section id="clause-6">
+              <h2>6. Subprocessors</h2>
+              <p>
+                <span class="num">6.1</span>Customer grants Verifsage general
+                written authorisation to appoint Subprocessors for the
+                Processing of Customer Personal Data.
+              </p>
+              <p>
+                <span class="num">6.2</span>Verifsage shall maintain a current
+                list of its Subprocessors at
+                <span class="todo">[[SUBPROCESSOR URL]]</span> or in Schedule
+                Three.
+              </p>
+              <p>
+                <span class="num">6.3</span>Verifsage shall provide Customer
+                with at least 30 days' prior notice, where reasonably
+                practicable, before appointing a new Subprocessor that will
+                materially Process Customer Personal Data or replacing an
+                existing such Subprocessor. Notice may be provided by email,
+                through the Services or through a subscription mechanism made
+                available on Verifsage's website.
+              </p>
+              <p>
+                <span class="num">6.4</span>Customer may object to a proposed
+                Subprocessor within 15 days of receiving notice, but only on
+                reasonable and documented data-protection grounds.
+              </p>
+              <p>
+                <span class="num">6.5</span>The parties shall work in good faith
+                to resolve an objection. Where no commercially reasonable
+                alternative is available, Verifsage may discontinue the affected
+                part of the Services and Customer may terminate that affected
+                part without penalty.
+              </p>
+              <p>
+                <span class="num">6.6</span>Verifsage shall enter into a written
+                agreement with each Subprocessor that imposes data-protection
+                obligations no less protective in substance than those
+                applicable to Verifsage under this DPA, to the extent relevant
+                to the Subprocessor's Processing.
+              </p>
+              <p>
+                <span class="num">6.7</span>Verifsage remains responsible to
+                Customer for the performance of each Subprocessor's
+                data-protection obligations to the extent required by Applicable
+                Data Protection Law.
+              </p>
+            </section>
+
+            <section id="clause-7">
+              <h2>7. Data Subject requests</h2>
+              <p>
+                <span class="num">7.1</span>Taking into account the nature of
+                the Processing, Verifsage shall provide reasonable assistance to
+                Customer through appropriate technical and organisational
+                measures to enable Customer to respond to requests from Data
+                Subjects exercising rights under Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">7.2</span>Where Verifsage receives a Data
+                Subject request relating to Customer Personal Data, Verifsage
+                shall, unless legally prohibited:
+              </p>
+              <p>(a) notify Customer without undue delay; and</p>
+              <p>
+                (b) not respond substantively to the request except on
+                Customer's documented instruction or where required by
+                applicable law.
+              </p>
+              <p>
+                <span class="num">7.3</span>Customer remains responsible for
+                determining whether and how a Data Subject request must be
+                fulfilled.
+              </p>
+            </section>
+
+            <section id="clause-8">
+              <h2>8. Compliance assistance</h2>
+              <p>
+                <span class="num">8.1</span>Taking into account the nature of
+                Processing and information available to Verifsage, Verifsage
+                shall provide reasonable assistance to Customer in complying
+                with applicable obligations concerning:
+              </p>
+              <p>(a) security of Processing;</p>
+              <p>(b) Personal Data Breaches;</p>
+              <p>(c) data protection impact assessments;</p>
+              <p>(d) prior consultation with Supervisory Authorities; and</p>
+              <p>
+                (e) other Processor-assistance obligations imposed by Applicable
+                Data Protection Law.
+              </p>
+              <p>
+                <span class="num">8.2</span>Verifsage may charge reasonable fees
+                for assistance under this clause where the assistance is
+                unusually extensive and is not required because of Verifsage's
+                breach of this DPA. Verifsage shall notify Customer of
+                applicable charges in advance.
+              </p>
+            </section>
+
+            <section id="clause-9">
+              <h2>9. Personal Data Breaches</h2>
+              <p>
+                <span class="num">9.1</span>Verifsage shall notify Customer
+                without undue delay after becoming aware of a Personal Data
+                Breach affecting Customer Personal Data and shall use reasonable
+                endeavours to provide such notification within 48 hours of
+                awareness.
+              </p>
+              <p>
+                <span class="num">9.2</span>To the extent information is
+                available, the notification shall describe:
+              </p>
+              <p>(a) the nature of the Personal Data Breach;</p>
+              <p>
+                (b) the categories and approximate number of affected Data
+                Subjects;
+              </p>
+              <p>
+                (c) the categories and approximate volume of affected Personal
+                Data records;
+              </p>
+              <p>(d) the likely consequences of the Personal Data Breach;</p>
+              <p>
+                (e) measures taken or proposed to contain, investigate,
+                remediate or mitigate its effects; and
+              </p>
+              <p>
+                (f) a contact point from which Customer may obtain further
+                information.
+              </p>
+              <p>
+                <span class="num">9.3</span>Where all information is not
+                available at the time of initial notification, Verifsage may
+                provide information in phases without undue further delay.
+              </p>
+              <p>
+                <span class="num">9.4</span>Verifsage shall take reasonable
+                steps to contain, investigate and mitigate the Personal Data
+                Breach and shall reasonably cooperate with Customer in relation
+                to Customer's notification, documentation and remediation
+                obligations.
+              </p>
+              <p>
+                <span class="num">9.5</span>Verifsage's notification of a
+                Personal Data Breach shall not constitute an admission of fault
+                or liability.
+              </p>
+              <p>
+                <span class="num">9.6</span>Customer is responsible for
+                determining whether notification to a Supervisory Authority,
+                Data Subjects or any other person is required, except to the
+                extent Applicable Data Protection Law places such responsibility
+                directly on Verifsage.
+              </p>
+            </section>
+
+            <section id="clause-10">
+              <h2>10. Audits and information rights</h2>
+              <p>
+                <span class="num">10.1</span>Verifsage shall make available to
+                Customer information reasonably necessary to demonstrate
+                compliance with the Processor obligations applicable under this
+                DPA and Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">10.2</span>Customer shall ordinarily exercise
+                its verification rights first through reasonable documentation
+                requests, security questionnaires, certifications or independent
+                assurance reports that Verifsage makes available.
+              </p>
+              <p>
+                <span class="num">10.3</span>Where that information is
+                insufficient to demonstrate material compliance, Customer may
+                conduct an audit, itself or through an independent auditor,
+                subject to the following conditions:
+              </p>
+              <p>(a) reasonable prior written notice shall be given;</p>
+              <p>
+                (b) audits shall ordinarily occur no more than once in any
+                12-month period unless a Personal Data Breach, reasonable
+                evidence of material non-compliance or a Supervisory Authority
+                requires otherwise;
+              </p>
+              <p>
+                (c) the audit shall be conducted during normal business hours
+                and in a manner that minimises disruption;
+              </p>
+              <p>
+                (d) the auditor shall not be a direct competitor of Verifsage
+                and shall be subject to confidentiality obligations;
+              </p>
+              <p>
+                (e) the audit shall not compromise the security, confidentiality
+                or Personal Data of Verifsage or other customers; and
+              </p>
+              <p>
+                (f) Customer shall bear its audit costs unless the audit
+                establishes a material breach of this DPA by Verifsage, in which
+                case Verifsage shall bear its reasonable costs of remediation
+                and the parties shall allocate reasonable audit costs as
+                required by law or agreement.
+              </p>
+              <p>
+                <span class="num">10.4</span>Nothing in this clause limits the
+                powers of a competent Supervisory Authority.
+              </p>
+            </section>
+
+            <section id="clause-11">
+              <h2>11. International transfers</h2>
+              <p>
+                <span class="num">11.1</span>Verifsage shall not make a
+                Restricted Transfer of Customer Personal Data unless the
+                transfer is supported by a lawful transfer mechanism under
+                Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">11.2</span>Where an applicable adequacy
+                decision, adequacy regulation or equivalent lawful mechanism
+                covers the Restricted Transfer, the parties may rely on that
+                mechanism.
+              </p>
+              <p>
+                <span class="num">11.3</span>EEA transfers. Where Customer
+                Personal Data subject to the EU GDPR is transferred to Verifsage
+                or a Subprocessor in a third country that is not covered by an
+                applicable European Commission adequacy decision, the EU SCCs
+                are incorporated into this DPA as follows:
+              </p>
+              <p>
+                (a) where Customer is Controller and Verifsage is Processor,
+                Module Two applies;
+              </p>
+              <p>
+                (b) where Customer is Processor and Verifsage is Subprocessor,
+                Module Three applies;
+              </p>
+              <p>(c) Clause 7, the docking clause, applies;</p>
+              <p>
+                (d) for Clause 9, Option 2, general written authorisation,
+                applies and the notice period is the period specified in clause
+                6.3 of this DPA;
+              </p>
+              <p>
+                (e) the optional language in Clause 11(a) shall not apply unless
+                expressly agreed otherwise;
+              </p>
+              <p>
+                (f) for Clause 17, the governing law shall be the law of
+                Ireland, unless another eligible EU Member State law is
+                identified in the applicable Order Form or Agreement;
+              </p>
+              <p>
+                (g) for Clause 18, disputes shall be resolved before the courts
+                of Ireland, unless another eligible EU Member State is
+                identified in the applicable Order Form or Agreement;
+              </p>
+              <p>
+                (h) Annex I of the EU SCCs shall be deemed completed using the
+                information in the Agreement and Schedule One of this DPA;
+              </p>
+              <p>(i) Annex II shall be deemed completed by Schedule Two; and</p>
+              <p>(j) Annex III shall be deemed completed by Schedule Three.</p>
+              <p>
+                <span class="num">11.4</span>UK transfers. Where a Restricted
+                Transfer is subject to the UK GDPR and is not covered by
+                applicable UK adequacy regulations:
+              </p>
+              <p>
+                (a) where the EU SCCs apply or are otherwise used by the
+                parties, the UK Addendum is incorporated into this DPA;
+              </p>
+              <p>
+                (b) the information required by the UK Addendum tables shall be
+                populated using the Agreement, this DPA and Schedules One to
+                Three;
+              </p>
+              <p>
+                (c) the parties shall be treated as the exporter and importer
+                identified in the applicable EU SCC module;
+              </p>
+              <p>
+                (d) unless otherwise stated in an Order Form, neither party may
+                terminate the UK Addendum merely as a consequence of an approved
+                revision where the approved Addendum permits parties to specify
+                termination rights; and
+              </p>
+              <p>
+                (e) where the UK Addendum is unsuitable for the relevant
+                transfer, the parties may enter into the ICO's then-current
+                International Data Transfer Agreement or another lawful transfer
+                mechanism.
+              </p>
+              <p>
+                <span class="num">11.5</span>Each party shall reasonably
+                cooperate in completing any transfer impact assessment, transfer
+                risk assessment or similar assessment required by Applicable
+                Data Protection Law.
+              </p>
+              <p>
+                <span class="num">11.6</span>Where required, Verifsage shall
+                implement supplementary technical, contractual or organisational
+                safeguards reasonably necessary to maintain the required level
+                of protection.
+              </p>
+              <p>
+                <span class="num">11.7</span>If a transfer mechanism relied upon
+                by the parties is invalidated, withdrawn or becomes unavailable,
+                the parties shall cooperate in good faith to implement a lawful
+                alternative.
+              </p>
+              <p>
+                <span class="num">11.8</span>In the event of conflict between
+                this DPA and the EU SCCs or UK Addendum concerning a Restricted
+                Transfer, the EU SCCs or UK Addendum, as applicable, shall
+                prevail to the extent of the conflict.
+              </p>
+            </section>
+
+            <section id="clause-12">
+              <h2>12. Government and third-party access requests</h2>
+              <p>
+                <span class="num">12.1</span>Unless prohibited by applicable
+                law, Verifsage shall notify Customer of a legally binding
+                request from a public authority requiring disclosure of Customer
+                Personal Data where Applicable Data Protection Law requires or
+                permits such notification.
+              </p>
+              <p>
+                <span class="num">12.2</span>Verifsage shall assess the legality
+                of any such request and, where there are reasonable grounds to
+                do so and Applicable Data Protection Law requires it, challenge
+                requests that Verifsage reasonably considers unlawful.
+              </p>
+              <p>
+                <span class="num">12.3</span>Verifsage shall disclose only the
+                Customer Personal Data reasonably necessary to comply with a
+                legally binding request.
+              </p>
+            </section>
+
+            <section id="clause-13">
+              <h2>13. Return and deletion</h2>
+              <p>
+                <span class="num">13.1</span>On expiry or termination of the
+                Services involving Processing of Customer Personal Data, and at
+                Customer's choice where technically practicable, Verifsage shall
+                return or delete Customer Personal Data unless applicable law
+                requires continued storage.
+              </p>
+              <p>
+                <span class="num">13.2</span>Customer shall exercise any
+                available export functionality before termination where it
+                wishes to retain a copy of Customer Personal Data.
+              </p>
+              <p>
+                <span class="num">13.3</span>Following termination, Verifsage
+                shall delete remaining Customer Personal Data from active
+                systems within <span class="todo">[[30/60/90]]</span> days,
+                subject to technical limitations and lawful retention
+                requirements.
+              </p>
+              <p>
+                <span class="num">13.4</span>Customer Personal Data contained in
+                backups may be retained until overwritten or deleted in
+                accordance with Verifsage's ordinary backup lifecycle, provided
+                that such Personal Data remains protected under this DPA and is
+                not restored or otherwise Processed except for disaster
+                recovery, security or legal purposes.
+              </p>
+              <p>
+                <span class="num">13.5</span>Where applicable law requires
+                Verifsage to retain particular Customer Personal Data, Verifsage
+                shall isolate and protect that information and Process it only
+                for the purpose requiring retention.
+              </p>
+            </section>
+
+            <section id="clause-14">
+              <h2>14. Records and regulatory cooperation</h2>
+              <p>
+                <span class="num">14.1</span>Verifsage shall maintain records of
+                Processing activities to the extent required by Applicable Data
+                Protection Law.
+              </p>
+              <p>
+                <span class="num">14.2</span>Verifsage shall reasonably
+                cooperate with competent Supervisory Authorities in the
+                performance of their lawful functions relating to Processing
+                under this DPA.
+              </p>
+            </section>
+
+            <section id="clause-15">
+              <h2>15. Liability and indemnities</h2>
+              <p>
+                <span class="num">15.1</span>Nothing in this DPA excludes or
+                limits either party's liability to the extent that liability
+                cannot lawfully be excluded or limited, nor does this DPA
+                restrict the rights of Data Subjects or powers of Supervisory
+                Authorities under Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">15.2</span>Subject to clause 15.1 and any
+                mandatory liability provisions in the EU SCCs, UK Addendum or
+                Applicable Data Protection Law, each party's liability arising
+                from this DPA shall be subject to the exclusions and limitations
+                of liability in the Agreement.
+              </p>
+              <p>
+                <span class="num">15.3</span>If the Agreement contains no
+                applicable limitation of liability, each party's aggregate
+                contractual liability arising out of or in connection with this
+                DPA shall not exceed two times the fees paid or payable by
+                Customer to Verifsage during the 12 months immediately preceding
+                the event giving rise to liability.
+              </p>
+              <p>
+                <span class="num">15.4</span>Each party ("Indemnifying Party")
+                shall indemnify the other party against reasonable third-party
+                claims, damages, liabilities and external legal costs to the
+                extent directly caused by the Indemnifying Party's material
+                breach of this DPA or Applicable Data Protection Law in
+                connection with the Processing governed by this DPA.
+              </p>
+              <p>
+                <span class="num">15.5</span>No indemnity applies to the extent
+                the relevant loss was caused by the indemnified party's breach,
+                negligence, unlawful instructions or failure to comply with
+                Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">15.6</span>Regulatory fines, penalties and
+                sanctions shall be recoverable between the parties only to the
+                extent such recovery is permitted by applicable law and only to
+                the extent attributable to the Indemnifying Party's breach.
+              </p>
+              <p>
+                <span class="num">15.7</span>Nothing in this clause alters any
+                right of contribution, recourse or compensation established
+                directly by Applicable Data Protection Law.
+              </p>
+            </section>
+
+            <section id="clause-16">
+              <h2>16. Confidentiality</h2>
+              <p>
+                <span class="num">16.1</span>Information disclosed in connection
+                with this DPA, including security documentation, audit evidence,
+                incident information and details of technical systems, shall be
+                treated as Confidential Information under the Agreement.
+              </p>
+              <p>
+                <span class="num">16.2</span>Where the Agreement contains no
+                confidentiality provisions, each party shall protect the other
+                party's non-public information using at least reasonable care
+                and shall use it only to perform or enforce the Agreement, this
+                DPA or comply with applicable law.
+              </p>
+            </section>
+
+            <section id="clause-17">
+              <h2>17. Priority</h2>
+              <p>
+                <span class="num">17.1</span>If there is a conflict concerning
+                Processing of Customer Personal Data:
+              </p>
+              <p>
+                (a) the EU SCCs or UK Addendum prevail where applicable to the
+                relevant Restricted Transfer;
+              </p>
+              <p>
+                (b) this DPA prevails over the Agreement to the extent of the
+                data-protection conflict; and
+              </p>
+              <p>(c) the remainder of the Agreement continues to apply.</p>
+            </section>
+
+            <section id="clause-18">
+              <h2>18. Changes to law</h2>
+              <p>
+                <span class="num">18.1</span>Verifsage may amend this DPA where
+                reasonably necessary to reflect changes in Applicable Data
+                Protection Law, regulatory guidance, transfer mechanisms or the
+                Services, provided that no amendment materially reduces the
+                protection afforded to Customer Personal Data contrary to
+                Applicable Data Protection Law.
+              </p>
+              <p>
+                <span class="num">18.2</span>Verifsage shall provide reasonable
+                notice of any material amendment through its website, email or
+                the Services.
+              </p>
+              <p>
+                <span class="num">18.3</span>Where Applicable Data Protection
+                Law requires an amendment to be signed or otherwise specifically
+                accepted, the parties shall cooperate to implement that
+                amendment.
+              </p>
+            </section>
+
+            <section id="clause-19">
+              <h2>19. Term and survival</h2>
+              <p>
+                <span class="num">19.1</span>This DPA begins when Verifsage
+                first Processes Customer Personal Data under the Agreement and
+                continues for so long as Verifsage Processes Customer Personal
+                Data.
+              </p>
+              <p>
+                <span class="num">19.2</span>Clauses intended by their nature to
+                continue after termination, including confidentiality, deletion,
+                audit rights relating to pre-termination Processing, transfer
+                obligations and liability provisions, shall survive termination
+                for the period reasonably necessary to give them effect.
+              </p>
+            </section>
+
+            <section id="clause-20">
+              <h2>20. Governing law and jurisdiction</h2>
+              <p>
+                <span class="num">20.1</span>Except where the EU SCCs, UK
+                Addendum or mandatory Applicable Data Protection Law provides
+                otherwise, this DPA shall be governed by the law governing the
+                Agreement.
+              </p>
+              <p>
+                <span class="num">20.2</span>If the Agreement does not specify
+                governing law and jurisdiction, the parties shall select one of
+                the following before publication or contracting:
+              </p>
+              <div class="options">
+                <p>
+                  <span class="todo"
+                    >[[Choose ONE option and delete the others before
+                    publishing]]</span
+                  >
+                </p>
+                <p>
+                  Option A, United Kingdom: the laws of England and Wales, with
+                  exclusive jurisdiction of the courts of England and Wales.
+                </p>
+                <p>
+                  Option B, Ireland: the laws of Ireland, with exclusive
+                  jurisdiction of the Irish courts.
+                </p>
+                <p>
+                  Option C, other EU Member State: the laws of
+                  <span class="todo">[[EU MEMBER STATE]]</span>, with exclusive
+                  jurisdiction of the courts of
+                  <span class="todo">[[EU MEMBER STATE]]</span>.
+                </p>
+              </div>
+              <p>
+                <span class="num">20.3</span>Nothing in this clause overrides
+                the governing-law or jurisdiction provisions that mandatorily
+                apply under the EU SCCs or UK Addendum.
+              </p>
+            </section>
+
+            <section id="clause-21">
+              <h2>21. Electronic incorporation</h2>
+              <p>
+                <span class="num">21.1</span>This DPA may be incorporated into
+                the Agreement electronically and does not require a separate
+                wet-ink signature unless mandatory law requires otherwise.
+              </p>
+              <p>
+                <span class="num">21.2</span>Where the parties execute a
+                separate signature page, counterparts and electronic signatures
+                shall be permitted to the extent recognised by applicable law.
+              </p>
+            </section>
+
+            <section id="schedule-one" class="schedule">
+              <p class="schedule-label">Schedule One</p>
+              <h2>Details of Processing</h2>
+              <h3>Subject matter</h3>
+              <p>
+                Processing of Customer Personal Data as necessary to provide,
+                operate, secure, maintain, administer and support the Services
+                purchased or used by Customer.
+              </p>
+              <h3>Duration</h3>
+              <p>
+                For the term of the Agreement and such limited period thereafter
+                as is necessary to return or securely delete Customer Personal
+                Data, satisfy applicable retention requirements and complete
+                backup deletion cycles.
+              </p>
+              <h3>Nature of Processing</h3>
+              <p>
+                Collection, receipt, access, organisation, structuring, hosting,
+                storage, retrieval, consultation, transmission, use, analysis,
+                support, troubleshooting, security monitoring, restriction,
+                deletion and other Processing necessary to provide the Services
+                in accordance with Customer's documented instructions.
+              </p>
+              <h3>Purpose of Processing</h3>
+              <p>
+                Provision, operation, maintenance, security and support of the
+                Services; performance of Customer's documented instructions;
+                prevention and investigation of security incidents; service
+                administration; and compliance with legal obligations applicable
+                to Verifsage as Processor.
+              </p>
+              <h3>Categories of Data Subjects</h3>
+              <p>Various categories, which may include:</p>
+              <p>(a) Customer personnel and authorised users;</p>
+              <p>(b) Customer's customers;</p>
+              <p>(c) Customer's end-users;</p>
+              <p>
+                (d) Customer employees, workers, contractors and
+                representatives; and
+              </p>
+              <p>
+                (e) other individuals whose Personal Data Customer submits to or
+                causes to be Processed through the Services.
+              </p>
+              <h3>Categories of Personal Data</h3>
+              <p>
+                Various categories of Personal Data submitted to, generated
+                through or otherwise Processed using the Services, as determined
+                by Customer and the functionality used.
+              </p>
+              <p>
+                These may include account, contact, identifier, transaction,
+                device, technical, usage, authentication, communication, support
+                and other Personal Data submitted by or on behalf of Customer.
+              </p>
+              <p>
+                Customer shall not knowingly submit special-category Personal
+                Data, criminal-offence data or other highly sensitive Personal
+                Data unless the relevant Services are expressly designed or
+                agreed to Process such information and Customer has satisfied
+                the applicable legal requirements.
+              </p>
+              <h3>Frequency</h3>
+              <p>
+                Continuous or intermittent, according to Customer's use of the
+                Services.
+              </p>
+              <h3>Retention</h3>
+              <p>
+                For the duration described above, subject to Customer
+                configuration, Verifsage retention schedules, backup cycles and
+                applicable legal requirements.
+              </p>
+            </section>
+
+            <section id="schedule-two" class="schedule">
+              <p class="schedule-label">Schedule Two</p>
+              <h2>Technical and Organisational Measures</h2>
+              <p>
+                Verifsage shall maintain measures appropriate to the risk of the
+                Processing, including the following to the extent applicable to
+                the relevant systems and Services.
+              </p>
+              <p>
+                <strong>Access control and identity management.</strong> Access
+                to Customer Personal Data shall be limited according to business
+                need and least-privilege principles. Privileged or
+                administrative access shall be restricted to authorised
+                personnel and protected using appropriate authentication
+                controls, including multi-factor authentication where
+                technically supported and appropriate. Access rights shall be
+                reviewed periodically and revoked when no longer required.
+              </p>
+              <p>
+                <strong>Encryption and transmission security.</strong> Customer
+                Personal Data shall be protected in transit using appropriately
+                configured industry-standard encrypted communication protocols.
+                Customer Personal Data stored in production systems shall be
+                protected through appropriate encryption or equivalent
+                platform-level storage safeguards where supported and
+                appropriate to the processing risk. Encryption keys and
+                privileged secrets shall be subject to appropriate access
+                restrictions.
+              </p>
+              <p>
+                <strong>Logical separation.</strong> Verifsage shall maintain
+                technical or logical measures designed to prevent one customer
+                from accessing another customer's Personal Data without
+                authorisation.
+              </p>
+              <p>
+                <strong>Logging and monitoring.</strong> Relevant production and
+                security systems shall generate logs appropriate to their
+                function. Verifsage shall maintain monitoring designed to
+                identify suspicious, anomalous or unauthorised activity and
+                shall protect relevant security logs against inappropriate
+                access or alteration.
+              </p>
+              <p>
+                <strong>Vulnerability and patch management.</strong> Verifsage
+                shall maintain processes for identifying, assessing,
+                prioritising and remediating material vulnerabilities in systems
+                used to Process Customer Personal Data. Security patches shall
+                be deployed according to risk, severity and operational
+                constraints.
+              </p>
+              <p>
+                <strong>Secure development.</strong> Software development
+                affecting systems that Process Customer Personal Data shall be
+                subject to appropriate change control and security practices,
+                including code review, dependency management, testing and
+                separation of development and production environments where
+                appropriate.
+              </p>
+              <p>
+                <strong>Malware and endpoint protection.</strong> Systems and
+                endpoints used to administer or Process Customer Personal Data
+                shall employ appropriate protections against malicious software
+                and unauthorised access, taking account of system type and risk.
+              </p>
+              <p>
+                <strong>Availability and resilience.</strong> Verifsage shall
+                maintain appropriate measures intended to support availability,
+                resilience and recovery of systems used to provide the Services,
+                including backup or equivalent recovery mechanisms where
+                appropriate.
+              </p>
+              <p>
+                <strong>Backup and restoration.</strong> Where Customer Personal
+                Data is backed up, Verifsage shall protect backups against
+                unauthorised access and maintain processes for recovery or
+                restoration appropriate to the Services.
+              </p>
+              <p>
+                <strong>Incident response.</strong> Verifsage shall maintain
+                incident-management procedures covering identification,
+                escalation, containment, investigation, recovery, evidence
+                preservation and post-incident review.
+              </p>
+              <p>
+                <strong>Personnel security.</strong> Personnel with access to
+                Customer Personal Data shall be subject to confidentiality
+                obligations and appropriate privacy and security awareness
+                measures. Access shall be revoked or adjusted upon termination
+                or material change of role.
+              </p>
+              <p>
+                <strong>Supplier management.</strong> Verifsage shall conduct
+                proportionate privacy and security due diligence before
+                appointing material Subprocessors and shall contractually impose
+                appropriate confidentiality, security and data-protection
+                obligations.
+              </p>
+              <p>
+                <strong>Data minimisation and retention.</strong> Verifsage
+                shall configure and operate the Services and its internal
+                processes to avoid retaining Customer Personal Data longer than
+                reasonably necessary for the authorised Processing, subject to
+                Customer instructions and applicable legal obligations.
+              </p>
+              <p>
+                <strong>Deletion and disposal.</strong> Customer Personal Data
+                and media containing it shall be securely deleted, destroyed or
+                rendered inaccessible when no longer required, subject to backup
+                lifecycle and legal retention requirements.
+              </p>
+              <p>
+                <strong>Physical security.</strong> Physical facilities
+                controlled by Verifsage that host systems Processing Customer
+                Personal Data shall be subject to appropriate access
+                restrictions. Where infrastructure is hosted by third-party
+                cloud or data-centre providers, Verifsage shall rely on the
+                provider's physical security controls subject to appropriate
+                supplier due diligence.
+              </p>
+              <p>
+                <strong>Testing and review.</strong> Verifsage shall
+                periodically assess the effectiveness of relevant security
+                controls and shall remediate material deficiencies according to
+                risk.
+              </p>
+              <p>
+                <strong>Business continuity.</strong> Verifsage shall maintain
+                proportionate business-continuity and disaster-recovery
+                arrangements for material production services and shall
+                periodically review their effectiveness.
+              </p>
+              <p>
+                <strong>Security governance.</strong> Responsibility for
+                information security and privacy controls shall be allocated
+                within Verifsage, with relevant policies, standards or
+                procedures maintained and reviewed periodically.
+              </p>
+              <!-- DRAFTING NOTE (not for publication): Publication verification note: before this Schedule is placed on the Verifsage website, Verifsage should verify that every control stated above reflects actual practice. Any additional certifications, penetration-testing commitments, RTO/RPO metrics or named cryptographic standards should be inserted only where factually supportable. -->
+            </section>
+
+            <section id="schedule-three" class="schedule">
+              <p class="schedule-label">Schedule Three</p>
+              <h2>Authorised Subprocessors</h2>
+              <!-- DRAFTING NOTE (not for publication): The following form should be populated with Verifsage&#x27;s actual Subprocessors before publication. -->
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Subprocessor</th>
+                      <th>Service / purpose</th>
+                      <th>Location(s)</th>
+                      <th>Transfer mechanism</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="todo">[[Name]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Purpose, e.g. cloud hosting]]</span
+                        >
+                      </td>
+                      <td><span class="todo">[[Country / region]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Adequacy / EU SCC Module 3 / UK Addendum / IDTA /
+                          not applicable]]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span class="todo">[[Name]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Purpose, e.g. cloud hosting]]</span
+                        >
+                      </td>
+                      <td><span class="todo">[[Country / region]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Adequacy / EU SCC Module 3 / UK Addendum / IDTA /
+                          not applicable]]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><span class="todo">[[Name]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Purpose, e.g. cloud hosting]]</span
+                        >
+                      </td>
+                      <td><span class="todo">[[Country / region]]</span></td>
+                      <td>
+                        <span class="todo"
+                          >[[Adequacy / EU SCC Module 3 / UK Addendum / IDTA /
+                          not applicable]]</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The authoritative and current list may instead be maintained at
+                <span class="todo">[[SUBPROCESSOR URL]]</span>, provided that
+                customers can access the list and receive notice of material
+                changes in accordance with clause 6.
+              </p>
+            </section>
+
+            <section id="schedule-four" class="schedule">
+              <p class="schedule-label">Schedule Four</p>
+              <h2>International Transfer Mechanisms</h2>
+              <p>
+                For EEA Customer Personal Data, transfers to the United Kingdom
+                may presently rely on the European Commission's UK adequacy
+                decision where the transfer falls within its scope. Other
+                non-EEA transfers shall rely on an applicable adequacy decision
+                or, where unavailable, the appropriate module of the EU SCCs and
+                any necessary supplementary measures. The Commission renewed UK
+                adequacy on 19 December 2025.
+              </p>
+              <p>
+                For UK Customer Personal Data, Verifsage shall first determine
+                whether applicable UK adequacy regulations cover the
+                destination. Where they do not, Verifsage may use the UK
+                Addendum to the EU SCCs, the ICO's IDTA or another permitted
+                Article 46 safeguard, together with any required transfer risk
+                assessment and additional safeguards.
+              </p>
+              <p>
+                Where the EU SCCs apply, the selections in clause 11.3 govern
+                unless the applicable Order Form expressly specifies different
+                valid selections.
+              </p>
+              <p>
+                Where the UK Addendum applies, its mandatory clauses are
+                incorporated by reference in the form approved by the ICO and in
+                force at the relevant time. The ICO currently confirms that the
+                existing Addendum remains available for use while amendments
+                following the DUAA are being developed.
+              </p>
+              <p>
+                No provision of this DPA modifies an EU SCC, UK Addendum or
+                other approved transfer instrument in a manner that reduces the
+                protection afforded to Data Subjects or invalidates the relevant
+                transfer safeguard.
+              </p>
+            </section>
+
+            <section id="privacy-contact">
+              <h2>Privacy contact</h2>
+              <p>
+                Verifsage privacy contact:
+                <span class="todo">[[PRIVACY/DPO EMAIL]]</span>
+              </p>
+              <p>
+                Registered address:
+                <span class="todo">[[REGISTERED ADDRESS]]</span>
+              </p>
+              <p>
+                Website:
+                <a href="https://verifsage.com">https://verifsage.com</a>
+              </p>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <img src="verifsage-logo.png" alt="Verifsage" />
+        <div class="flinks">
+          <a href="terms.html">Terms &amp; Conditions</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+        <span class="fcopy">&copy; 2026 VERIFSAGE</span>
+      </div>
+    </footer>
+  </body>
 </html>

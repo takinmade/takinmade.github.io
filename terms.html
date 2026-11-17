@@ -3,20 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms & Conditions — Verifsage</title>
+<title>Terms &amp; Conditions — Verifsage</title>
+<meta name="description" content="The terms that govern access to and use of the Verifsage website, platform, APIs and services.">
 <link rel="icon" href="verifsage-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Built from VERIFSAGE_TERMS_AND_CONDITIONS_1.docx. Wording is the client's.
+  Placeholders are highlighted as [[...]]; search for "[[" to find them.
+  Delete the `.todo` rule in the <style> block once every placeholder is filled.
+-->
 <style>
   :root{
     --ink:#0a2226; --teal:#2f98a3; --teal-deep:#1c6a73; --teal-bright:#3fb0ba;
     --green:#7fc07a; --green-soft:#bfe6b8; --paper:#f6f8f6; --white:#ffffff;
     --line:rgba(10,34,38,.12); --line-light:rgba(255,255,255,.14);
+    --ink-70:rgba(10,34,38,.72); --ink-50:rgba(10,34,38,.52);
     --white-70:rgba(255,255,255,.72); --white-50:rgba(255,255,255,.52);
     --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   a{color:inherit; text-decoration:none;}
   .nav{position:sticky; top:0; z-index:10; background:rgba(246,248,246,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
@@ -24,49 +32,526 @@
   .nav .wrap{height:76px; display:flex; align-items:center; justify-content:space-between;}
   .nav img{height:48px;}
   .nav a.back{font-size:14.5px; font-weight:600; color:var(--teal-deep); display:flex; align-items:center; gap:8px;}
-  main{padding:100px 0 140px;}
+  main{padding:90px 0 130px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-deep); margin-bottom:18px;}
   h1{font-family:'Instrument Sans',sans-serif; font-size:clamp(32px,4.5vw,48px); font-weight:700; letter-spacing:-0.02em; max-width:680px; line-height:1.1; margin:0 0 22px;}
-  .lede{font-size:17px; line-height:1.7; color:rgba(10,34,38,.7); max-width:560px; margin-bottom:44px;}
-  .notice{
-    border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px;
-    background:var(--white); padding:26px 28px; max-width:620px; font-size:15px; line-height:1.7; color:rgba(10,34,38,.75);
-  }
-  .notice strong{color:var(--ink);}
-  .cta-row{margin-top:40px; display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:100px; font-weight:600; font-size:14.5px;}
+  .lede{font-size:17px; line-height:1.7; color:var(--ink-70); max-width:620px; margin:0;}
+  .meta{margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-50);}
+
+  .layout{display:grid; grid-template-columns:220px minmax(0,1fr); gap:64px; margin-top:64px; align-items:start;}
+  .toc{position:sticky; top:110px; font-size:14px;}
+  .toc p{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-50); margin:0 0 14px;}
+  .toc ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .toc a{color:var(--ink-70);}
+  .toc a:hover{color:var(--teal-deep);}
+
+  .policy{max-width:720px;}
+  .policy section{padding-top:8px; margin-bottom:52px; scroll-margin-top:100px;}
+  .policy h2{font-family:'Instrument Sans',sans-serif; font-size:24px; font-weight:700; letter-spacing:-0.01em; margin:0 0 16px;}
+  .policy h3{font-family:'Instrument Sans',sans-serif; font-size:18px; font-weight:600; margin:30px 0 10px;}
+  .policy p, .policy li{font-size:15.5px; line-height:1.75; color:var(--ink-70);}
+  .policy p{margin:0 0 14px;}
+  .policy ul{margin:0 0 14px; padding-left:20px;}
+  .policy li{margin-bottom:6px;}
+  .policy strong{color:var(--ink); font-weight:600;}
+  .policy a.inline{color:var(--teal-deep); text-decoration:underline; text-underline-offset:3px;}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--white); margin:14px 0 8px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:560px;}
+  th, td{text-align:left; padding:13px 16px; vertical-align:top; border-bottom:1px solid var(--line);}
+  th{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-50); font-weight:500; background:var(--paper);}
+  tr:last-child td{border-bottom:none;}
+  td code{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); white-space:nowrap;}
+  td{color:var(--ink-70); line-height:1.55;}
+  .tag{display:inline-block; padding:3px 10px; border-radius:100px; font-size:12px; font-weight:600; white-space:nowrap;}
+  .tag-necessary{background:#e3f1f2; color:var(--teal-deep);}
+  .tag-analytics{background:#e7f4e5; color:#2f6b2a;}
+
+  .settings-box{border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px; background:var(--white); padding:22px 24px; margin:18px 0;}
+  .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; border-radius:100px; font-weight:600; font-size:14.5px; border:0; cursor:pointer; font-family:inherit;}
   .btn-primary{background:var(--grad); color:var(--ink);}
-  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
+
+  /* Draft highlight for placeholders. Delete this rule before publishing. */
+  .todo{background:#fff1b8; color:var(--ink); padding:0 4px; border-radius:3px;}
+
   footer{background:var(--ink); padding:34px 0; border-top:1px solid var(--line-light);}
   footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
   footer img{height:40px;}
+  .flinks{display:flex; gap:22px; flex-wrap:wrap; font-size:13.5px; color:var(--white-50);}
+  .flinks a:hover{color:var(--white);}
   .fcopy{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--white-50);}
+
+  @media (max-width: 900px){
+    .layout{grid-template-columns:minmax(0,1fr); gap:32px; margin-top:44px;}
+    .toc{position:static; padding:20px 22px; border:1px solid var(--line); border-radius:12px; background:var(--white);}
+  }
+  @media (max-width: 560px){
+    .wrap{padding:0 20px;}
+    main{padding:60px 0 90px;}
+  }
+  .toc{max-height:calc(100vh - 140px); overflow:auto; padding-right:8px;}
+  .toc ol{counter-reset:none;}
+  .policy .clauses{list-style:none; padding-left:0; margin:0 0 14px;}
+  .policy .clauses li{padding-left:2.2em; text-indent:-2.2em;}
+  .policy .sub{margin-left:0;}
+  .policy .num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--teal-deep); margin-right:6px;}
+  .policy .def strong{color:var(--ink);}
+  .policy address{font-style:normal; font-size:15.5px; line-height:1.75; color:var(--ink-70); margin:0 0 14px;}
+  .policy .schedule-label{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal-deep); margin:0 0 6px;}
+  .policy section.schedule{border-top:1px solid var(--line); padding-top:40px;}
+  .policy .options{border:1px solid var(--line); border-radius:12px; background:var(--white); padding:16px 20px; margin:0 0 14px;}
+  .policy .options p:last-child{margin-bottom:0;}
+  @media (max-width: 900px){ .toc{max-height:260px;} }
+  @media print{ .nav, .toc, footer{display:none;} .layout{display:block;} body{background:#fff;} }
 </style>
 </head>
 <body>
 <nav class="nav">
   <div class="wrap">
-    <img src="verifsage-logo.png" alt="Verifsage">
+    <a href="index.html"><img src="verifsage-logo.png" alt="Verifsage"></a>
     <a class="back" href="index.html">&larr; Back to home</a>
   </div>
 </nav>
+
 <main>
   <div class="wrap">
     <div class="eyebrow">Legal</div>
-    <h1>Terms & Conditions</h1>
-    <p class="lede">The terms that govern your use of Verifsage's platform, API, and services.</p>
-    <div class="notice">
-      <strong>This page is coming soon.</strong> Our full Terms & Conditions are being finalized ahead of launch. In the meantime, reach out to <a href="index.html#contact" style="color:var(--teal-deep); text-decoration:underline;">our contact form</a> with any questions.
-    </div>
-    <div class="cta-row">
-      <a href="index.html#waitlist" class="btn btn-primary">Join the Verifsage Waitlist →</a>
-      <a href="index.html" class="btn btn-ghost">Back to home</a>
+    <h1>Terms &amp; Conditions</h1>
+    <p class="lede">The terms that govern access to and use of Verifsage's website, platform, APIs and related services.</p>
+    <p class="meta">Last updated: 11 August 2026</p>
+
+    <div class="layout">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#clause-1">1. About these Terms</a></li>
+          <li><a href="#clause-2">2. Definitions</a></li>
+          <li><a href="#clause-3">3. The Verifsage Services</a></li>
+          <li><a href="#clause-4">4. Verification Is Not a Guarantee</a></li>
+          <li><a href="#clause-5">5. Customer Decision-Making</a></li>
+          <li><a href="#clause-6">6. Customer Accounts</a></li>
+          <li><a href="#clause-7">7. Eligibility and Authority</a></li>
+          <li><a href="#clause-8">8. Acceptable Use</a></li>
+          <li><a href="#clause-9">9. Customer Compliance Responsibilities</a></li>
+          <li><a href="#clause-10">10. End User Information</a></li>
+          <li><a href="#clause-11">11. Biometric and Identity Verification</a></li>
+          <li><a href="#clause-12">12. Third-Party Sources</a></li>
+          <li><a href="#clause-13">13. Orders and Subscriptions</a></li>
+          <li><a href="#clause-14">14. Usage-Based Charges</a></li>
+          <li><a href="#clause-15">15. Minimum Commitments</a></li>
+          <li><a href="#clause-16">16. Fees and Payment</a></li>
+          <li><a href="#clause-17">17. Consumer Purchases</a></li>
+          <li><a href="#clause-18">18. Intellectual Property</a></li>
+          <li><a href="#clause-19">19. Licence</a></li>
+          <li><a href="#clause-20">20. APIs and SDKs</a></li>
+          <li><a href="#clause-21">21. Availability and Maintenance</a></li>
+          <li><a href="#clause-22">22. Security</a></li>
+          <li><a href="#clause-23">23. Data Protection</a></li>
+          <li><a href="#clause-24">24. International Data Transfers</a></li>
+          <li><a href="#clause-25">25. Confidentiality</a></li>
+          <li><a href="#clause-26">26. Suspension</a></li>
+          <li><a href="#clause-27">27. Termination</a></li>
+          <li><a href="#clause-28">28. Effects of Termination</a></li>
+          <li><a href="#clause-29">29. Warranties</a></li>
+          <li><a href="#clause-30">30. Liability</a></li>
+          <li><a href="#clause-31">31. Customer Indemnity</a></li>
+          <li><a href="#clause-32">32. Changes to the Services</a></li>
+          <li><a href="#clause-33">33. Changes to these Terms</a></li>
+          <li><a href="#clause-34">34. Force Majeure</a></li>
+          <li><a href="#clause-35">35. Notices</a></li>
+          <li><a href="#clause-36">36. Assignment</a></li>
+          <li><a href="#clause-37">37. No Partnership or Agency</a></li>
+          <li><a href="#clause-38">38. Third-Party Rights</a></li>
+          <li><a href="#clause-39">39. Severability</a></li>
+          <li><a href="#clause-40">40. Waiver</a></li>
+          <li><a href="#clause-41">41. Entire Agreement</a></li>
+          <li><a href="#clause-42">42. Governing Law and Jurisdiction</a></li>
+          <li><a href="#clause-43">43. Contacting Verifsage</a></li>
+        </ol>
+      </aside>
+
+      <article class="policy">
+        <section id="clause-1">
+          <h2>1. About these Terms</h2>
+            <p>These Terms and Conditions ("Terms") govern access to and use of the Verifsage website, platform, applications, APIs, software development kits, verification journeys, dashboards, reports and related services (together, the "Services").</p>
+            <p>The Services are provided by <strong><span class="todo">[[VERIFSAGE LEGAL COMPANY NAME]]</span> LIMITED</strong>, a company incorporated in England and Wales under company number <strong><span class="todo">[[COMPANY NUMBER]]</span></strong>, whose registered office is at <strong><span class="todo">[[REGISTERED OFFICE]]</span></strong> ("Verifsage", "we", "us" or "our").</p>
+            <p>These Terms apply to organisations purchasing or using the Services for business purposes and, where applicable, individuals accessing Services directly as consumers.</p>
+            <p>"Parties" refers to Verifsage, Business Customers and Individual Customers.</p>
+            <p>Where a separate Order Form, Statement of Work, Enterprise Agreement, Data Processing Agreement or other written agreement has been entered into between Verifsage and a Customer, those documents form part of the agreement between the parties.</p>
+            <p>By creating an Account, placing an Order, integrating with our Services or otherwise using the Services, you agree to these Terms.</p>
+        </section>
+
+        <section id="clause-2">
+          <h2>2. Definitions</h2>
+            <p>In these Terms:</p>
+            <p class="def"><strong>Account</strong> means an account created to access or administer the Services.</p>
+            <p class="def"><strong>API</strong> means an application programming interface made available by Verifsage.</p>
+            <p class="def"><strong>Authorised User</strong> means an individual whom a Customer authorises to access the Services.</p>
+            <p class="def"><strong>Business Customer</strong> means a person or organisation acquiring or using the Services wholly or mainly for purposes relating to its trade, business, craft or profession.</p>
+            <p class="def"><strong>Consumer</strong> means an individual acting wholly or mainly outside their trade, business, craft or profession.</p>
+            <p class="def"><strong>Customer</strong> means a Business Customer or Consumer purchasing, accessing or using the Services.</p>
+            <p class="def"><strong>Customer Data</strong> means information, Personal Data, documents, images or other data submitted to the Services by or on behalf of a Customer.</p>
+            <p class="def"><strong>Data Protection Laws</strong> means applicable laws relating to privacy and the processing of Personal Data, including the UK GDPR, Data Protection Act 2018 and other applicable legislation as amended or replaced from time to time.</p>
+            <p class="def"><strong>End User</strong> means an individual whose identity, business, documentation or other information is submitted through the Services for verification or screening.</p>
+            <p class="def"><strong>Order</strong> means an order, subscription, Order Form or other agreed purchase of Services.</p>
+            <p class="def"><strong>Personal Data</strong> has the meaning given to "personal data" under applicable Data Protection Laws.</p>
+            <p class="def"><strong>Platform</strong> means the technology environment through which Verifsage provides the Services.</p>
+            <p class="def"><strong>Report</strong> means any verification result, screening result, match, alert, risk indicator, record or other output produced through the Services.</p>
+            <p class="def"><strong>Services</strong> means the services supplied by Verifsage, including where applicable identity verification, document verification, biometric or liveness checks, Know Your Customer ("KYC"), Know Your Business ("KYB"), sanctions screening, politically exposed person ("PEP") screening, adverse-media screening, anti-money laundering ("AML") screening, ongoing monitoring, orchestration and associated services.</p>
+            <p class="def"><strong>Subscription</strong> means recurring access to Services purchased for an agreed subscription period.</p>
+            <p class="def"><strong>Third-Party Data</strong> means information, technology, databases or services supplied to Verifsage by third parties.</p>
+        </section>
+
+        <section id="clause-3">
+          <h2>3. The Verifsage Services</h2>
+            <p>Verifsage provides technology intended to assist Customers with identity verification, business verification, due diligence, fraud prevention, regulatory compliance, risk management and related activities.</p>
+            <p>Depending upon the Services purchased, Verifsage may enable Customers to:</p>
+            <p>(a) verify identity documents;</p>
+            <p>(b) compare identity information;</p>
+            <p>(c) perform facial verification and liveness checks;</p>
+            <p>(d) perform KYC or KYB checks;</p>
+            <p>(e) identify corporate entities, directors or beneficial owners;</p>
+            <p>(f) screen individuals or organisations against sanctions and PEP data;</p>
+            <p>(g) identify potentially relevant adverse-media information;</p>
+            <p>(h) conduct ongoing monitoring;</p>
+            <p>(i) orchestrate verification workflows;</p>
+            <p>(j) access verification information through APIs, SDKs or dashboards; and</p>
+            <p>(k) obtain Reports and risk indicators.</p>
+            <p>The precise Services available to a Customer will depend upon its Order and the functionality made available by Verifsage from time to time.</p>
+        </section>
+
+        <section id="clause-4">
+          <h2>4. Verification Is Not a Guarantee</h2>
+            <p>Verification and screening technologies operate using information obtained from Customers, End Users, public sources, commercial databases, government or official sources and third-party service providers.</p>
+            <p>No verification, screening or monitoring system can guarantee that every identity, document, company, sanctions record, PEP record, fraud indicator or other piece of information will be identified accurately or completely.</p>
+            <p>A successful verification result does not constitute a guarantee that an individual or organisation is trustworthy, creditworthy, lawful or free from fraud or other risk.</p>
+            <p>Similarly, an alert, potential match or unsuccessful verification does not necessarily establish fraud, illegality, sanctions status, criminal conduct or misrepresentation.</p>
+            <p>Customers must interpret Reports appropriately and undertake additional investigation where circumstances reasonably require it. Customers will bear any legal consequences for not conducting adequate due diligence as required.</p>
+        </section>
+
+        <section id="clause-5">
+          <h2>5. Customer Decision-Making</h2>
+            <p>Unless Verifsage expressly agrees otherwise in writing, Verifsage provides information and technological tools to support Customer decision-making.</p>
+            <p>The Customer remains responsible for determining whether to establish, maintain, refuse, restrict or terminate its relationship with an End User. The End User is contractually bound to the Customer and not Verifsage.</p>
+            <p>The Customer must not treat a sanction, PEP, adverse-media or other screening alert as conclusive solely because the Platform has identified a possible match.</p>
+            <p>Where an applicable law requires human review, explanation, challenge mechanisms, additional due diligence or other safeguards before a decision is taken concerning an individual, responsibility for implementing those measures remains with the Customer unless otherwise expressly agreed.</p>
+            <p>Verifsage does not provide legal, regulatory, financial, investment or compliance advice through the Services.</p>
+        </section>
+
+        <section id="clause-6">
+          <h2>6. Customer Accounts</h2>
+            <p>Certain Services require an Account.</p>
+            <p>Customers must provide complete and accurate registration information and keep that information current.</p>
+            <p>Verifsage reserves the right to suspend an incomplete or inaccurate registration after informing the Customer, until such a time that the Customer complies.</p>
+            <p>Customers are responsible for ensuring that login credentials, API credentials, authentication tokens and other security information associated with their Account remain confidential. Verifsage will not be liable for any breach occasioned by the action or inaction for the Customers.</p>
+            <p>A Customer must notify Verifsage promptly if it knows or reasonably suspects that its Account, API credentials or authentication mechanisms have been compromised.</p>
+            <p>Business Customers are responsible for activity carried out by their Authorised Users and the parties are contractually bound to each other.</p>
+            <p>Verifsage may require additional authentication or security measures where reasonably necessary to protect the Platform, Customers, End Users or Verifsage.</p>
+        </section>
+
+        <section id="clause-7">
+          <h2>7. Eligibility and Authority</h2>
+            <p>A person entering into an agreement on behalf of a Business Customer confirms that they have authority to bind that organisation.</p>
+            <p>Consumers must have the legal capacity to enter into a contract with Verifsage and warrants that they have such legal capacity.</p>
+            <p>The Services must not be used by any person prohibited from receiving them under an applicable law.</p>
+        </section>
+
+        <section id="clause-8">
+          <h2>8. Acceptable Use</h2>
+            <p>Customers must use the Services lawfully, fairly and only for legitimate and lawful purposes. The Customers warrants that the services will be used for legitimate and lawful purposes only.</p>
+            <p>A Customer must not:</p>
+            <p>(a) use the Services to harass, discriminate against or unlawfully monitor another person;</p>
+            <p>(b) submit information that it has no lawful right to process;</p>
+            <p>(c) circumvent security, authentication, rate limits or usage controls;</p>
+            <p>(d) attempt to gain unauthorised access to the Platform;</p>
+            <p>(e) introduce malware, malicious code or harmful material;</p>
+            <p>(f) reverse engineer, decompile or attempt to derive source code except where applicable law expressly permits it;</p>
+            <p>(g) scrape or systematically extract information from the Platform except through functionality expressly provided by Verifsage;</p>
+            <p>(h) resell or redistribute Services or Reports unless expressly authorised;</p>
+            <p>(i) use Services to create or improve a competing identity verification, KYC, KYB, AML or screening product without Verifsage's written permission;</p>
+            <p>(j) misrepresent a Report as a certification, regulatory approval or guarantee issued by Verifsage; or</p>
+            <p>(k) use the Services in violation of sanctions, financial crime, privacy, equality, consumer protection or other applicable laws.</p>
+        </section>
+
+        <section id="clause-9">
+          <h2>9. Customer Compliance Responsibilities</h2>
+            <p>Business Customers are responsible for determining the legal and regulatory requirements applicable to their activities.</p>
+            <p>Where a Customer uses Verifsage for AML, KYC, KYB, fraud prevention, sanctions compliance or other regulated purposes, the Customer remains responsible for its own compliance obligations unless applicable law or an express written agreement provides otherwise.</p>
+            <p>The Customer is responsible for configuring the Services appropriately for its risk appetite, regulatory obligations and business model.</p>
+            <p>Verifsage does not warrant that using the Services alone will satisfy every regulatory obligation applicable to a Customer.</p>
+        </section>
+
+        <section id="clause-10">
+          <h2>10. End User Information</h2>
+            <p>A Business Customer submitting Personal Data relating to an End User warrants that it has an appropriate legal basis or other lawful authority for the relevant processing and disclosure.</p>
+            <p>Where required, Customers must provide End Users with appropriate privacy information before their Personal Data is submitted to Verifsage.</p>
+            <p>Customers must not instruct Verifsage to process Personal Data in a manner that would violate applicable Data Protection Laws. Verifsage will not accede to such request.</p>
+            <p>The respective data-protection roles of Verifsage and the Business Customer may be further described in Verifsage's <a class="inline" href="data-processing.html">Data Processing Agreement</a> and <a class="inline" href="privacy.html">Privacy Notice</a>. Once described, the parties are bound by it.</p>
+        </section>
+
+        <section id="clause-11">
+          <h2>11. Biometric and Identity Verification</h2>
+            <p>Certain Services may process facial images, identity documents, video, biometric characteristics or similar information to perform identity or liveness verification.</p>
+            <p>The nature of this processing depends upon the particular Service and configuration selected.</p>
+            <p>Customers are responsible for determining whether their use of biometric or identity verification functionality is lawful and proportionate for their particular purpose and jurisdiction. Once authorisation is granted by the Customers, Verifsage cannot be held liable for its usage.</p>
+            <p>Where applicable law requires additional conditions, notices, assessments, safeguards or permissions for biometric processing, Customers must ensure those requirements are satisfied.</p>
+            <p>Further information concerning Verifsage's processing of Personal Data is contained in the applicable Privacy Notice and, where relevant, Data Processing Agreement.</p>
+        </section>
+
+        <section id="clause-12">
+          <h2>12. Third-Party Sources</h2>
+            <p>Some Services rely upon Third-Party Data or third-party technology.</p>
+            <p>These sources may include corporate registries, sanctions lists, PEP databases, identity databases, public records, adverse-media sources, document-verification technology and other commercial or official information sources. It is advisable to independently verify such Third-Party Data for correctness, as Customers are responsible for the usage and authentication of such Third-Party Data or technology.</p>
+            <p>Third-Party Data may occasionally be inaccurate, incomplete, delayed or unavailable. <span class="todo">[[Unfinished sentence in source document: "Verifsage." Confirm wording or delete.]]</span></p>
+            <p>Verifsage may replace or modify a third-party provider where reasonably necessary to maintain, improve or develop the Services, provided this does not materially reduce the core functionality purchased by the Customer.</p>
+        </section>
+
+        <section id="clause-13">
+          <h2>13. Orders and Subscriptions</h2>
+            <p>Services may be purchased through the Website, an Order Form, a Subscription or another purchasing mechanism made available by Verifsage.</p>
+            <p>An Order will identify, where applicable:</p>
+            <p>(a) the Services purchased;</p>
+            <p>(b) pricing;</p>
+            <p>(c) usage allowances;</p>
+            <p>(d) minimum commitments;</p>
+            <p>(e) subscription duration;</p>
+            <p>(f) payment frequency; and</p>
+            <p>(g) additional commercial conditions.</p>
+            <p>An Order automatically becomes binding when accepted in accordance with the purchasing process specified by Verifsage.</p>
+        </section>
+
+        <section id="clause-14">
+          <h2>14. Usage-Based Charges</h2>
+            <p>Certain Services may be charged per verification, API request, screening, monitoring event, verification journey, Report or other usage unit.</p>
+            <p>Unless otherwise stated in the Order, usage charges are calculated using Verifsage's Platform records.</p>
+            <p>A failed, abandoned or incomplete verification journey may still incur charges where Verifsage or its third-party providers have performed chargeable processing.</p>
+            <p>Applicable usage rules will be described in the relevant Order or pricing documentation.</p>
+        </section>
+
+        <section id="clause-15">
+          <h2>15. Minimum Commitments</h2>
+            <p>Certain Business Customer plans may contain monthly or annual minimum commitments.</p>
+            <p>Where a minimum commitment applies, the Customer must pay the applicable minimum amount irrespective of whether its actual usage reaches that level.</p>
+            <p>Usage exceeding the agreed allowance or commitment will be charged at the applicable contractual or prevailing rate.</p>
+        </section>
+
+        <section id="clause-16">
+          <h2>16. Fees and Payment</h2>
+            <p>Fees are those specified in the applicable Order.</p>
+            <p>Unless stated otherwise, Customer prices exclude VAT and other applicable taxes.</p>
+            <p>Customers must pay invoices within the period specified in the Order or invoice.</p>
+            <p>Verifsage may charge interest on overdue Customer invoices to the extent permitted by law.</p>
+            <p>Where payment remains overdue, Verifsage may suspend affected Services after giving reasonable notice. Where immediate action for suspension is reasonably necessary because of fraud, security risk or other serious circumstances, the giving of notice may be dispensed with.</p>
+        </section>
+
+        <section id="clause-17">
+          <h2>17. Consumer Purchases</h2>
+            <p>Where a Consumer purchases Services directly from Verifsage, mandatory rights available under applicable consumer law are unaffected by these Terms.</p>
+            <p>Nothing in these Terms excludes, restricts or modifies a Consumer's statutory rights where doing so would be unlawful.</p>
+            <p>Where cancellation or withdrawal rights apply, Verifsage will provide the Consumer with the information required by applicable law.</p>
+            <p>If a Consumer expressly requests immediate performance of a Service during an applicable cancellation period, the consequences of that request including the financial implication will be explained during the purchasing process where required by law.</p>
+        </section>
+
+        <section id="clause-18">
+          <h2>18. Intellectual Property</h2>
+            <p>Verifsage and its licensors retain all intellectual property rights in the Platform, Services, software, APIs, SDKs, documentation, methodologies, designs, trademarks and other proprietary technology.</p>
+            <p>Except for the rights expressly granted under these Terms, no intellectual property rights are transferred to the Customer.</p>
+            <p>Customer Data remains owned by the Customer or relevant rights holder.</p>
+        </section>
+
+        <section id="clause-19">
+          <h2>19. Licence</h2>
+            <p>Subject to payment of applicable Fees and compliance with these Terms, Verifsage grants the Customer a limited, non-exclusive, non-transferable and non-sublicensable right to access and use the Services during the applicable contractual period.</p>
+            <p>Business Customers may permit Authorised Users to use the Services solely for the Customer's legitimate and lawful internal business activities.</p>
+            <p>Any broader commercial redistribution, white-labelling, sublicensing or resale requires express written agreement with Verifsage.</p>
+        </section>
+
+        <section id="clause-20">
+          <h2>20. APIs and SDKs</h2>
+            <p>Where a Customer receives access to Verifsage APIs or SDKs, it must comply with applicable technical documentation and security requirements.</p>
+            <p>API keys and similar credentials are confidential.</p>
+            <p>Customers must not share credentials with unauthorised parties or attempt to circumvent technical restrictions. Verifsage reserves the right to automatically terminate access if there is a breach of this clause.</p>
+            <p>Verifsage may impose reasonable rate limits, security controls and technical restrictions necessary to protect the availability and integrity of the Platform.</p>
+        </section>
+
+        <section id="clause-21">
+          <h2>21. Availability and Maintenance</h2>
+            <p>Verifsage aims to provide reliable Services but does not guarantee uninterrupted availability unless a specific service level has been agreed in writing.</p>
+            <p>Services may occasionally be unavailable because of maintenance, security measures, upgrades, third-party outages, telecommunications failures or a force majeure and circumstances outside Verifsage's reasonable control.</p>
+            <p>Where reasonably practicable, Verifsage will provide advance notice of planned maintenance likely to cause material disruption.</p>
+            <p>Enterprise service levels, where purchased, will be governed by the applicable Service Level Agreement.</p>
+        </section>
+
+        <section id="clause-22">
+          <h2>22. Security</h2>
+            <p>Verifsage will maintain technical and organisational measures appropriate to the nature of the Services and risks associated with the Personal Data processed.</p>
+            <p>Customers are responsible for maintaining appropriate security within their own systems and integrations.</p>
+            <p>Customers must not knowingly introduce vulnerabilities or compromise Platform security.</p>
+            <p>Security obligations concerning Personal Data may be further addressed in the Data Processing Agreement.</p>
+        </section>
+
+        <section id="clause-23">
+          <h2>23. Data Protection</h2>
+            <p>Each party must comply with applicable Data Protection Laws.</p>
+            <p>Verifsage will process Personal Data in accordance with its Privacy Notice and, where applicable, the Data Processing Agreement entered into with a Customer.</p>
+            <p>The parties acknowledge that their respective roles as controller, joint controller or processor depend upon the particular processing activity rather than merely the terminology used in these Terms.</p>
+            <p>Where Verifsage acts as a processor on behalf of a Business Customer, processing will be governed by the applicable Data Processing Agreement.</p>
+            <p>Where Verifsage processes Personal Data for its own legitimate purposes as a controller, such processing will be described in the applicable Privacy Notice.</p>
+        </section>
+
+        <section id="clause-24">
+          <h2>24. International Data Transfers</h2>
+            <p>Where Personal Data is transferred internationally, Verifsage will implement transfer mechanisms required by applicable Data Protection Laws where those requirements apply to Verifsage.</p>
+            <p>Customers remain responsible for international transfers resulting independently from their own processing activities.</p>
+        </section>
+
+        <section id="clause-25">
+          <h2>25. Confidentiality</h2>
+            <p>Each party must protect confidential information received from the other and use it only for purposes connected with the Services.</p>
+            <p>Confidential information does not include information that is lawfully public, already lawfully known to the receiving party, independently developed without use of the confidential information or lawfully obtained from another source.</p>
+            <p>A party may disclose confidential information where required by law, court order or competent regulatory authority.</p>
+            <p>This confidentiality clause remains in force even after the Parties have concluded their transaction.</p>
+        </section>
+
+        <section id="clause-26">
+          <h2>26. Suspension</h2>
+            <p>Verifsage may suspend access to some or all Services where reasonably necessary because:</p>
+            <p>(a) Fees are materially overdue;</p>
+            <p>(b) there is suspected fraudulent or unlawful activity;</p>
+            <p>(c) continued access creates a material cybersecurity or operational risk;</p>
+            <p>(d) the Customer materially breaches these Terms;</p>
+            <p>(e) Verifsage is required to do so by law or a competent authority; or</p>
+            <p>(f) a third-party provider essential to the relevant Service requires suspension.</p>
+            <p>Where reasonably practicable, Verifsage will notify the Customer and provide an opportunity to remedy the issue.</p>
+        </section>
+
+        <section id="clause-27">
+          <h2>27. Termination</h2>
+            <p>Either party may terminate in accordance with the applicable Order.</p>
+            <p>Verifsage may terminate an agreement for material breach where the breach cannot be remedied or is not remedied within a reasonable period following written notice.</p>
+            <p>Termination does not affect rights or liabilities retrospectively.</p>
+            <p>Provisions intended by their nature to survive termination, including confidentiality, intellectual property, liability and payment obligations, will continue to apply.</p>
+        </section>
+
+        <section id="clause-28">
+          <h2>28. Effects of Termination</h2>
+            <p>Following termination, the Customer's right to access the affected Services ends.</p>
+            <p>Customer is required to make any overdue payment (if in default of payment).</p>
+            <p>Customer Data will be retained or deleted in accordance with applicable contractual obligations, Verifsage's retention requirements and Data Protection Laws.</p>
+            <p>Customers are responsible for exporting information they reasonably require before termination where export functionality is available.</p>
+        </section>
+
+        <section id="clause-29">
+          <h2>29. Warranties</h2>
+            <p>Verifsage will provide the Services with reasonable care and skill.</p>
+            <p>Because verification and screening rely upon multiple data sources and technological processes, Verifsage does not warrant that every Report will be complete, accurate or error-free.</p>
+            <p>All warranties not expressly stated in the agreement are excluded to the maximum extent permitted by law.</p>
+            <p>Nothing in this clause affects warranties or statutory rights that cannot lawfully be excluded for Consumers.</p>
+        </section>
+
+        <section id="clause-30">
+          <h2>30. Liability</h2>
+            <p>Nothing in these Terms excludes or limits liability where exclusion or limitation is prohibited by law, including liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation.</p>
+            <p>For Customers, Verifsage will not be liable for indirect or consequential loss, loss of profits, loss of revenue, loss of anticipated savings, loss of opportunity or loss of goodwill arising from use of the Services, except where such exclusion is prohibited by law.</p>
+            <p>Any financial cap applicable to Verifsage's liability to a Customer will be specified in the relevant Order or Enterprise Agreement. Where no separate cap is specified, Verifsage's aggregate liability arising from the Services during any twelve-month period will not exceed the Fees paid or payable by the Customer for the affected Services during that period, subject always to liabilities that cannot legally be limited.</p>
+            <p>Different rules may apply to Consumers. Nothing in these Terms limits a Consumer's rights or remedies where such limitation would be unlawful.</p>
+        </section>
+
+        <section id="clause-31">
+          <h2>31. Customer Indemnity</h2>
+            <p>To the extent permitted by law, a Business Customer will indemnify Verifsage against third-party claims, losses and reasonable costs arising directly from the Customer's unlawful use of the Services, unlawful provision of Customer Data or material breach of the Acceptable Use provisions.</p>
+            <p>This clause does not apply to the extent that the relevant loss results from Verifsage's own breach, negligence or unlawful conduct.</p>
+        </section>
+
+        <section id="clause-32">
+          <h2>32. Changes to the Services</h2>
+            <p>Verifsage may develop, improve or modify the Services over time.</p>
+            <p>Verifsage will not intentionally remove material functionality from a paid Service during an existing committed subscription period without reasonable justification.</p>
+            <p>Where a material change substantially disadvantages a Customer, any contractual remedies will be determined by the applicable Order or Enterprise Agreement.</p>
+            <p>Consumer rights relating to changes to contracted Services remain unaffected.</p>
+        </section>
+
+        <section id="clause-33">
+          <h2>33. Changes to these Terms</h2>
+            <p>Verifsage may update these Terms periodically to reflect changes in law, regulation, technology, security requirements, Services or business operations.</p>
+            <p>Material changes affecting existing Customers will be communicated appropriately.</p>
+            <p>Changes will not retrospectively remove accrued contractual rights.</p>
+        </section>
+
+        <section id="clause-34">
+          <h2>34. Force Majeure</h2>
+            <p>Neither party will be liable for failure or delay caused by events beyond its reasonable control, except that this clause does not excuse payment obligations already due.</p>
+            <p>Such events may include major telecommunications failures, cloud infrastructure outages, natural disasters, war, civil disturbance, government action, widespread cyber incidents or failures of critical third-party infrastructure.</p>
+        </section>
+
+        <section id="clause-35">
+          <h2>35. Notices</h2>
+            <p>Formal notices under an agreement may be delivered using the contact details specified in the relevant Order or through another method agreed between the parties.</p>
+            <p>Customers are responsible for maintaining current contact information.</p>
+        </section>
+
+        <section id="clause-36">
+          <h2>36. Assignment</h2>
+            <p>Business Customers may not assign their contractual rights or obligations without Verifsage's prior written consent, such consent not to be unreasonably withheld where appropriate.</p>
+            <p>Verifsage may assign or transfer its agreement as part of a corporate restructuring, financing, merger, acquisition or sale of substantially all relevant business assets, subject to applicable law.</p>
+            <p>Consumer statutory rights are unaffected.</p>
+        </section>
+
+        <section id="clause-37">
+          <h2>37. No Partnership or Agency</h2>
+            <p>Nothing in these Terms creates a partnership, joint venture, employment relationship or general agency between Verifsage and a Customer.</p>
+            <p>Neither party has authority to bind the other except where expressly agreed.</p>
+        </section>
+
+        <section id="clause-38">
+          <h2>38. Third-Party Rights</h2>
+            <p>Unless expressly stated otherwise, a person who is not a party to an agreement between Verifsage and a Customer has no right to enforce its terms under the Contracts (Rights of Third Parties) Act 1999.</p>
+        </section>
+
+        <section id="clause-39">
+          <h2>39. Severability</h2>
+            <p>If any provision of these Terms is held to be unlawful or unenforceable, the remaining provisions will continue in effect.</p>
+            <p>Where appropriate, the affected provision will apply to the maximum extent legally permissible.</p>
+        </section>
+
+        <section id="clause-40">
+          <h2>40. Waiver</h2>
+            <p>Failure or delay by either party in exercising a contractual right does not constitute a waiver of that right.</p>
+        </section>
+
+        <section id="clause-41">
+          <h2>41. Entire Agreement</h2>
+            <p>The agreement between the parties comprises these Terms together with the applicable Order, Data Processing Agreement, Service Level Agreement and any other contractual document expressly incorporated into the agreement.</p>
+            <p>If documents conflict, the applicable Order or separately executed agreement will take precedence to the extent of the conflict, followed by the Data Processing Agreement for matters concerning processing of Personal Data, followed by these Terms.</p>
+            <p>Nothing in this clause excludes liability for fraud or fraudulent misrepresentation.</p>
+        </section>
+
+        <section id="clause-42">
+          <h2>42. Governing Law and Jurisdiction</h2>
+            <p>These Terms and any non-contractual obligations arising from them are governed by the laws of England and Wales.</p>
+            <p>For Business Customers, the courts of England and Wales will have exclusive jurisdiction, unless otherwise agreed in writing.</p>
+            <p>Consumers may have mandatory rights to bring proceedings in another court or jurisdiction under applicable consumer law, and nothing in these Terms removes those rights.</p>
+        </section>
+
+        <section id="clause-43">
+          <h2>43. Contacting Verifsage</h2>
+            <p>Questions concerning these Terms or the Services may be directed to:</p>
+            <address><strong>Verifsage</strong><br><span class="todo">[[VERIFSAGE LEGAL COMPANY NAME]]</span> LIMITED<br><span class="todo">[[REGISTERED ADDRESS]]</span><br>United Kingdom</address>
+            <address><strong>General:</strong> <a class="inline" href="mailto:hello@verifsage.com">hello@verifsage.com</a><br><strong>Support:</strong> <a class="inline" href="mailto:support@verifsage.com">support@verifsage.com</a><br><strong>Privacy:</strong> <a class="inline" href="mailto:privacy@verifsage.com">privacy@verifsage.com</a></address>
+        </section>
+      </article>
     </div>
   </div>
 </main>
+
 <footer>
   <div class="wrap">
     <img src="verifsage-logo.png" alt="Verifsage">
+    <div class="flinks">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
     <span class="fcopy">© 2026 VERIFSAGE</span>
   </div>
 </footer>
