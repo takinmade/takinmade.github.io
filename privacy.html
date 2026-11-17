@@ -4,69 +4,404 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy — Verifsage</title>
+<meta name="description" content="How Verifsage collects, uses and protects personal data, and the rights you have over it.">
 <link rel="icon" href="verifsage-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Template privacy policy for Verifsage (UK GDPR). Written for the current website: waitlist and
+  contact forms (HubSpot via the Cloudflare Worker), Google Analytics, HubSpot tracking, Cloudflare
+  Turnstile and Google Fonts. Placeholders are highlighted as [[...]]; search for "[[" to find them.
+  Keep the provider table in step with the Cookie Policy and the DPA's subprocessor list.
+  Delete the `.todo` rule in the <style> block once every placeholder is filled.
+-->
 <style>
   :root{
     --ink:#0a2226; --teal:#2f98a3; --teal-deep:#1c6a73; --teal-bright:#3fb0ba;
     --green:#7fc07a; --green-soft:#bfe6b8; --paper:#f6f8f6; --white:#ffffff;
     --line:rgba(10,34,38,.12); --line-light:rgba(255,255,255,.14);
+    --ink-70:rgba(10,34,38,.72); --ink-50:rgba(10,34,38,.52);
     --white-70:rgba(255,255,255,.72); --white-50:rgba(255,255,255,.52);
     --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   a{color:inherit; text-decoration:none;}
   .nav{position:sticky; top:0; z-index:10; background:rgba(246,248,246,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
   .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
   .nav .wrap{height:76px; display:flex; align-items:center; justify-content:space-between;}
-  .nav img{height:34px;}
+  .nav img{height:48px;}
   .nav a.back{font-size:14.5px; font-weight:600; color:var(--teal-deep); display:flex; align-items:center; gap:8px;}
-  main{padding:100px 0 140px;}
+  main{padding:90px 0 130px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-deep); margin-bottom:18px;}
   h1{font-family:'Instrument Sans',sans-serif; font-size:clamp(32px,4.5vw,48px); font-weight:700; letter-spacing:-0.02em; max-width:680px; line-height:1.1; margin:0 0 22px;}
-  .lede{font-size:17px; line-height:1.7; color:rgba(10,34,38,.7); max-width:560px; margin-bottom:44px;}
-  .notice{
-    border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px;
-    background:var(--white); padding:26px 28px; max-width:620px; font-size:15px; line-height:1.7; color:rgba(10,34,38,.75);
-  }
-  .notice strong{color:var(--ink);}
-  .cta-row{margin-top:40px; display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:100px; font-weight:600; font-size:14.5px;}
+  .lede{font-size:17px; line-height:1.7; color:var(--ink-70); max-width:620px; margin:0;}
+  .meta{margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-50);}
+
+  .layout{display:grid; grid-template-columns:220px minmax(0,1fr); gap:64px; margin-top:64px; align-items:start;}
+  .toc{position:sticky; top:110px; font-size:14px;}
+  .toc p{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-50); margin:0 0 14px;}
+  .toc ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .toc a{color:var(--ink-70);}
+  .toc a:hover{color:var(--teal-deep);}
+
+  .policy{max-width:720px;}
+  .policy section{padding-top:8px; margin-bottom:52px; scroll-margin-top:100px;}
+  .policy h2{font-family:'Instrument Sans',sans-serif; font-size:24px; font-weight:700; letter-spacing:-0.01em; margin:0 0 16px;}
+  .policy h3{font-family:'Instrument Sans',sans-serif; font-size:18px; font-weight:600; margin:30px 0 10px;}
+  .policy p, .policy li{font-size:15.5px; line-height:1.75; color:var(--ink-70);}
+  .policy p{margin:0 0 14px;}
+  .policy ul{margin:0 0 14px; padding-left:20px;}
+  .policy li{margin-bottom:6px;}
+  .policy strong{color:var(--ink); font-weight:600;}
+  .policy a.inline{color:var(--teal-deep); text-decoration:underline; text-underline-offset:3px;}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--white); margin:14px 0 8px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:560px;}
+  th, td{text-align:left; padding:13px 16px; vertical-align:top; border-bottom:1px solid var(--line);}
+  th{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-50); font-weight:500; background:var(--paper);}
+  tr:last-child td{border-bottom:none;}
+  td code{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); white-space:nowrap;}
+  td{color:var(--ink-70); line-height:1.55;}
+  .tag{display:inline-block; padding:3px 10px; border-radius:100px; font-size:12px; font-weight:600; white-space:nowrap;}
+  .tag-necessary{background:#e3f1f2; color:var(--teal-deep);}
+  .tag-analytics{background:#e7f4e5; color:#2f6b2a;}
+
+  .settings-box{border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px; background:var(--white); padding:22px 24px; margin:18px 0;}
+  .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; border-radius:100px; font-weight:600; font-size:14.5px; border:0; cursor:pointer; font-family:inherit;}
   .btn-primary{background:var(--grad); color:var(--ink);}
-  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
+
+  /* Draft highlight for placeholders. Delete this rule before publishing. */
+  .todo{background:#fff1b8; color:var(--ink); padding:0 4px; border-radius:3px;}
+
   footer{background:var(--ink); padding:34px 0; border-top:1px solid var(--line-light);}
   footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
-  footer img{height:24px;}
+  footer img{height:40px;}
+  .flinks{display:flex; gap:22px; flex-wrap:wrap; font-size:13.5px; color:var(--white-50);}
+  .flinks a:hover{color:var(--white);}
   .fcopy{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--white-50);}
+
+  @media (max-width: 900px){
+    .layout{grid-template-columns:minmax(0,1fr); gap:32px; margin-top:44px;}
+    .toc{position:static; padding:20px 22px; border:1px solid var(--line); border-radius:12px; background:var(--white);}
+  }
+  @media (max-width: 560px){
+    .wrap{padding:0 20px;}
+    main{padding:60px 0 90px;}
+  }
+  .toc{max-height:calc(100vh - 140px); overflow:auto; padding-right:8px;}
+  .toc ol{counter-reset:none;}
+  .policy .clauses{list-style:none; padding-left:0; margin:0 0 14px;}
+  .policy .clauses li{padding-left:2.2em; text-indent:-2.2em;}
+  .policy .sub{margin-left:0;}
+  .policy .num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--teal-deep); margin-right:6px;}
+  .policy .def strong{color:var(--ink);}
+  .policy address{font-style:normal; font-size:15.5px; line-height:1.75; color:var(--ink-70); margin:0 0 14px;}
+  .policy .schedule-label{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal-deep); margin:0 0 6px;}
+  .policy section.schedule{border-top:1px solid var(--line); padding-top:40px;}
+  .policy .options{border:1px solid var(--line); border-radius:12px; background:var(--white); padding:16px 20px; margin:0 0 14px;}
+  .policy .options p:last-child{margin-bottom:0;}
+  @media (max-width: 900px){ .toc{max-height:260px;} }
+  @media print{ .nav, .toc, footer{display:none;} .layout{display:block;} body{background:#fff;} }
 </style>
 </head>
 <body>
 <nav class="nav">
   <div class="wrap">
-    <img src="verifsage-logo.png" alt="Verifsage">
+    <a href="index.html"><img src="verifsage-logo.png" alt="Verifsage"></a>
     <a class="back" href="index.html">&larr; Back to home</a>
   </div>
 </nav>
+
 <main>
   <div class="wrap">
     <div class="eyebrow">Legal</div>
     <h1>Privacy Policy</h1>
-    <p class="lede">How Verifsage collects, uses, and protects personal data — for waitlisters, customers, and the individuals verified through our platform.</p>
-    <div class="notice">
-      <strong>This page is coming soon.</strong> Our Privacy Policy is being finalized alongside our ISO 27001 readiness work. Contact hello@verifsage.com for early details.
-    </div>
-    <div class="cta-row">
-      <a href="index.html#waitlist" class="btn btn-primary">Join the Verifsage Waitlist →</a>
-      <a href="index.html" class="btn btn-ghost">Back to home</a>
+    <p class="lede">How Verifsage collects, uses and protects personal data: for website visitors, waitlist members, customers and the people verified through our platform.</p>
+    <p class="meta">Last updated: <span class="todo">[[DD Month YYYY]]</span></p>
+
+    <div class="layout">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#about">1. About this policy</a></li>
+          <li><a href="#roles">2. Our role: controller or processor</a></li>
+          <li><a href="#collect">3. Personal data we collect</a></li>
+          <li><a href="#use">4. How we use your data and our lawful basis</a></li>
+          <li><a href="#marketing">5. Marketing</a></li>
+          <li><a href="#end-users">6. If you are verified through Verifsage</a></li>
+          <li><a href="#sharing">7. Who we share your data with</a></li>
+          <li><a href="#transfers">8. International transfers</a></li>
+          <li><a href="#retention">9. How long we keep your data</a></li>
+          <li><a href="#rights">10. Your rights</a></li>
+          <li><a href="#automated">11. Automated decision-making</a></li>
+          <li><a href="#security">12. How we protect your data</a></li>
+          <li><a href="#children">13. Children</a></li>
+          <li><a href="#changes">14. Changes to this policy</a></li>
+          <li><a href="#contact">15. Contact us and complaints</a></li>
+        </ol>
+      </aside>
+
+      <article class="policy">
+        <section id="about">
+          <h2>1. About this policy</h2>
+          <p>This Privacy Policy explains how Verifsage collects, uses and protects personal data. It covers
+          people who visit our website, join our waitlist or contact us, our customers' staff and other business
+          contacts, and, in outline, the individuals whose information our customers verify through our platform.
+          Our <a class="inline" href="terms.html">Terms &amp; Conditions</a> and
+          <a class="inline" href="data-processing.html">Data Processing Agreement</a> refer to this policy as our
+          Privacy Notice.</p>
+          <p>Verifsage is a trading name of <span class="todo">[[VERIFSAGE LEGAL COMPANY NAME]]</span> LIMITED, a company registered in
+          England and Wales under company number <span class="todo">[[COMPANY NUMBER]]</span>, with its registered office at
+          <span class="todo">[[REGISTERED ADDRESS]]</span> ("Verifsage", "we", "us", "our"). We are registered with the Information
+          Commissioner's Office (ICO) under registration number <span class="todo">[[ICO REGISTRATION NUMBER]]</span>.</p>
+        </section>
+
+        <section id="roles">
+          <h2>2. Our role: controller or processor</h2>
+          <p>Under data protection law, the organisation that decides why and how personal data is used is the
+          <strong>controller</strong>. An organisation that handles personal data on a controller's instructions is a
+          <strong>processor</strong>.</p>
+          <ul>
+            <li><strong>We are the controller</strong> for personal data about website visitors, waitlist members,
+            people who contact us, and the staff and representatives of our customers, prospects and suppliers.
+            This policy explains how we handle that data.</li>
+            <li><strong>We are usually a processor</strong> for personal data about the individuals and businesses our
+            customers verify through the Verifsage platform ("End Users"). In that case the customer, such as the bank,
+            fintech or marketplace you are dealing with, is the controller and decides why your information is checked.
+            Their own privacy notice explains how they use it, and our
+            <a class="inline" href="data-processing.html">Data Processing Agreement</a> governs what we may do with it.
+            Section 6 gives an outline.</li>
+          </ul>
+        </section>
+
+        <section id="collect">
+          <h2>3. Personal data we collect</h2>
+          <h3>When you join the waitlist</h3>
+          <p>Your full name, work email address and, if you provide it, your company name, together with a record of
+          your agreement to us storing and processing your details.</p>
+
+          <h3>When you contact us</h3>
+          <p>Your full name, work email address, the topic of your enquiry and the content of your message, together
+          with a record of your agreement to us storing and processing your details.</p>
+
+          <h3>When you visit our website</h3>
+          <ul>
+            <li><strong>Technical information</strong> such as your IP address, browser type, device and operating system,
+            pages viewed and the website that referred you.</li>
+            <li><strong>Cookie and analytics information</strong> collected through Google Analytics and HubSpot, if you
+            agree to analytics cookies. See our <a class="inline" href="cookies.html">Cookie Policy</a>.</li>
+            <li><strong>Security signals</strong> collected by Cloudflare Turnstile when you submit a form, used only to
+            check that the form is being sent by a real person.</li>
+          </ul>
+
+          <h3>When you become a customer</h3>
+          <p>Names, job titles, work contact details and account login details of the people at your organisation who
+          use or administer the platform; billing and payment details; records of your use of the services; and
+          support and account correspondence. <span class="todo">[[Update this once the platform and billing set-up are confirmed.]]</span></p>
+
+          <h3>From other sources</h3>
+          <p>We may obtain business contact details from public sources such as company websites, Companies House and
+          professional networking sites, where relevant to a potential business relationship.</p>
+        </section>
+
+        <section id="use">
+          <h2>4. How we use your data and our lawful basis</h2>
+          <p>We may only use personal data where we have a lawful basis to do so. The table below sets out our purposes
+          and the basis we rely on for each.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Purpose</th><th>Lawful basis</th></tr></thead>
+              <tbody>
+                <tr><td>Managing the waitlist and telling you about early access, launch and pricing</td><td>Consent, which you give on the form and can withdraw at any time</td></tr>
+                <tr><td>Responding to your enquiry</td><td>Legitimate interests in answering questions about our services, or steps you ask us to take before entering into a contract</td></tr>
+                <tr><td>Providing the services, managing customer accounts and support</td><td>Performance of our contract with the customer, and legitimate interests in managing the relationship with its staff</td></tr>
+                <tr><td>Billing, accounting and tax records</td><td>Legal obligation, and performance of a contract</td></tr>
+                <tr><td>Protecting our forms and platform from spam, fraud and attack</td><td>Legitimate interests in keeping our website and services secure</td></tr>
+                <tr><td>Understanding how our website is used, through analytics cookies</td><td>Consent, through our cookie banner</td></tr>
+                <tr><td>Sending business updates to existing customers and business contacts</td><td>Legitimate interests in promoting our services, with an option to opt out in every message</td></tr>
+                <tr><td>Complying with law, regulators and legal claims</td><td>Legal obligation, and legitimate interests in establishing, exercising or defending legal claims</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Where we rely on legitimate interests, we have weighed our interests against your rights and expectations.
+          You can ask us for more information about that assessment, and you can object at any time (see section 10).</p>
+        </section>
+
+        <section id="marketing">
+          <h2>5. Marketing</h2>
+          <p>If you join our waitlist, we will email you about early access, our launch and related offers. Every
+          message includes an unsubscribe link, and you can also email us to stop receiving them. We do not sell your
+          personal data, and we do not share it with third parties for their own marketing.</p>
+        </section>
+
+        <section id="end-users">
+          <h2>6. If you are verified through Verifsage</h2>
+          <p>If a business asks you to verify your identity or your company using Verifsage, that business is the
+          controller of your information and decides what checks are carried out. Depending on the checks it chooses,
+          we may process on its behalf:</p>
+          <ul>
+            <li>identity information such as your name, date of birth, address and nationality;</li>
+            <li>images of identity documents and the information they contain;</li>
+            <li>a selfie or short video used for face matching and liveness checks. Facial data used to confirm your
+            identity is <strong>biometric data</strong>, a special category of personal data that receives extra
+            protection by law;</li>
+            <li>results of sanctions, politically exposed person (PEP) and adverse-media screening, which can include
+            information about alleged or proven offences;</li>
+            <li>information about companies, their directors and beneficial owners; and</li>
+            <li>device and technical information used to detect fraud.</li>
+          </ul>
+          <p>We use this information only to perform the checks the business has asked for, to keep the platform
+          secure and to meet our own legal obligations. We do not use it for our own marketing.
+          The business, not Verifsage, decides whether to accept you as a customer. If you have questions about a
+          verification, or want to exercise your rights, please contact the business that asked you to verify; we will
+          help them respond. <span class="todo">[[Confirm whether Verifsage uses End User data to train or improve its models. If it does, describe that here and identify the lawful basis.]]</span></p>
+        </section>
+
+        <section id="sharing">
+          <h2>7. Who we share your data with</h2>
+          <p>We share personal data only where necessary, with:</p>
+          <ul>
+            <li><strong>Service providers</strong> who help us run our business, under contracts that require them to
+            protect your data and use it only on our instructions:</li>
+          </ul>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Provider</th><th>What they do for us</th><th>Location</th></tr></thead>
+              <tbody>
+                <tr><td>HubSpot</td><td>Stores waitlist and contact form submissions; email; website analytics</td><td><span class="todo">[[EU or US: check your HubSpot data hosting region]]</span></td></tr>
+                <tr><td>Google</td><td>Website analytics (Google Analytics) and website fonts (Google Fonts)</td><td>United States and other countries</td></tr>
+                <tr><td>Cloudflare</td><td>Spam and bot protection (Turnstile) and the service that passes form submissions to HubSpot</td><td>Global network</td></tr>
+                <tr><td><span class="todo">[[Website host]]</span></td><td>Hosts this website</td><td><span class="todo">[[Location]]</span></td></tr>
+                <tr><td><span class="todo">[[Platform providers: hosting, identity data, screening data]]</span></td><td><span class="todo">[[Add once confirmed. Keep in step with the subprocessor list in the DPA.]]</span></td><td><span class="todo">[[Location]]</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul>
+            <li><strong>Professional advisers</strong> such as lawyers, accountants and auditors.</li>
+            <li><strong>Regulators, law enforcement and courts</strong> where the law requires us to, or to protect our
+            rights, our customers or others from fraud or harm.</li>
+            <li><strong>A buyer or investor</strong> if we sell, merge or restructure our business, under appropriate
+            confidentiality terms.</li>
+          </ul>
+        </section>
+
+        <section id="transfers">
+          <h2>8. International transfers</h2>
+          <p>Some of our service providers process personal data outside the United Kingdom. When that happens we make
+          sure the transfer is protected as UK data protection law requires, by relying on:</p>
+          <ul>
+            <li>UK adequacy regulations, which recognise that a country gives an adequate level of protection, including
+            the EEA;</li>
+            <li>for US providers, their certification under the UK Extension to the EU-US Data Privacy Framework, where
+            they hold one; or</li>
+            <li>the ICO's International Data Transfer Agreement, or the ICO's Addendum to the EU Standard Contractual
+            Clauses, together with any additional safeguards needed.</li>
+          </ul>
+          <p>Customers can choose UK, EU or US hosting for verification data, as described in our
+          <a class="inline" href="data-processing.html">Data Processing Agreement</a>. You can contact us for more
+          information about the safeguards we use.</p>
+        </section>
+
+        <section id="retention">
+          <h2>9. How long we keep your data</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Information</th><th>How long we keep it</th></tr></thead>
+              <tbody>
+                <tr><td>Waitlist details</td><td>Until you unsubscribe, or <span class="todo">[[12 months]]</span> after our public launch if you have not become a customer, whichever is sooner</td></tr>
+                <tr><td>Enquiries through our contact form</td><td><span class="todo">[[2 years]]</span> from our last contact with you</td></tr>
+                <tr><td>Customer account and contract records</td><td>For the life of the contract and <span class="todo">[[6 years]]</span> afterwards, for legal and tax purposes</td></tr>
+                <tr><td>Website analytics</td><td>As set out in our <a class="inline" href="cookies.html">Cookie Policy</a></td></tr>
+                <tr><td>End User verification data</td><td>As instructed by our customer under the <a class="inline" href="data-processing.html">Data Processing Agreement</a>, subject to legal retention requirements</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>When we no longer need personal data, we securely delete or anonymise it.</p>
+        </section>
+
+        <section id="rights">
+          <h2>10. Your rights</h2>
+          <p>Under UK data protection law you have the right to:</p>
+          <ul>
+            <li>be told how your personal data is used, which is the purpose of this policy;</li>
+            <li>ask for a copy of the personal data we hold about you;</li>
+            <li>ask us to correct data that is inaccurate or incomplete;</li>
+            <li>ask us to delete your data;</li>
+            <li>ask us to restrict how we use your data;</li>
+            <li>object to our use of your data where we rely on legitimate interests, and to stop direct marketing at any time;</li>
+            <li>ask us to transfer data you gave us to you or another organisation, in a commonly used format;</li>
+            <li>withdraw your consent at any time, where we rely on consent. This does not affect anything we did
+            before you withdrew it; and</li>
+            <li>not be subject to a decision based solely on automated processing that has legal or similarly
+            significant effects on you, with some exceptions.</li>
+          </ul>
+          <p>To use any of these rights, email <a class="inline" href="mailto:privacy@verifsage.com">privacy@verifsage.com</a>.
+          We will respond within one month, and may ask you to confirm your identity first. There is normally no fee.
+          If you were verified through Verifsage on behalf of another business, see section 6.</p>
+        </section>
+
+        <section id="automated">
+          <h2>11. Automated decision-making</h2>
+          <p>Verifsage does not make decisions about website visitors, waitlist members or business contacts using solely
+          automated processing.</p>
+          <p>Our platform produces automated verification and screening results for our customers. Our customers decide how
+          to use those results, and they are responsible for any human review, explanation or right to challenge that the
+          law requires before a decision is made about you. If a decision has been made about you following a
+          verification, please contact the business concerned.</p>
+        </section>
+
+        <section id="security">
+          <h2>12. How we protect your data</h2>
+          <p>We use technical and organisational measures appropriate to the risk, including encryption in transit and at
+          rest, role-based access controls, multi-factor authentication where supported, logging and monitoring,
+          and staff confidentiality obligations. <span class="todo">[[Confirm these reflect actual practice.]]</span> The measures that apply to verification data are described in Schedule Two
+          of our <a class="inline" href="data-processing.html">Data Processing Agreement</a>. No system is completely secure,
+          and if a personal data breach occurs we will notify affected people and the ICO where the law requires.</p>
+        </section>
+
+        <section id="children">
+          <h2>13. Children</h2>
+          <p>Our website and waitlist are intended for businesses and are not directed at children. We do not knowingly
+          collect personal data from anyone under 18 through our website. If you believe a child has given us their
+          details, please contact us and we will delete them.</p>
+        </section>
+
+        <section id="changes">
+          <h2>14. Changes to this policy</h2>
+          <p>We may update this policy as our services, our suppliers or the law change. The "last updated" date at the top
+          shows when it was last revised. If we make significant changes, we will tell you by email or on our website
+          before they take effect.</p>
+        </section>
+
+        <section id="contact">
+          <h2>15. Contact us and complaints</h2>
+          <p>For any question about this policy or your personal data, contact us at:</p>
+          <address><strong>Verifsage</strong><br><span class="todo">[[VERIFSAGE LEGAL COMPANY NAME]]</span> LIMITED<br><span class="todo">[[REGISTERED ADDRESS]]</span><br>United Kingdom<br>
+          Email: <a class="inline" href="mailto:privacy@verifsage.com">privacy@verifsage.com</a></address>
+          <p><span class="todo">[[If you appoint a Data Protection Officer, add their name or title and contact details here. Otherwise delete this line.]]</span></p>
+          <p>If you are unhappy with how we have handled your personal data, please tell us first so we can try to put it
+          right. You also have the right to complain to the Information Commissioner's Office, the UK data protection
+          regulator:</p>
+          <address>Information Commissioner's Office<br>Wycliffe House, Water Lane, Wilmslow, Cheshire SK9 5AF<br>
+          Helpline: 0303 123 1113<br>
+          <a class="inline" href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">ico.org.uk/make-a-complaint</a></address>
+        </section>
+      </article>
     </div>
   </div>
 </main>
+
 <footer>
   <div class="wrap">
     <img src="verifsage-logo.png" alt="Verifsage">
+    <div class="flinks">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
     <span class="fcopy">© 2026 VERIFSAGE</span>
   </div>
 </footer>
