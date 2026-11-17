@@ -1,1226 +1,2556 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verifsage — Global KYC & KYB. One API. Zero Compromise.</title>
-<meta name="description" content="Verify people and businesses anywhere in the world. Stop fraud. Stay compliant. All through one powerful, seamless Verifsage API.">
-<link rel="icon" href="verifsage-logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BLBJL4Y8QB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-BLBJL4Y8QB');
-</script>
-<script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaReady&render=explicit" async defer></script>
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/148975546.js"></script>
-<style>
-  :root{
-    --ink:#0a2226;
-    --ink-soft:#123338;
-    --teal:#2f98a3;
-    --teal-deep:#1c6a73;
-    --teal-bright:#3fb0ba;
-    --green:#7fc07a;
-    --green-soft:#bfe6b8;
-    --paper:#f6f8f6;
-    --white:#ffffff;
-    --line:rgba(10,34,38,.12);
-    --line-light:rgba(255,255,255,.14);
-    --ink-70: rgba(10,34,38,.7);
-    --ink-50: rgba(10,34,38,.5);
-    --white-70: rgba(255,255,255,.72);
-    --white-50: rgba(255,255,255,.52);
-    --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
-    --radius: 18px;
-    --maxw: 1180px;
-    --ease: cubic-bezier(.16,.84,.32,1);
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', sans-serif;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,h4{
-    font-family:'Instrument Sans', sans-serif;
-    margin:0;
-    letter-spacing:-0.02em;
-    color:var(--ink);
-  }
-  p{margin:0;}
-  a{color:inherit; text-decoration:none;}
-  ul{margin:0; padding:0; list-style:none;}
-  button{font-family:inherit; cursor:pointer;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
-  .mono{font-family:'IBM Plex Mono', monospace;}
-  ::selection{background:var(--green-soft); color:var(--ink);}
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
-  }
-
-  /* ---------- Eyebrow / label ---------- */
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--teal-deep);
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:18px;
-  }
-  .eyebrow .mark-mini{width:20px; height:20px;}
-  section .eyebrow.on-dark{color:var(--green-soft);}
-
-  /* ---------- Signature chevron mark ---------- */
-  .chevron-mark rect{transform-origin:center;}
-  .scan-line{
-    animation: scan 3.4s var(--ease) infinite;
-  }
-  @keyframes scan{
-    0%{ transform:translateY(-40px); opacity:0;}
-    12%{ opacity:1;}
-    55%{ opacity:1;}
-    70%{ transform:translateY(140px); opacity:0;}
-    100%{ transform:translateY(140px); opacity:0;}
-  }
-  .bar-draw rect{
-    stroke-dasharray: 220;
-    stroke-dashoffset: 220;
-    animation: draw 1.1s var(--ease) forwards;
-  }
-  .bar-draw rect:nth-child(2){animation-delay:.12s;}
-  .bar-draw rect:nth-child(3){animation-delay:.24s;}
-  @keyframes draw{ to{ stroke-dashoffset:0; } }
-
-  /* ---------- Nav ---------- */
-  .nav{
-    position:sticky; top:0; z-index:50;
-    background:rgba(246,248,246,.82);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav .wrap{
-    height:76px; display:flex; align-items:center; justify-content:space-between;
-  }
-  .brand{display:flex; align-items:center; gap:10px;}
-  .brand img{height:52px; width:auto; display:block;}
-  .nav-links{display:flex; gap:34px; align-items:center;}
-  .nav-links a{
-    font-size:14.5px; font-weight:500; color:var(--ink-70);
-    transition:color .2s;
-  }
-  .nav-links a:hover{color:var(--teal-deep);}
-  .nav-cta{
-    padding:11px 22px; border-radius:100px;
-    background:var(--ink); color:var(--white);
-    font-size:14px; font-weight:600;
-    transition:transform .25s var(--ease), background .25s;
-  }
-  .nav-cta:hover{background:var(--teal-deep); transform:translateY(-1px);}
-  .nav-toggle{display:none;}
-
-  /* ---------- Buttons ---------- */
-  .btn{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:15px 28px; border-radius:100px;
-    font-weight:600; font-size:15px; border:1px solid transparent;
-    transition:transform .25s var(--ease), box-shadow .25s, background .25s, color .25s, border-color .25s;
-  }
-  .btn-primary{
-    background:var(--grad); color:var(--ink);
-    box-shadow:0 10px 30px -12px rgba(47,152,163,.55);
-  }
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 16px 34px -12px rgba(47,152,163,.7);}
-  .btn-ghost{
-    background:transparent; color:var(--white); border-color:var(--line-light);
-  }
-  .btn-ghost:hover{border-color:var(--white-70); background:rgba(255,255,255,.06);}
-  .btn-ghost.dark{color:var(--ink); border-color:var(--line);}
-  .btn-ghost.dark:hover{border-color:var(--ink); background:rgba(10,34,38,.04);}
-  .btn-arrow{transition:transform .25s var(--ease);}
-  .btn:hover .btn-arrow{transform:translateX(3px);}
-
-  /* ---------- Hero ---------- */
-  .hero{
-    position:relative;
-    background:radial-gradient(120% 140% at 15% -10%, #133b41 0%, var(--ink) 55%, #071619 100%);
-    color:var(--white);
-    padding:74px 0 0;
-    overflow:hidden;
-  }
-  .hero-grid{
-    display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
-    padding:56px 0 90px;
-  }
-  .hero h1{
-    font-size:clamp(38px, 5vw, 62px);
-    line-height:1.04;
-    font-weight:700;
-    max-width:640px;
-    color:var(--white);
-  }
-  .hero h1 .grad-text{
-    background:var(--grad);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .hero .sub{
-    margin-top:24px; font-size:18px; line-height:1.6; color:var(--white-70);
-    max-width:520px;
-  }
-  .hero-ctas{display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;}
-  .trust-strip{
-    margin-top:64px; padding-top:26px; border-top:1px solid var(--line-light);
-  }
-  .trust-strip .label{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.1em;
-    text-transform:uppercase; color:var(--white-50); margin-bottom:14px;
-  }
-  .trust-row{display:flex; flex-wrap:wrap; gap:10px 26px; font-size:14.5px; color:var(--white-70); font-weight:500;}
-  .trust-row span{position:relative; padding-left:14px;}
-  .trust-row span::before{
-    content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
-    width:5px; height:5px; border-radius:50%; background:var(--green);
-  }
-
-  .hero-visual{
-    position:relative; height:460px;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .hero-visual svg{width:100%; height:100%; max-width:420px;}
-  .hero-visual .glow{
-    position:absolute; inset:-60px; border-radius:50%;
-    background:radial-gradient(circle, rgba(47,152,163,.35), transparent 65%);
-    filter:blur(10px);
-  }
-
-  /* ---------- Section base ---------- */
-  .section{padding:110px 0;}
-  .section-head{max-width:640px; margin-bottom:56px;}
-  .section-head h2{font-size:clamp(28px,3.4vw,42px); line-height:1.12; font-weight:700;}
-  .section-head p{margin-top:18px; font-size:17px; line-height:1.65; color:var(--ink-70);}
-  .section.dark{background:var(--ink); color:var(--white);}
-  .section.dark .section-head h2{color:var(--white);}
-  .section.dark .section-head p{color:var(--white-70);}
-
-  /* ---------- Why section ---------- */
-  .why{background:var(--white);}
-  .why-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;}
-  .why-copy p{font-size:17px; line-height:1.75; color:var(--ink-70); margin-bottom:18px;}
-  .why-copy strong{color:var(--ink); font-weight:600;}
-  .compare{
-    border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;
-    background:var(--paper);
-  }
-  .compare-row{
-    display:grid; grid-template-columns:1fr 1fr;
-  }
-  .compare-row + .compare-row{border-top:1px solid var(--line);}
-  .compare-cell{padding:20px 22px; font-size:14.5px; line-height:1.5;}
-  .compare-cell.old{color:var(--ink-50); border-right:1px solid var(--line);}
-  .compare-cell.old::before{content:'— '; }
-  .compare-cell.new{color:var(--ink); font-weight:500;}
-  .compare-cell.new::before{content:'✓ '; color:var(--teal-deep); font-weight:700;}
-  .compare-head{
-    display:grid; grid-template-columns:1fr 1fr;
-    background:var(--ink);
-  }
-  .compare-head div{
-    padding:14px 22px; font-family:'IBM Plex Mono', monospace; font-size:12px;
-    letter-spacing:.08em; text-transform:uppercase; color:var(--white-70);
-  }
-  .compare-head div:first-child{border-right:1px solid var(--line-light);}
-  .compare-head div:last-child{color:var(--green-soft);}
-
-  /* ---------- Features ---------- */
-  .features{background:var(--paper);}
-  .feature-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
-    background:var(--line); border:1px solid var(--line); border-radius:var(--radius);
-    overflow:hidden;
-  }
-  .feature-card{
-    background:var(--white); padding:34px 30px; min-height:230px;
-    display:flex; flex-direction:column; gap:16px;
-    transition:background .25s;
-  }
-  .feature-card:hover{background:#fbfdfb;}
-  .feature-icon{
-    width:44px; height:44px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(135deg, var(--green-soft), rgba(47,152,163,.16));
-  }
-  .feature-icon svg{width:22px; height:22px;}
-  .feature-card h3{font-size:19px; font-weight:600;}
-  .feature-card p{font-size:14.5px; line-height:1.6; color:var(--ink-70);}
-  .features-cta{margin-top:44px; display:flex; justify-content:flex-start;}
-
-  /* ---------- Industries ---------- */
-  .industries{background:var(--white);}
-  .industry-strip{
-    display:flex; flex-wrap:wrap; gap:14px;
-  }
-  .industry-chip{
-    padding:16px 24px; border:1px solid var(--line); border-radius:100px;
-    font-size:15px; font-weight:500; display:flex; align-items:center; gap:10px;
-    transition:border-color .25s, transform .25s var(--ease), background .25s;
-    background:var(--paper);
-  }
-  .industry-chip:hover{border-color:var(--teal); transform:translateY(-2px); background:var(--white);}
-  .industry-chip i{
-    width:8px; height:8px; border-radius:2px;
-    background:var(--grad); display:inline-block; transform:rotate(20deg);
-  }
-
-  /* ---------- Compliance ---------- */
-  .compliance{background:var(--ink); color:var(--white);}
-  .compliance-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:64px; align-items:start;}
-  .compliance-copy p{font-size:16.5px; line-height:1.7; color:var(--white-70); margin-top:20px;}
-  .compliance-copy .callout{
-    margin-top:32px; padding:20px 22px; border-left:2px solid var(--green);
-    font-size:15.5px; color:var(--white-70); font-style:normal; line-height:1.6;
-  }
-  .cert-row{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
-  .cert-badge{
-    border:1px dashed var(--line-light); border-radius:100px;
-    padding:9px 16px; font-family:'IBM Plex Mono', monospace; font-size:12px;
-    color:var(--white-70); letter-spacing:.02em;
-  }
-  .sec-list{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-light); border:1px solid var(--line-light); border-radius:var(--radius); overflow:hidden;}
-  .sec-item{background:#0e2b30; padding:28px 26px; display:flex; flex-direction:column; gap:12px;}
-  .sec-item h4{font-size:16.5px; font-weight:600; color:var(--white);}
-  .sec-item p{font-size:14px; line-height:1.6; color:var(--white-70);}
-  .sec-item .n{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--green-soft);}
-
-  /* ---------- Developers ---------- */
-  .dev{background:var(--paper);}
-  .dev-grid{display:grid; grid-template-columns:.95fr 1.05fr; gap:56px; align-items:center;}
-  .dev-list li{
-    display:flex; align-items:flex-start; gap:12px; font-size:15.5px; color:var(--ink); padding:13px 0;
-    border-top:1px solid var(--line);
-  }
-  .dev-list li:first-child{border-top:none;}
-  .dev-list li b{font-weight:600;}
-  .dev-list .dot{width:6px; height:6px; margin-top:8px; border-radius:50%; background:var(--teal); flex:none;}
-  .dev-cta{margin-top:30px;}
-
-  .code-panel{
-    background:#0c2226; border-radius:var(--radius); overflow:hidden;
-    border:1px solid rgba(255,255,255,.06);
-    box-shadow:0 30px 60px -30px rgba(10,34,38,.5);
-  }
-  .code-topbar{
-    display:flex; align-items:center; gap:8px; padding:14px 18px;
-    background:#0a1c1f; border-bottom:1px solid rgba(255,255,255,.06);
-  }
-  .code-topbar span{width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,.16);}
-  .code-topbar .file{
-    margin-left:10px; font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--white-50);
-  }
-  pre.code{
-    margin:0; padding:26px; font-family:'IBM Plex Mono', monospace; font-size:13.2px;
-    line-height:1.75; color:#cdece8; overflow-x:auto;
-  }
-  .code .k{color:#7fc07a;}
-  .code .s{color:#7fd4dd;}
-  .code .c{color:rgba(255,255,255,.35);}
-  .code .p{color:#e7f3f1;}
-
-  /* ---------- Waitlist ---------- */
-  .waitlist{
-    background:radial-gradient(120% 160% at 85% 0%, #12403f 0%, var(--ink) 55%);
-    color:var(--white);
-  }
-  .waitlist-grid{display:grid; grid-template-columns:1fr .9fr; gap:56px; align-items:center;}
-  .benefit-list{display:flex; flex-direction:column; gap:0; margin-top:34px;}
-  .benefit-list li{
-    display:flex; align-items:center; gap:14px; padding:15px 0; border-top:1px solid var(--line-light);
-    font-size:15.5px; color:var(--white-70);
-  }
-  .benefit-list li:first-child{border-top:none;}
-  .benefit-list svg{flex:none;}
-  .waitlist-form{
-    background:rgba(255,255,255,.04); border:1px solid var(--line-light); border-radius:var(--radius);
-    padding:36px;
-  }
-  .waitlist-form h3{font-size:20px; font-weight:600; margin-bottom:8px;}
-  .waitlist-form .hint{font-size:14px; color:var(--white-70); margin-bottom:24px;}
-  .field{margin-bottom:16px;}
-  .field label{display:block; font-size:12.5px; color:var(--white-50); margin-bottom:8px; font-family:'IBM Plex Mono', monospace; letter-spacing:.04em;}
-  .field input{
-    width:100%; padding:14px 16px; border-radius:10px; border:1px solid var(--line-light);
-    background:rgba(255,255,255,.03); color:var(--white); font-size:15px; font-family:inherit;
-    transition:border-color .2s;
-  }
-  .field input::placeholder{color:var(--white-50);}
-  .field input:focus{outline:none; border-color:var(--teal-bright);}
-  .waitlist-form .btn-primary{width:100%; justify-content:center; margin-top:6px;}
-  .form-note{font-size:12.5px; color:var(--white-50); margin-top:14px; text-align:center;}
-  .consent-field{
-    display:flex; align-items:flex-start; gap:10px; margin:18px 0 4px;
-  }
-  .consent-field input[type="checkbox"]{
-    width:17px; height:17px; margin-top:2px; flex:none; accent-color:var(--teal-bright);
-  }
-  .consent-field label{
-    font-size:12.5px; line-height:1.55; font-family:'Inter', sans-serif; letter-spacing:normal; text-transform:none;
-  }
-  .waitlist-form .consent-field label{color:var(--white-70);}
-  .contact-form .consent-field label{color:var(--ink-70);}
-  .hp-field{position:absolute; left:-9999px; opacity:0; height:0; width:0; overflow:hidden;}
-  .recaptcha-field{margin:18px 0 4px;}
-  .form-success{
-    display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:10px;
-    background:rgba(127,192,122,.12); border:1px solid rgba(127,192,122,.35); color:var(--green-soft);
-    font-size:14.5px; margin-top:16px;
-  }
-  .form-success.show{display:flex;}
-
-  /* ---------- Contact ---------- */
-  .contact{background:var(--white);}
-  .contact-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:64px; align-items:start;}
-  .contact-copy p{font-size:16.5px; line-height:1.7; color:var(--ink-70); margin-top:18px; max-width:420px;}
-  .contact-detail{margin-top:34px; display:flex; flex-direction:column; gap:18px;}
-  .contact-detail div{display:flex; align-items:flex-start; gap:14px;}
-  .contact-detail .ico{
-    width:38px; height:38px; border-radius:10px; flex:none;
-    background:linear-gradient(135deg, var(--green-soft), rgba(47,152,163,.16));
-    display:flex; align-items:center; justify-content:center;
-  }
-  .contact-detail .ico svg{width:18px; height:18px;}
-  .contact-detail h4{font-size:15.5px; font-weight:600; margin-bottom:3px;}
-  .contact-detail p{margin:0; font-size:14px; color:var(--ink-70); max-width:none;}
-  .contact-form{
-    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:36px;
-  }
-  .contact-form .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-  .contact-form .field label{color:var(--ink-50);}
-  .contact-form .field input, .contact-form .field textarea{
-    width:100%; padding:14px 16px; border-radius:10px; border:1px solid var(--line);
-    background:var(--white); color:var(--ink); font-size:15px; font-family:inherit;
-    transition:border-color .2s;
-  }
-  .contact-form .field textarea{resize:vertical; min-height:120px;}
-  .contact-form .field input::placeholder, .contact-form .field textarea::placeholder{color:var(--ink-50);}
-  .contact-form .field input:focus, .contact-form .field textarea:focus{outline:none; border-color:var(--teal);}
-  .contact-form .btn-primary{width:100%; justify-content:center; margin-top:6px;}
-  .contact-success{
-    display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:10px;
-    background:rgba(127,192,122,.12); border:1px solid rgba(127,192,122,.35); color:var(--teal-deep);
-    font-size:14.5px; margin-top:16px;
-  }
-  .contact-success.show{display:flex;}
-
-  @media (max-width: 900px){
-    .contact-grid{grid-template-columns:1fr;}
-  }
-  @media (max-width: 560px){
-    .contact-form .row2{grid-template-columns:1fr;}
-  }
-  .faq{background:var(--white);}
-  .faq-list{border-top:1px solid var(--line);}
-  .faq-item{border-bottom:1px solid var(--line);}
-  .faq-q{
-    width:100%; background:none; border:none; text-align:left;
-    padding:26px 0; display:flex; align-items:center; justify-content:space-between; gap:20px;
-    font-size:18px; font-weight:600; color:var(--ink);
-  }
-  .faq-q .plus{
-    width:26px; height:26px; flex:none; position:relative;
-  }
-  .faq-q .plus::before, .faq-q .plus::after{
-    content:''; position:absolute; background:var(--ink); border-radius:2px;
-  }
-  .faq-q .plus::before{width:16px; height:2px; top:12px; left:5px;}
-  .faq-q .plus::after{width:2px; height:16px; top:5px; left:12px; transition:transform .3s var(--ease);}
-  .faq-item.open .faq-q .plus::after{transform:rotate(90deg); opacity:0;}
-  .faq-a{
-    max-height:0; overflow:hidden; transition:max-height .4s var(--ease);
-  }
-  .faq-a p{padding:0 0 26px; font-size:15.5px; line-height:1.7; color:var(--ink-70); max-width:680px;}
-
-  /* ---------- Footer / final CTA ---------- */
-  .final-cta{
-    background:var(--ink); color:var(--white); text-align:center; padding:120px 0 90px;
-    position:relative; overflow:hidden;
-  }
-  .final-cta h2{
-    font-size:clamp(30px,4.6vw,52px); font-weight:700; max-width:760px; margin:0 auto; line-height:1.1;
-    color:var(--white);
-  }
-  .final-cta .sub{
-    margin:22px auto 0; max-width:520px; font-size:17px; color:var(--white-70); line-height:1.6;
-  }
-  .final-cta .btn{margin-top:38px;}
-
-  footer{background:var(--ink); border-top:1px solid var(--line-light); padding:80px 0 34px;}
-  .footer-top{
-    display:grid; grid-template-columns:1.3fr repeat(4, .8fr); gap:40px;
-    padding-bottom:56px; border-bottom:1px solid var(--line-light);
-  }
-  .footer-brand-col{display:flex; flex-direction:column; gap:18px; max-width:280px;}
-  .footer-brand{display:flex; align-items:center; gap:10px;}
-  .footer-brand img{height:44px;}
-  .footer-tagline{font-size:14px; line-height:1.6; color:var(--white-50);}
-  .footer-social{display:flex; gap:12px; margin-top:6px;}
-  .footer-social a{
-    width:36px; height:36px; border-radius:50%; border:1px solid var(--line-light);
-    display:flex; align-items:center; justify-content:center;
-    transition:border-color .2s, background .2s, transform .2s var(--ease);
-  }
-  .footer-social a:hover{border-color:var(--teal-bright); background:rgba(63,176,186,.1); transform:translateY(-2px);}
-  .footer-social svg{width:16px; height:16px; stroke:var(--white-70); fill:none;}
-  .footer-col h5{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--white-50); margin-bottom:18px; font-weight:500;
-  }
-  .footer-col ul{display:flex; flex-direction:column; gap:13px;}
-  .footer-col a{font-size:14.5px; color:var(--white-70); transition:color .2s;}
-  .footer-col a:hover{color:var(--white);}
-  .footer-row{
-    display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
-    padding-top:28px;
-  }
-  .footer-links{display:flex; gap:26px; flex-wrap:wrap;}
-  .footer-links a{font-size:13.5px; color:var(--white-50); transition:color .2s;}
-  .footer-links a:hover{color:var(--white);}
-  .footer-copy{font-size:13px; color:var(--white-50); font-family:'IBM Plex Mono', monospace;}
-
-  @media (max-width: 900px){
-    .footer-top{grid-template-columns:1fr 1fr;}
-    .footer-brand-col{grid-column:1 / -1; max-width:none;}
-  }
-  @media (max-width: 560px){
-    .footer-top{grid-template-columns:1fr;}
-  }
-
-  /* ---------- Reveal on scroll ---------- */
-  .reveal{opacity:0; transform:translateY(22px); transition:opacity .7s var(--ease), transform .7s var(--ease);}
-  .reveal.in{opacity:1; transform:translateY(0);}
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 900px){
-    .hero-grid, .why-grid, .compliance-grid, .dev-grid, .waitlist-grid{grid-template-columns:1fr;}
-    .hero-visual{height:320px; order:-1;}
-    .feature-grid{grid-template-columns:repeat(2,1fr);}
-    .sec-list{grid-template-columns:1fr;}
-    .nav-links{display:none;}
-  }
-  @media (max-width: 560px){
-    .wrap{padding:0 20px;}
-    .section{padding:76px 0;}
-    .feature-grid{grid-template-columns:1fr;}
-    .compare-row, .compare-head{grid-template-columns:1fr;}
-    .compare-cell.old{border-right:none; border-bottom:1px solid var(--line);}
-    .compare-head div:first-child{border-right:none; border-bottom:1px solid var(--line-light);}
-    .footer-row{flex-direction:column; align-items:flex-start;}
-    .hero-ctas{flex-direction:column; align-items:stretch;}
-    .btn{justify-content:center;}
-  }
-</style>
-</head>
-<body>
-
-<!-- ============ NAV ============ -->
-<nav class="nav">
-  <div class="wrap">
-    <div class="brand">
-      <img src="verifsage-logo.png" alt="Verifsage">
-    </div>
-    <div class="nav-links">
-      <a href="#features">Platform</a>
-      <a href="#industries">Industries</a>
-      <a href="#compliance">Compliance</a>
-      <a href="#developers">Developers</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
-  </div>
-</nav>
-
-<!-- ============ HERO ============ -->
-<header class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <div class="eyebrow on-dark">
-          <svg class="mark-mini" viewBox="0 0 40 40" fill="none"><rect x="4" y="4" width="8" height="32" rx="4" fill="url(#g1)"/><rect x="16" y="10" width="8" height="26" rx="4" fill="url(#g1)"/><rect x="28" y="16" width="8" height="20" rx="4" fill="url(#g1)"/><defs><linearGradient id="g1" x1="4" y1="4" x2="36" y2="36"><stop stop-color="#7fc07a"/><stop offset="1" stop-color="#2f98a3"/></linearGradient></defs></svg>
-          Global KYC / KYB Infrastructure
-        </div>
-        <h1>Global KYC &amp; KYB. <span class="grad-text">One API.</span> Zero Compromise.</h1>
-        <p class="sub">Verify people and businesses anywhere in the world. Stop fraud. Stay compliant. All through one powerful, seamless Verifsage API.</p>
-        <div class="hero-ctas">
-          <a href="#waitlist" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></a>
-          <a href="#developers" class="btn btn-ghost">Watch the Demo</a>
-        </div>
-        <div class="trust-strip">
-          <div class="label">Built for leaders in</div>
-          <div class="trust-row">
-            <span>Fintech</span><span>Banking</span><span>Crypto</span><span>Payments</span><span>Marketplaces</span><span>Web3</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="glow"></div>
-        <svg viewBox="0 0 300 320" fill="none">
-          <defs>
-            <linearGradient id="heroGrad" x1="0" y1="0" x2="300" y2="320">
-              <stop stop-color="#7fc07a"/>
-              <stop offset="0.55" stop-color="#2f98a3"/>
-              <stop offset="1" stop-color="#164e56"/>
-            </linearGradient>
-            <clipPath id="clipBars">
-              <rect x="20" y="0" width="34" height="300" rx="17"/>
-              <rect x="90" y="34" width="34" height="266" rx="17"/>
-              <rect x="160" y="68" width="34" height="232" rx="17"/>
-            </clipPath>
-          </defs>
-          <g class="bar-draw" stroke="url(#heroGrad)" stroke-width="1">
-            <rect x="20" y="0" width="34" height="300" rx="17" fill="url(#heroGrad)" opacity="0.96"/>
-            <rect x="90" y="34" width="34" height="266" rx="17" fill="url(#heroGrad)" opacity="0.88"/>
-            <rect x="160" y="68" width="34" height="232" rx="17" fill="url(#heroGrad)" opacity="0.78"/>
-          </g>
-          <g clip-path="url(#clipBars)">
-            <rect class="scan-line" x="0" y="-40" width="300" height="26" fill="rgba(255,255,255,.55)"/>
-          </g>
-          <g stroke="#3fb0ba" stroke-width="2.4" stroke-linecap="round" opacity="0.9">
-            <path d="M232 40a26 26 0 0 1 26 26" fill="none"/>
-            <path d="M226 54a18 18 0 0 1 18 18" fill="none"/>
-            <path d="M240 26a40 40 0 0 1 40 40" fill="none"/>
-            <path d="M220 66a10 10 0 0 1 10 10" fill="none"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- ============ WHY VERIFSAGE ============ -->
-<section class="section why" id="why">
-  <div class="wrap">
-    <div class="why-grid">
-      <div class="reveal">
-        <div class="eyebrow">
-          <span class="mono">01</span> — The Problem
-        </div>
-        <h2>The World's Next Verification Leader.</h2>
-        <div class="why-copy" style="margin-top:22px;">
-          <p>Businesses no longer need clunky, fragmented solutions. They need speed, scale, and trust in one platform.</p>
-          <p>Legacy KYC/KYB providers are too slow. Compliance teams get stuck in manual reviews. Customers drop off. Fraudsters still find loopholes.</p>
-          <p><strong>Verifsage is here to change that.</strong> We're the bold challenger — delivering the flexibility, global coverage, and compliance-ready tools that the next generation of businesses demand.</p>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="compare">
-          <div class="compare-head">
-            <div>Legacy providers</div>
-            <div>Verifsage</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell old">Fragmented tools, multiple vendors</div>
-            <div class="compare-cell new">One API for KYC, KYB &amp; AML</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell old">Manual review bottlenecks</div>
-            <div class="compare-cell new">No-code orchestration, live in hours</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell old">Rigid, slow integrations</div>
-            <div class="compare-cell new">Developer-first, production-ready fast</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell old">Opaque pricing &amp; coverage</div>
-            <div class="compare-cell new">180+ countries, clear &amp; transparent</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CORE FEATURES ============ -->
-<section class="section features" id="features">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow"><span class="mono">02</span> — The Platform</div>
-      <h2>Why Teams Choose Verifsage.</h2>
-    </div>
-    <div class="feature-grid reveal">
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/></svg></div>
-        <h3>Global Reach, One API</h3>
-        <p>Seamless KYC, KYB, and AML checks across 180+ countries.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg></div>
-        <h3>Next-Level KYB</h3>
-        <p>UBO mapping, registry lookups, document capture, and continuous monitoring.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3c3 2 6 2 8 1v7c0 5-3.5 8-8 10-4.5-2-8-5-8-10V4c2 1 5 1 8-1z"/></svg></div>
-        <h3>Friction-Right KYC</h3>
-        <p>ID documents, biometrics, liveness checks — tough on fraud, smooth for real users.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
-        <h3>Built-In AML</h3>
-        <p>Real-time sanctions, PEP, and adverse media screening.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round"/></svg></div>
-        <h3>No-Code Orchestration</h3>
-        <p>Drag-and-drop flows. Launch in hours, not weeks.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/></svg></div>
-        <h3>Compliance by Design</h3>
-        <p>GDPR/UK-GDPR aligned, full audit trails, regional data hosting.</p>
-      </div>
-    </div>
-    <div class="features-cta reveal">
-      <a href="#compliance" class="btn btn-ghost dark">Discover Verifsage <span class="btn-arrow">→</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ INDUSTRIES ============ -->
-<section class="section industries" id="industries">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow"><span class="mono">03</span> — Where We Work</div>
-      <h2>One Platform. Many Industries.</h2>
-      <p>Verifsage empowers ambitious businesses across:</p>
-    </div>
-    <div class="industry-strip reveal">
-      <div class="industry-chip"><i></i>Fintech &amp; Payments</div>
-      <div class="industry-chip"><i></i>Crypto &amp; Web3</div>
-      <div class="industry-chip"><i></i>Marketplaces</div>
-      <div class="industry-chip"><i></i>BNPL &amp; Lending</div>
-      <div class="industry-chip"><i></i>Remittance &amp; FX</div>
-      <div class="industry-chip"><i></i>Gig &amp; Mobility</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ COMPLIANCE & SECURITY ============ -->
-<section class="section compliance" id="compliance">
-  <div class="wrap">
-    <div class="compliance-grid">
-      <div class="compliance-copy reveal">
-        <div class="eyebrow on-dark"><span class="mono">04</span> — Trust</div>
-        <h2 style="color:#fff;">Verifsage: Trust First, Always.</h2>
-        <p>With Verifsage, compliance isn't just a checkbox. It's the backbone of everything we do.</p>
-        <div class="callout">Every verification, every data point, every access log — built to be audited, not just approved.</div>
-        <div class="cert-row">
-          <span class="cert-badge">ISO 27001 — in progress</span>
-          <span class="cert-badge">SOC 2 Type II — in progress</span>
-        </div>
-      </div>
-      <div class="sec-list reveal">
-        <div class="sec-item">
-          <div class="n">SECURITY</div>
-          <h4>Enterprise-grade Security</h4>
-          <p>Encryption in transit and at rest, role-based access, complete audit logs.</p>
-        </div>
-        <div class="sec-item">
-          <div class="n">RETENTION</div>
-          <h4>Policy-Driven Retention</h4>
-          <p>GDPR/UK-GDPR baked in, DSR workflows, data minimisation.</p>
-        </div>
-        <div class="sec-item">
-          <div class="n">RESIDENCY</div>
-          <h4>Regional Data Residency</h4>
-          <p>Choose UK, EU, or US to meet sovereignty and latency needs.</p>
-        </div>
-        <div class="sec-item">
-          <div class="n">ASSURANCE</div>
-          <h4>Certifications Underway</h4>
-          <p>ISO 27001 &amp; SOC 2 Type II in progress, backed by third-party audits.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOR DEVELOPERS ============ -->
-<section class="section dev" id="developers">
-  <div class="wrap">
-    <div class="dev-grid">
-      <div class="reveal">
-        <div class="eyebrow"><span class="mono">05</span> — For Builders</div>
-        <h2>An API Developers Love.</h2>
-        <p style="margin-top:18px; font-size:16.5px; line-height:1.7; color:var(--ink-70);">Verifsage is built for builders. Our clean, well-documented API gets you from prototype to production without surprises.</p>
-        <ul class="dev-list" style="margin-top:26px;">
-          <li><span class="dot"></span><span><b>REST &amp; GraphQL APIs</b> — use whichever fits your stack.</span></li>
-          <li><span class="dot"></span><span><b>Sandbox that mirrors production</b> — no surprises at launch.</span></li>
-          <li><span class="dot"></span><span><b>SDKs for iOS, Android, and Web</b> — native, not bolted on.</span></li>
-          <li><span class="dot"></span><span><b>Real-time decisions</b> — verify in seconds, not days.</span></li>
-          <li><span class="dot"></span><span><b>Instant webhooks &amp; retries</b> — your system always stays in sync.</span></li>
-        </ul>
-        <div class="dev-cta">
-          <a href="#waitlist" class="btn btn-primary">Get Early API Access <span class="btn-arrow">→</span></a>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="code-panel">
-          <div class="code-topbar">
-            <span></span><span></span><span></span>
-            <span class="file">verify_business.sh</span>
-          </div>
-          <pre class="code"><span class="c">// Run a KYB check in one call</span>
-<span class="p">curl</span> https://api.verifsage.com/v1/kyb/checks \
-  <span class="k">-H</span> <span class="s">"Authorization: Bearer sk_live_••••"</span> \
-  <span class="k">-H</span> <span class="s">"Content-Type: application/json"</span> \
-  <span class="k">-d</span> <span class="s">'{
-    "entity_name": "Lagos Trade Co.",
-    "country": "NG",
-    "checks": ["registry", "ubo", "aml_screen"]
-  }'</span>
-
-<span class="c">// Response — 340ms</span>
-{
-  <span class="p">"status"</span>: <span class="s">"passed"</span>,
-  <span class="p">"risk_score"</span>: 12,
-  <span class="p">"ubo_verified"</span>: <span class="k">true</span>,
-  <span class="p">"sanctions_hits"</span>: 0
-}</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ WAITLIST ============ -->
-<section class="section waitlist" id="waitlist">
-  <div class="wrap">
-    <div class="waitlist-grid">
-      <div class="reveal">
-        <div class="eyebrow on-dark"><span class="mono">06</span> — Early Access</div>
-        <h2 style="color:#fff;">Be First. Be Verifsage.</h2>
-        <p style="margin-top:18px; font-size:17px; line-height:1.65; color:var(--white-70); max-width:460px;">The future of verification is almost here. Get ahead of the curve with early access and exclusive perks.</p>
-        <ul class="benefit-list">
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Priority sandbox access</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Smooth migration support</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Founders' office hours</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Early-bird launch pricing</li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <div class="waitlist-form">
-          <h3>Join the Verifsage Waitlist</h3>
-          <p class="hint">Takes 20 seconds. No spam, ever.</p>
-          <form id="waitlistForm" data-portal-id="148975546" data-form-id="b030cbec-1d7b-4503-abb0-45978ed2db09">
-            <div class="field">
-              <label for="wname">Full name</label>
-              <input id="wname" type="text" placeholder="Your Fullname" required>
-            </div>
-            <div class="field">
-              <label for="wemail">Work email</label>
-              <input id="wemail" type="email" placeholder="you@company.com" required>
-            </div>
-            <div class="field">
-              <label for="wcompany">Company</label>
-              <input id="wcompany" type="text" placeholder="Company name">
-            </div>
-            <div class="hp-field" aria-hidden="true">
-              <label for="w_hp">Leave this field empty</label>
-              <input id="w_hp" type="text" tabindex="-1" autocomplete="off">
-            </div>
-            <div class="consent-field">
-              <input type="checkbox" id="wconsent" required>
-              <label for="wconsent">I agree to allow Verifsage to store and process my personal data.</label>
-            </div>
-            <div class="recaptcha-field" id="w_recaptcha"></div>
-            <button type="submit" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></button>
-          </form>
-          <div class="form-success" id="formSuccess">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7fc07a" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>
-            You're on the list. We'll be in touch soon.
-          </div>
-          <div class="form-note">By joining, you agree to receive early-access updates from Verifsage.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FAQ ============ -->
-<section class="section faq" id="faq">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow"><span class="mono">07</span> — Questions</div>
-      <h2>Frequently Asked.</h2>
-    </div>
-    <div class="faq-list reveal">
-      <div class="faq-item">
-        <button class="faq-q"><span>When does Verifsage launch?</span><span class="plus"></span></button>
-        <div class="faq-a"><p>We're opening sandbox access to waitlisters soon. Production rollout follows.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span>How is Verifsage different from Trulioo or Onfido?</span><span class="plus"></span></button>
-        <div class="faq-a"><p>Verifsage delivers faster integrations, deeper KYB coverage, clearer pricing, and more control.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span>Which regions are covered?</span><span class="plus"></span></button>
-        <div class="faq-a"><p>180+ countries with constant expansion.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q"><span>What about compliance certifications?</span><span class="plus"></span></button>
-        <div class="faq-a"><p>We're on track for ISO 27001 &amp; SOC 2 Type II, with independent pen tests every release.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section class="section contact" id="contact">
-  <div class="wrap">
-    <div class="contact-grid">
-      <div class="contact-copy reveal">
-        <div class="eyebrow"><span class="mono">08</span> — Get in Touch</div>
-        <h2>Let's Talk Verification.</h2>
-        <p>Questions about coverage, pricing, or getting your team set up? Send us a note and we'll get back to you.</p>
-        <div class="contact-detail">
-          <div>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M12 3c3 2 6 2 8 1v7c0 5-3.5 8-8 10-4.5-2-8-5-8-10V4c2 1 5 1 8-1z"/></svg></div>
-            <div>
-              <h4>Enterprise &amp; partnerships</h4>
-              <p>Fill out the form and select "Enterprise" — our team typically replies within one business day.</p>
-            </div>
-          </div>
-          <div>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="1.8"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" stroke-linejoin="round"/></svg></div>
-            <div>
-              <h4>Developers &amp; API access</h4>
-              <p>Ask about the sandbox and we'll fast-track your early access request.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal">
-        <div class="contact-form">
-          <form id="contactForm" data-portal-id="148975546" data-form-id="f9032add-8931-467e-8c2e-7a1b1da3f6b5">
-            <div class="row2">
-              <div class="field">
-                <label for="cname">Full name</label>
-                <input id="cname" type="text" placeholder="Your Fullname" required>
-              </div>
-              <div class="field">
-                <label for="cemail">Work email</label>
-                <input id="cemail" type="email" placeholder="you@company.com" required>
-              </div>
-            </div>
-            <div class="field">
-              <label for="ctopic">What can we help with?</label>
-              <input id="ctopic" type="text" placeholder="Enterprise, API access, general question...">
-            </div>
-            <div class="field">
-              <label for="cmessage">Message</label>
-              <textarea id="cmessage" placeholder="Tell us a bit about what you're looking for" required></textarea>
-            </div>
-            <div class="hp-field" aria-hidden="true">
-              <label for="c_hp">Leave this field empty</label>
-              <input id="c_hp" type="text" tabindex="-1" autocomplete="off">
-            </div>
-            <div class="consent-field">
-              <input type="checkbox" id="cconsent" required>
-              <label for="cconsent">I agree to allow Verifsage to store and process my personal data.</label>
-            </div>
-            <div class="recaptcha-field" id="c_recaptcha"></div>
-            <button type="submit" class="btn btn-primary">Send Message <span class="btn-arrow">→</span></button>
-          </form>
-          <div class="contact-success" id="contactSuccess">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c6a73" stroke-width="2.4" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>
-            Thanks — we've received your message and will be in touch soon.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section class="final-cta">
-  <div class="wrap reveal">
-    <div class="eyebrow on-dark" style="justify-content:center;">Verifsage — The Next Trulioo</div>
-    <h2>Global verification without friction.</h2>
-    <p class="sub">Join Verifsage today and shape the future of KYC/KYB.</p>
-    <a href="#waitlist" class="btn btn-primary">Join the Verifsage Waitlist <span class="btn-arrow">→</span></a>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-brand-col">
-        <div class="footer-brand">
-          <img src="verifsage-logo.png" alt="Verifsage">
-        </div>
-        <p class="footer-tagline">Global KYC &amp; KYB verification, built on one API. Verify people and businesses anywhere in the world.</p>
-        <p class="footer-tagline" style="margin-top:-8px;">Questions? <a href="#contact" style="color:var(--white); text-decoration:underline;">Get in touch</a></p>
-        <div class="footer-social">
-          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="Verifsage on LinkedIn">
-            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M6.5 8.5v9M6.5 5.5v.01M11 17.5v-5.2c0-1.8 1.2-2.8 2.7-2.8 1.4 0 2.3 1 2.3 2.8v5.2M11 12.3v5.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="https://x.com" target="_blank" rel="noopener" aria-label="Verifsage on X">
-            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19" stroke-linecap="round"/></svg>
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener" aria-label="Verifsage on GitHub">
-            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.4c0-1 .3-1.6.7-2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.4 5.8.5.4.9 1.2.9 2.4V21" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a href="#contact" aria-label="Contact Verifsage">
-            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h5>Platform</h5>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#industries">Industries</a></li>
-          <li><a href="#compliance">Compliance &amp; Security</a></li>
-          <li><a href="#developers">Developers</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Company</h5>
-        <ul>
-          <li><a href="#why">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="blog.html">Blog</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Resources</h5>
-        <ul>
-          <li><a href="#developers">API Docs</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#waitlist">Waitlist</a></li>
-          <li><a href="status.html">Status</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h5>Legal</h5>
-        <ul>
-          <li><a href="terms.html">Terms &amp; Conditions</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="cookies.html">Cookie Policy</a></li>
-          <li><a href="data-processing.html">Data Processing</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-row">
-      <div class="footer-copy">© 2026 VERIFSAGE</div>
-      <div class="footer-links">
-        <a href="terms.html">Terms &amp; Conditions</a>
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  // Reveal on scroll
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, {threshold:0.12});
-  revealEls.forEach(el=>io.observe(el));
-
-  // FAQ accordion
-  document.querySelectorAll('.faq-item').forEach(item=>{
-    const q = item.querySelector('.faq-q');
-    const a = item.querySelector('.faq-a');
-    q.addEventListener('click', ()=>{
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(o=>{
-        o.classList.remove('open');
-        o.querySelector('.faq-a').style.maxHeight = null;
-      });
-      if(!isOpen){
-        item.classList.add('open');
-        a.style.maxHeight = a.scrollHeight + 'px';
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifsage | Global KYC & KYB. Zero Compromise.</title>
+    <meta
+      name="description"
+      content="Verify people and businesses anywhere in the world. Stop fraud. Stay compliant. All through one powerful, seamless Verifsage platform."
+    />
+    <link rel="icon" href="verifsage-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BLBJL4Y8QB"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-    });
-  });
+      gtag("js", new Date());
 
-  // ---------- Google reCAPTCHA (v2 checkbox, explicit render) ----------
-  // Replace with your real site key from https://www.google.com/recaptcha/admin
-  const RECAPTCHA_SITE_KEY = '6LdQIWctAAAAAJOPRyiMPTty3o5QHmahVFPKeMyl';
-  // Replace with the *.workers.dev URL printed after you deploy cloudflare-worker/
-  const WORKER_URL = 'https://verifsage-form-proxy.verifsage.workers.dev';
-  let wRecaptchaId = null;
-  let cRecaptchaId = null;
+      gtag("config", "G-BLBJL4Y8QB");
+    </script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileReady"
+      async
+      defer
+    ></script>
+    <script
+      type="text/javascript"
+      id="hs-script-loader"
+      async
+      defer
+      src="//js.hs-scripts.com/148975546.js"
+    ></script>
+    <style>
+      :root {
+        --ink: #0a2226;
+        --ink-soft: #123338;
+        --teal: #2f98a3;
+        --teal-deep: #1c6a73;
+        --teal-bright: #3fb0ba;
+        --green: #7fc07a;
+        --green-soft: #bfe6b8;
+        --paper: #f6f8f6;
+        --white: #ffffff;
+        --line: rgba(10, 34, 38, 0.12);
+        --line-light: rgba(255, 255, 255, 0.14);
+        --ink-70: rgba(10, 34, 38, 0.7);
+        --ink-50: rgba(10, 34, 38, 0.5);
+        --white-70: rgba(255, 255, 255, 0.72);
+        --white-50: rgba(255, 255, 255, 0.52);
+        --grad: linear-gradient(
+          120deg,
+          var(--green) 0%,
+          var(--teal) 60%,
+          var(--teal-deep) 100%
+        );
+        --radius: 18px;
+        --maxw: 1180px;
+        --ease: cubic-bezier(0.16, 0.84, 0.32, 1);
+      }
 
-  window.onRecaptchaReady = function(){
-  	if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY') return; // don't render with a placeholder key
-    try{
-      wRecaptchaId = grecaptcha.render('w_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
-      cRecaptchaId = grecaptcha.render('c_recaptcha', { sitekey: RECAPTCHA_SITE_KEY });
-    }catch(err){
-      console.error('reCAPTCHA failed to render — check that RECAPTCHA_SITE_KEY is a valid v2 "checkbox" key and that this domain is registered for it in the reCAPTCHA admin console.', err);
-    }
-  };
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Instrument Sans", sans-serif;
+        margin: 0;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      .mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+      ::selection {
+        background: var(--green-soft);
+        color: var(--ink);
+      }
 
-  // ---------- HubSpot tracking cookie (links submissions to known visitors) ----------
-  function getCookie(name){
-    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return match ? decodeURIComponent(match.pop()) : '';
-  }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
 
-  // ---------- Submit through the verification proxy ----------
-  // The proxy verifies the reCAPTCHA token server-side with Google (using a
-  // secret key that never touches the browser), then forwards to HubSpot.
-  function submitViaWorker(portalId, formId, fields, recaptchaToken){
-    return fetch(WORKER_URL, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        recaptchaToken,
-        portalId,
-        formId,
-        fields: fields.map(f => ({ name: f.name, value: f.value })),
-        pageUri: window.location.href,
-        pageName: document.title,
-        hutk: getCookie('hubspotutk')
-      })
-    }).then(res => res.json()).then(data => {
-      if(!data.ok) throw new Error(data.error || 'Submission failed');
-      return data;
-    });
-  }
+      /* ---------- Eyebrow / label ---------- */
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal-deep);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .eyebrow .mark-mini {
+        width: 20px;
+        height: 20px;
+      }
+      section .eyebrow.on-dark {
+        color: var(--green-soft);
+      }
 
-  // Waitlist form -> HubSpot
-  const form = document.getElementById('waitlistForm');
-  const success = document.getElementById('formSuccess');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
+      /* ---------- Signature chevron mark ---------- */
+      .chevron-mark rect {
+        transform-origin: center;
+      }
+      .scan-line {
+        animation: scan 3.4s var(--ease) infinite;
+      }
+      @keyframes scan {
+        0% {
+          transform: translateY(-40px);
+          opacity: 0;
+        }
+        12% {
+          opacity: 1;
+        }
+        55% {
+          opacity: 1;
+        }
+        70% {
+          transform: translateY(140px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(140px);
+          opacity: 0;
+        }
+      }
+      .bar-draw rect {
+        stroke-dasharray: 220;
+        stroke-dashoffset: 220;
+        animation: draw 1.1s var(--ease) forwards;
+      }
+      .bar-draw rect:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .bar-draw rect:nth-child(3) {
+        animation-delay: 0.24s;
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
 
-    // Honeypot: if this hidden field got filled in, silently treat as spam
-    if(document.getElementById('w_hp').value){
-      form.style.display = 'none';
-      success.classList.add('show');
-      return;
-    }
-    if(!document.getElementById('wconsent').checked) return;
+      /* ---------- Nav ---------- */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(246, 248, 246, 0.82);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav .wrap {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand img {
+        height: 52px;
+        width: auto;
+        display: block;
+      }
+      .nav-links {
+        display: flex;
+        gap: 34px;
+        align-items: center;
+      }
+      .nav-links a {
+        font-size: 14.5px;
+        font-weight: 500;
+        color: var(--ink-70);
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--teal-deep);
+      }
+      .nav-cta {
+        padding: 11px 22px;
+        border-radius: 100px;
+        background: var(--ink);
+        color: var(--white);
+        font-size: 14px;
+        font-weight: 600;
+        transition:
+          transform 0.25s var(--ease),
+          background 0.25s;
+      }
+      .nav-cta:hover {
+        background: var(--teal-deep);
+        transform: translateY(-1px);
+      }
+      .nav-toggle {
+        display: none;
+      }
 
-    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
-      alert('Form submission isn\'t configured yet — add your Worker URL in the script.');
-      return;
-    }
-    if(wRecaptchaId === null){
-      alert('reCAPTCHA is still loading — please wait a moment and try again. If this keeps happening, double-check your reCAPTCHA site key and that this domain is registered for it.');
-      return;
-    }
-    const recaptchaResponse = grecaptcha.getResponse(wRecaptchaId);
-    if(!recaptchaResponse){
-      alert('Please complete the reCAPTCHA check before submitting.');
-      return;
-    }
+      /* ---------- Buttons ---------- */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 28px;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 15px;
+        border: 1px solid transparent;
+        transition:
+          transform 0.25s var(--ease),
+          box-shadow 0.25s,
+          background 0.25s,
+          color 0.25s,
+          border-color 0.25s;
+      }
+      .btn-primary {
+        background: var(--grad);
+        color: var(--ink);
+        box-shadow: 0 10px 30px -12px rgba(47, 152, 163, 0.55);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 34px -12px rgba(47, 152, 163, 0.7);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--white);
+        border-color: var(--line-light);
+      }
+      .btn-ghost:hover {
+        border-color: var(--white-70);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .btn-ghost.dark {
+        color: var(--ink);
+        border-color: var(--line);
+      }
+      .btn-ghost.dark:hover {
+        border-color: var(--ink);
+        background: rgba(10, 34, 38, 0.04);
+      }
+      .btn-arrow {
+        transition: transform 0.25s var(--ease);
+      }
+      .btn:hover .btn-arrow {
+        transform: translateX(3px);
+      }
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
+      /* ---------- Hero ---------- */
+      .hero {
+        position: relative;
+        background: radial-gradient(
+          120% 140% at 15% -10%,
+          #133b41 0%,
+          var(--ink) 55%,
+          #071619 100%
+        );
+        color: var(--white);
+        padding: 74px 0 0;
+        overflow: hidden;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 40px;
+        align-items: center;
+        padding: 56px 0 90px;
+      }
+      .hero h1 {
+        font-size: clamp(38px, 5vw, 62px);
+        line-height: 1.04;
+        font-weight: 700;
+        max-width: 640px;
+        color: var(--white);
+      }
+      .hero h1 .grad-text {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero .sub {
+        margin-top: 24px;
+        font-size: 18px;
+        line-height: 1.6;
+        color: var(--white-70);
+        max-width: 520px;
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 16px;
+        margin-top: 38px;
+        flex-wrap: wrap;
+      }
+      .trust-strip {
+        margin-top: 64px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line-light);
+      }
+      .trust-strip .label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--white-50);
+        margin-bottom: 14px;
+      }
+      .trust-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 26px;
+        font-size: 14.5px;
+        color: var(--white-70);
+        font-weight: 500;
+      }
+      .trust-row span {
+        position: relative;
+        padding-left: 14px;
+      }
+      .trust-row span::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--green);
+      }
 
-    const fullname = document.getElementById('wname').value.trim();
-    const company = document.getElementById('wcompany').value.trim();
-    const message = company ? `Company: ${company}` : '';
+      .hero-visual {
+        position: relative;
+        height: 460px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hero-visual svg {
+        width: 100%;
+        height: 100%;
+        max-width: 420px;
+      }
+      .hero-visual .glow {
+        position: absolute;
+        inset: -60px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(47, 152, 163, 0.35),
+          transparent 65%
+        );
+        filter: blur(10px);
+      }
 
-    submitViaWorker(form.dataset.portalId, form.dataset.formId, [
-      { name: 'fullname', value: fullname },
-      { name: 'email', value: document.getElementById('wemail').value.trim() },
-      { name: 'message', value: message }
-    ], recaptchaResponse).then(()=>{
-      form.style.display = 'none';
-      success.classList.add('show');
-    }).catch(err=>{
-      console.error(err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Something went wrong — try again';
-      if(wRecaptchaId !== null) grecaptcha.reset(wRecaptchaId);
-    });
-  });
+      /* ---------- Section base ---------- */
+      .section {
+        padding: 110px 0;
+      }
+      .section-head {
+        max-width: 640px;
+        margin-bottom: 56px;
+      }
+      .section-head h2 {
+        font-size: clamp(28px, 3.4vw, 42px);
+        line-height: 1.12;
+        font-weight: 700;
+      }
+      .section-head p {
+        margin-top: 18px;
+        font-size: 17px;
+        line-height: 1.65;
+        color: var(--ink-70);
+      }
+      .section.dark {
+        background: var(--ink);
+        color: var(--white);
+      }
+      .section.dark .section-head h2 {
+        color: var(--white);
+      }
+      .section.dark .section-head p {
+        color: var(--white-70);
+      }
 
-  // Contact form -> HubSpot
-  const contactForm = document.getElementById('contactForm');
-  const contactSuccess = document.getElementById('contactSuccess');
-  contactForm.addEventListener('submit', function(e){
-    e.preventDefault();
+      /* ---------- Why section ---------- */
+      .why {
+        background: var(--white);
+      }
+      .why-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: start;
+      }
+      .why-copy p {
+        font-size: 17px;
+        line-height: 1.75;
+        color: var(--ink-70);
+        margin-bottom: 18px;
+      }
+      .why-copy strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .compare {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: var(--paper);
+      }
+      .compare-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .compare-row + .compare-row {
+        border-top: 1px solid var(--line);
+      }
+      .compare-cell {
+        padding: 20px 22px;
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+      .compare-cell.old {
+        color: var(--ink-50);
+        border-right: 1px solid var(--line);
+      }
+      .compare-cell.old::before {
+        content: "— ";
+      }
+      .compare-cell.new {
+        color: var(--ink);
+        font-weight: 500;
+      }
+      .compare-cell.new::before {
+        content: "✓ ";
+        color: var(--teal-deep);
+        font-weight: 700;
+      }
+      .compare-head {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: var(--ink);
+      }
+      .compare-head div {
+        padding: 14px 22px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--white-70);
+      }
+      .compare-head div:first-child {
+        border-right: 1px solid var(--line-light);
+      }
+      .compare-head div:last-child {
+        color: var(--green-soft);
+      }
 
-    // Honeypot: if this hidden field got filled in, silently treat as spam
-    if(document.getElementById('c_hp').value){
-      contactForm.style.display = 'none';
-      contactSuccess.classList.add('show');
-      return;
-    }
-    if(!document.getElementById('cconsent').checked) return;
+      /* ---------- Features ---------- */
+      .features {
+        background: var(--paper);
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .feature-card {
+        background: var(--white);
+        padding: 34px 30px;
+        min-height: 230px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        transition: background 0.25s;
+      }
+      .feature-card:hover {
+        background: #fbfdfb;
+      }
+      .feature-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+          135deg,
+          var(--green-soft),
+          rgba(47, 152, 163, 0.16)
+        );
+      }
+      .feature-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .feature-card h3 {
+        font-size: 19px;
+        font-weight: 600;
+      }
+      .feature-card p {
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--ink-70);
+      }
+      .features-cta {
+        margin-top: 44px;
+        display: flex;
+        justify-content: flex-start;
+      }
 
-    if(RECAPTCHA_SITE_KEY === 'YOUR_RECAPTCHA_SITE_KEY' || WORKER_URL.includes('YOUR-WORKER-SUBDOMAIN')){
-      alert('Form submission isn\'t configured yet — add your reCAPTCHA site key and Worker URL in the script.');
-      return;
-    }
-    if(cRecaptchaId === null){
-      alert('reCAPTCHA is still loading — please wait a moment and try again. If this keeps happening, double-check your reCAPTCHA site key and that this domain is registered for it.');
-      return;
-    }
-    const recaptchaResponse = grecaptcha.getResponse(cRecaptchaId);
-    if(!recaptchaResponse){
-      alert('Please complete the reCAPTCHA check before submitting.');
-      return;
-    }
+      /* ---------- Industries ---------- */
+      .industries {
+        background: var(--white);
+      }
+      .industry-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .industry-chip {
+        padding: 16px 24px;
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition:
+          border-color 0.25s,
+          transform 0.25s var(--ease),
+          background 0.25s;
+        background: var(--paper);
+      }
+      .industry-chip:hover {
+        border-color: var(--teal);
+        transform: translateY(-2px);
+        background: var(--white);
+      }
+      .industry-chip i {
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--grad);
+        display: inline-block;
+        transform: rotate(20deg);
+      }
 
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
+      /* ---------- Compliance ---------- */
+      .compliance {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .compliance-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 64px;
+        align-items: start;
+      }
+      .compliance-copy p {
+        font-size: 16.5px;
+        line-height: 1.7;
+        color: var(--ink-70);
+        margin-top: 20px;
+      }
+      .compliance-copy .callout {
+        margin-top: 32px;
+        padding: 20px 22px;
+        border-left: 2px solid var(--green);
+        font-size: 15.5px;
+        color: var(--ink-70);
+        font-style: normal;
+        line-height: 1.6;
+      }
+      .cert-row {
+        display: flex;
+        gap: 14px;
+        margin-top: 32px;
+        flex-wrap: wrap;
+      }
+      .cert-badge {
+        border: 1px dashed rgba(10, 34, 38, 0.28);
+        border-radius: 100px;
+        padding: 9px 16px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--teal-deep);
+        letter-spacing: 0.02em;
+      }
+      .sec-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      .sec-item {
+        background: var(--white);
+        padding: 28px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .sec-item h4 {
+        font-size: 16.5px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .sec-item p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--ink-70);
+      }
+      .sec-item .n {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--teal-deep);
+      }
 
-    submitViaWorker(contactForm.dataset.portalId, contactForm.dataset.formId, [
-      { name: 'fullname', value: document.getElementById('cname').value.trim() },
-      { name: 'email', value: document.getElementById('cemail').value.trim() },
-      { name: 'what_can_we_help_you_with_', value: document.getElementById('ctopic').value.trim() },
-      { name: 'message', value: document.getElementById('cmessage').value.trim() }
-    ], recaptchaResponse).then(()=>{
-      contactForm.style.display = 'none';
-      contactSuccess.classList.add('show');
-    }).catch(err=>{
-      console.error(err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Something went wrong — try again';
-      if(cRecaptchaId !== null) grecaptcha.reset(cRecaptchaId);
-    });
-  });
+      /* ---------- Developers ---------- */
+      .dev {
+        background: var(--paper);
+      }
+      .dev-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .dev-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 15.5px;
+        color: var(--ink);
+        padding: 13px 0;
+        border-top: 1px solid var(--line);
+      }
+      .dev-list li:first-child {
+        border-top: none;
+      }
+      .dev-list li b {
+        font-weight: 600;
+      }
+      .dev-list .dot {
+        width: 6px;
+        height: 6px;
+        margin-top: 8px;
+        border-radius: 50%;
+        background: var(--teal);
+        flex: none;
+      }
+      .dev-cta {
+        margin-top: 30px;
+      }
 
-  // track section jumps
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-          gtag('event', 'select_content', {
-              content_type: 'section_jump',
-              item_id: this.getAttribute('href') // e.g., "#pricing"
+      .code-panel {
+        background: #0c2226;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 30px 60px -30px rgba(10, 34, 38, 0.5);
+      }
+      .code-topbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 18px;
+        background: #0a1c1f;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .code-topbar span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.16);
+      }
+      .code-topbar .file {
+        margin-left: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px;
+        color: var(--white-50);
+      }
+      pre.code {
+        margin: 0;
+        padding: 26px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13.2px;
+        line-height: 1.75;
+        color: #cdece8;
+        overflow-x: auto;
+      }
+      .code .k {
+        color: #7fc07a;
+      }
+      .code .s {
+        color: #7fd4dd;
+      }
+      .code .c {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .code .p {
+        color: #e7f3f1;
+      }
+
+      /* ---------- Waitlist ---------- */
+      .waitlist {
+        background: radial-gradient(
+          120% 160% at 85% 0%,
+          #12403f 0%,
+          var(--ink) 55%
+        );
+        color: var(--white);
+      }
+      .waitlist-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .benefit-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-top: 34px;
+      }
+      .benefit-list li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 15px 0;
+        border-top: 1px solid var(--line-light);
+        font-size: 15.5px;
+        color: var(--white-70);
+      }
+      .benefit-list li:first-child {
+        border-top: none;
+      }
+      .benefit-list svg {
+        flex: none;
+      }
+      .waitlist-form {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line-light);
+        border-radius: var(--radius);
+        padding: 36px;
+      }
+      .waitlist-form h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--white);
+      }
+      .waitlist-form .hint {
+        font-size: 14px;
+        color: var(--white-70);
+        margin-bottom: 24px;
+      }
+      .field {
+        margin-bottom: 16px;
+      }
+      .field label {
+        display: block;
+        font-size: 12.5px;
+        color: var(--white-50);
+        margin-bottom: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        letter-spacing: 0.04em;
+      }
+      .field input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--line-light);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--white);
+        font-size: 15px;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+      .field input::placeholder {
+        color: var(--white-50);
+      }
+      .field input:focus {
+        outline: none;
+        border-color: var(--teal-bright);
+      }
+      .waitlist-form .btn-primary {
+        width: 100%;
+        justify-content: center;
+        margin-top: 6px;
+      }
+      .form-note {
+        font-size: 12.5px;
+        color: var(--white-50);
+        margin-top: 14px;
+        text-align: center;
+      }
+      .consent-field {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 18px 0 4px;
+      }
+      .consent-field input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+        margin-top: 2px;
+        flex: none;
+        accent-color: var(--teal-bright);
+      }
+      .consent-field label {
+        font-size: 12.5px;
+        line-height: 1.55;
+        font-family: "Inter", sans-serif;
+        letter-spacing: normal;
+        text-transform: none;
+      }
+      .waitlist-form .consent-field label {
+        color: var(--white-70);
+      }
+      .contact-form .consent-field label {
+        color: var(--ink-70);
+      }
+      .hp-field {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .turnstile-field {
+        margin: 12px 0 0;
+      } /* stays empty unless Cloudflare needs the visitor to click */
+      .turnstile-field:empty {
+        margin: 0;
+      }
+      .form-success {
+        display: none;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 18px;
+        border-radius: 10px;
+        background: rgba(127, 192, 122, 0.12);
+        border: 1px solid rgba(127, 192, 122, 0.35);
+        color: var(--green-soft);
+        font-size: 14.5px;
+        margin-top: 16px;
+      }
+      .form-success.show {
+        display: flex;
+      }
+
+      /* ---------- Contact ---------- */
+      .contact {
+        background: var(--paper);
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 64px;
+        align-items: start;
+      }
+      .contact-copy p {
+        font-size: 16.5px;
+        line-height: 1.7;
+        color: var(--ink-70);
+        margin-top: 18px;
+        max-width: 420px;
+      }
+      .contact-detail {
+        margin-top: 34px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .contact-detail div {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .contact-detail .ico {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        flex: none;
+        background: linear-gradient(
+          135deg,
+          var(--green-soft),
+          rgba(47, 152, 163, 0.16)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .contact-detail .ico svg {
+        width: 18px;
+        height: 18px;
+      }
+      .contact-detail h4 {
+        font-size: 15.5px;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .contact-detail p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ink-70);
+        max-width: none;
+      }
+      .contact-form {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 36px;
+      }
+      .contact-form .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .contact-form .field label {
+        color: var(--ink-50);
+      }
+      .contact-form .field input,
+      .contact-form .field textarea {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 15px;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+      .contact-form .field textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+      .contact-form .field input::placeholder,
+      .contact-form .field textarea::placeholder {
+        color: var(--ink-50);
+      }
+      .contact-form .field input:focus,
+      .contact-form .field textarea:focus {
+        outline: none;
+        border-color: var(--teal);
+      }
+      .contact-form .btn-primary {
+        width: 100%;
+        justify-content: center;
+        margin-top: 6px;
+      }
+      .contact-success {
+        display: none;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 18px;
+        border-radius: 10px;
+        background: rgba(127, 192, 122, 0.12);
+        border: 1px solid rgba(127, 192, 122, 0.35);
+        color: var(--teal-deep);
+        font-size: 14.5px;
+        margin-top: 16px;
+      }
+      .contact-success.show {
+        display: flex;
+      }
+
+      @media (max-width: 900px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .contact-form .row2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .faq {
+        background: var(--white);
+      }
+      .faq-list {
+        border-top: 1px solid var(--line);
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--line);
+      }
+      .faq-q {
+        width: 100%;
+        background: none;
+        border: none;
+        text-align: left;
+        padding: 26px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .faq-q .plus {
+        width: 26px;
+        height: 26px;
+        flex: none;
+        position: relative;
+      }
+      .faq-q .plus::before,
+      .faq-q .plus::after {
+        content: "";
+        position: absolute;
+        background: var(--ink);
+        border-radius: 2px;
+      }
+      .faq-q .plus::before {
+        width: 16px;
+        height: 2px;
+        top: 12px;
+        left: 5px;
+      }
+      .faq-q .plus::after {
+        width: 2px;
+        height: 16px;
+        top: 5px;
+        left: 12px;
+        transition: transform 0.3s var(--ease);
+      }
+      .faq-item.open .faq-q .plus::after {
+        transform: rotate(90deg);
+        opacity: 0;
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s var(--ease);
+      }
+      .faq-a p {
+        padding: 0 0 26px;
+        font-size: 15.5px;
+        line-height: 1.7;
+        color: var(--ink-70);
+        max-width: 680px;
+      }
+
+      /* ---------- Footer / final CTA ---------- */
+      .final-cta {
+        background: var(--ink);
+        color: var(--white);
+        text-align: center;
+        padding: 120px 0 90px;
+        position: relative;
+        overflow: hidden;
+      }
+      .final-cta h2 {
+        font-size: clamp(30px, 4.6vw, 52px);
+        font-weight: 700;
+        max-width: 760px;
+        margin: 0 auto;
+        line-height: 1.1;
+        color: var(--white);
+      }
+      .final-cta .sub {
+        margin: 22px auto 0;
+        max-width: 520px;
+        font-size: 17px;
+        color: var(--white-70);
+        line-height: 1.6;
+      }
+      .final-cta .btn {
+        margin-top: 38px;
+      }
+
+      footer {
+        background: var(--ink);
+        border-top: 1px solid var(--line-light);
+        padding: 80px 0 34px;
+      }
+      .footer-top {
+        display: grid;
+        grid-template-columns: 1.3fr repeat(4, 0.8fr);
+        gap: 40px;
+        padding-bottom: 56px;
+        border-bottom: 1px solid var(--line-light);
+      }
+      .footer-brand-col {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        max-width: 280px;
+      }
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .footer-brand img {
+        height: 44px;
+      }
+      .footer-tagline {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--white-50);
+      }
+      .footer-social {
+        display: flex;
+        gap: 12px;
+        margin-top: 6px;
+      }
+      .footer-social a {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--line-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          transform 0.2s var(--ease);
+      }
+      .footer-social a:hover {
+        border-color: var(--teal-bright);
+        background: rgba(63, 176, 186, 0.1);
+        transform: translateY(-2px);
+      }
+      .footer-social svg {
+        width: 16px;
+        height: 16px;
+        stroke: var(--white-70);
+        fill: none;
+      }
+      .footer-col h5 {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--white-50);
+        margin-bottom: 18px;
+        font-weight: 500;
+      }
+      .footer-col ul {
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+      }
+      .footer-col a {
+        font-size: 14.5px;
+        color: var(--white-70);
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--white);
+      }
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        padding-top: 28px;
+      }
+      .footer-links {
+        display: flex;
+        gap: 26px;
+        flex-wrap: wrap;
+      }
+      .footer-links a {
+        font-size: 13.5px;
+        color: var(--white-50);
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: var(--white);
+      }
+      .footer-copy {
+        font-size: 13px;
+        color: var(--white-50);
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      @media (max-width: 900px) {
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-brand-col {
+          grid-column: 1 / -1;
+          max-width: none;
+        }
+      }
+      @media (max-width: 560px) {
+        .footer-top {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- Demo video modal ---------- */
+      .demo-modal {
+        border: none;
+        padding: 0;
+        background: transparent;
+        width: min(1100px, 92vw);
+        max-width: none;
+        overflow: visible;
+      }
+      .demo-modal::backdrop {
+        background: rgba(7, 22, 25, 0.86);
+        backdrop-filter: blur(4px);
+      }
+      .demo-modal video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #071619;
+        border-radius: var(--radius);
+        box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+      }
+      .demo-close {
+        position: absolute;
+        top: -52px;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--line-light);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--white);
+        font-size: 22px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .demo-close:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .demo-close:focus-visible {
+        outline: 2px solid var(--teal-bright);
+        outline-offset: 3px;
+      }
+
+      /* ---------- Reveal on scroll ---------- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.7s var(--ease),
+          transform 0.7s var(--ease);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 900px) {
+        .hero-grid,
+        .why-grid,
+        .compliance-grid,
+        .dev-grid,
+        .waitlist-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-visual {
+          height: 320px;
+          order: -1;
+        }
+        .feature-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .sec-list {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          padding: 0 20px;
+        }
+        .section {
+          padding: 76px 0;
+        }
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+        .compare-row,
+        .compare-head {
+          grid-template-columns: 1fr;
+        }
+        .compare-cell.old {
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+        }
+        .compare-head div:first-child {
+          border-right: none;
+          border-bottom: 1px solid var(--line-light);
+        }
+        .footer-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .hero-ctas {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============ NAV ============ -->
+    <nav class="nav">
+      <div class="wrap">
+        <div class="brand">
+          <img src="verifsage-logo.png" alt="Verifsage" />
+        </div>
+        <div class="nav-links">
+          <a href="#features">Platform</a>
+          <a href="#industries">Industries</a>
+          <a href="#compliance">Compliance</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
+      </div>
+    </nav>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow on-dark">
+              <svg class="mark-mini" viewBox="0 0 40 40" fill="none">
+                <rect
+                  x="4"
+                  y="4"
+                  width="8"
+                  height="32"
+                  rx="4"
+                  fill="url(#g1)"
+                />
+                <rect
+                  x="16"
+                  y="10"
+                  width="8"
+                  height="26"
+                  rx="4"
+                  fill="url(#g1)"
+                />
+                <rect
+                  x="28"
+                  y="16"
+                  width="8"
+                  height="20"
+                  rx="4"
+                  fill="url(#g1)"
+                />
+                <defs>
+                  <linearGradient id="g1" x1="4" y1="4" x2="36" y2="36">
+                    <stop stop-color="#7fc07a" />
+                    <stop offset="1" stop-color="#2f98a3" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              Global KYC / KYB Infrastructure
+            </div>
+            <h1>
+              Global KYC &amp; KYB.
+              <span class="grad-text">Zero Compromise.</span>
+            </h1>
+            <p class="sub">
+              Verify people and businesses with confidence. Stop fraud. Stay
+              compliant. All through one powerful, seamless Verifsage platform.
+            </p>
+            <div class="hero-ctas">
+              <a href="#waitlist" class="btn btn-primary"
+                >Join the Verifsage Waitlist <span class="btn-arrow">→</span></a
+              >
+              <a href="#demo" class="btn btn-ghost" data-open-demo
+                ><svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M8 5.5v13l11-6.5z" /></svg
+                >Watch the Demo</a
+              >
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="glow"></div>
+            <svg viewBox="0 0 300 320" fill="none">
+              <defs>
+                <linearGradient id="heroGrad" x1="0" y1="0" x2="300" y2="320">
+                  <stop stop-color="#7fc07a" />
+                  <stop offset="0.55" stop-color="#2f98a3" />
+                  <stop offset="1" stop-color="#164e56" />
+                </linearGradient>
+                <clipPath id="clipBars">
+                  <rect x="20" y="0" width="34" height="300" rx="17" />
+                  <rect x="90" y="34" width="34" height="266" rx="17" />
+                  <rect x="160" y="68" width="34" height="232" rx="17" />
+                </clipPath>
+              </defs>
+              <g class="bar-draw" stroke="url(#heroGrad)" stroke-width="1">
+                <rect
+                  x="20"
+                  y="0"
+                  width="34"
+                  height="300"
+                  rx="17"
+                  fill="url(#heroGrad)"
+                  opacity="0.96"
+                />
+                <rect
+                  x="90"
+                  y="34"
+                  width="34"
+                  height="266"
+                  rx="17"
+                  fill="url(#heroGrad)"
+                  opacity="0.88"
+                />
+                <rect
+                  x="160"
+                  y="68"
+                  width="34"
+                  height="232"
+                  rx="17"
+                  fill="url(#heroGrad)"
+                  opacity="0.78"
+                />
+              </g>
+              <g clip-path="url(#clipBars)">
+                <rect
+                  class="scan-line"
+                  x="0"
+                  y="-40"
+                  width="300"
+                  height="26"
+                  fill="rgba(255,255,255,.55)"
+                />
+              </g>
+              <g
+                stroke="#3fb0ba"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                opacity="0.9"
+              >
+                <path d="M232 40a26 26 0 0 1 26 26" fill="none" />
+                <path d="M226 54a18 18 0 0 1 18 18" fill="none" />
+                <path d="M240 26a40 40 0 0 1 40 40" fill="none" />
+                <path d="M220 66a10 10 0 0 1 10 10" fill="none" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ WHY VERIFSAGE ============ -->
+    <section class="section why" id="why">
+      <div class="wrap">
+        <div class="why-grid">
+          <div class="reveal">
+            <div class="eyebrow">
+              <span class="mono">01</span> — The Problem
+            </div>
+            <h2>The World's Next Verification Leader.</h2>
+            <div class="why-copy" style="margin-top: 22px">
+              <p>
+                Businesses no longer need clunky, fragmented solutions. They
+                need speed, scale, and trust in one platform.
+              </p>
+              <p>
+                Legacy KYC/KYB providers are too slow. Compliance teams get
+                stuck in manual reviews. Customers drop off. Fraudsters still
+                find loopholes.
+              </p>
+              <p>
+                <strong>Verifsage is here to change that.</strong> We're the
+                bold challenger — delivering the flexibility, coverage, and
+                compliance-ready tools that the next generation of businesses
+                demand.
+              </p>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="compare">
+              <div class="compare-head">
+                <div>Legacy providers</div>
+                <div>Verifsage</div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell old">
+                  Fragmented tools, multiple vendors
+                </div>
+                <div class="compare-cell new">
+                  One platform for KYC, KYB &amp; AML
+                </div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell old">Manual review bottlenecks</div>
+                <div class="compare-cell new">
+                  Automated checks, with only true exceptions sent for review
+                </div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell old">Rigid, slow integrations</div>
+                <div class="compare-cell new">
+                  Flexible integration that fits the way you already work
+                </div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-cell old">
+                  Opaque pricing &amp; coverage
+                </div>
+                <div class="compare-cell new">
+                  Transparent pricing, clear coverage, no surprises
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CORE FEATURES ============ -->
+    <section class="section features" id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow"><span class="mono">02</span> — The Platform</div>
+          <h2>Why Teams Choose Verifsage.</h2>
+        </div>
+        <div class="feature-grid reveal">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path
+                  d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"
+                />
+              </svg>
+            </div>
+            <h3>Global Reach</h3>
+            <p>
+              Seamless KYC, KYB, and AML checks from a single platform, built to
+              grow with you.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <rect x="3" y="8" width="18" height="12" rx="1.5" />
+                <path d="M7 8V6a5 5 0 0 1 10 0v2" />
+              </svg>
+            </div>
+            <h3>Next-Level KYB</h3>
+            <p>
+              UBO mapping, registry lookups, document capture, and continuous
+              monitoring.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <path
+                  d="M12 3c3 2 6 2 8 1v7c0 5-3.5 8-8 10-4.5-2-8-5-8-10V4c2 1 5 1 8-1z"
+                />
+              </svg>
+            </div>
+            <h3>Friction-Right KYC</h3>
+            <p>
+              ID documents, biometrics, liveness checks — tough on fraud, smooth
+              for real users.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M21 21l-4.3-4.3" />
+              </svg>
+            </div>
+            <h3>Built-In AML</h3>
+            <p>Real-time sanctions, PEP, and adverse media screening.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <path
+                  d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <h3>Real-Time Decisions</h3>
+            <p>
+              Verify in seconds, not days, with instant updates that keep your
+              systems in sync.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1c6a73"
+                stroke-width="1.8"
+              >
+                <path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z" />
+              </svg>
+            </div>
+            <h3>Compliance by Design</h3>
+            <p>
+              GDPR/UK-GDPR aligned, full audit trails, regional data hosting.
+            </p>
+          </div>
+        </div>
+        <div class="features-cta reveal">
+          <a href="#compliance" class="btn btn-ghost dark"
+            >Discover Verifsage <span class="btn-arrow">→</span></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INDUSTRIES ============ -->
+    <section class="section industries" id="industries">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">
+            <span class="mono">03</span> — Where We Work
+          </div>
+          <h2>One Platform. Many Industries.</h2>
+          <p>Verifsage empowers ambitious businesses across:</p>
+        </div>
+        <div class="industry-strip reveal">
+          <div class="industry-chip"><i></i>Fintech &amp; Payments</div>
+          <div class="industry-chip"><i></i>Crypto &amp; Web3</div>
+          <div class="industry-chip"><i></i>Marketplaces</div>
+          <div class="industry-chip"><i></i>BNPL &amp; Lending</div>
+          <div class="industry-chip"><i></i>Remittance &amp; FX</div>
+          <div class="industry-chip"><i></i>Gig &amp; Mobility</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPLIANCE & SECURITY ============ -->
+    <section class="section compliance" id="compliance">
+      <div class="wrap">
+        <div class="compliance-grid">
+          <div class="compliance-copy reveal">
+            <div class="eyebrow"><span class="mono">04</span> — Trust</div>
+            <h2>Verifsage: Trust First, Always.</h2>
+            <p>
+              With Verifsage, compliance isn't just a checkbox. It's the
+              backbone of everything we do.
+            </p>
+            <div class="callout">
+              Every verification, every data point, every access log — built to
+              be audited, not just approved.
+            </div>
+            <div class="cert-row">
+              <span class="cert-badge">ISO 27001 — in progress</span>
+            </div>
+          </div>
+          <div class="sec-list reveal">
+            <div class="sec-item">
+              <div class="n">SECURITY</div>
+              <h4>Enterprise-grade Security</h4>
+              <p>
+                Encryption in transit and at rest, role-based access, complete
+                audit logs.
+              </p>
+            </div>
+            <div class="sec-item">
+              <div class="n">RETENTION</div>
+              <h4>Policy-Driven Retention</h4>
+              <p>GDPR/UK-GDPR baked in, DSR workflows, data minimisation.</p>
+            </div>
+            <div class="sec-item">
+              <div class="n">RESIDENCY</div>
+              <h4>Regional Data Residency</h4>
+              <p>Choose UK, EU, or US to meet sovereignty and latency needs.</p>
+            </div>
+            <div class="sec-item">
+              <div class="n">ASSURANCE</div>
+              <h4>Certifications Underway</h4>
+              <p>
+                ISO 27001 certification in progress, backed by third-party
+                audits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WAITLIST ============ -->
+    <section class="section waitlist" id="waitlist">
+      <div class="wrap">
+        <div class="waitlist-grid">
+          <div class="reveal">
+            <div class="eyebrow on-dark">
+              <span class="mono">05</span> — Early Access
+            </div>
+            <h2 style="color: #fff">Be First. Be Verifsage.</h2>
+            <p
+              style="
+                margin-top: 18px;
+                font-size: 17px;
+                line-height: 1.65;
+                color: var(--white-70);
+                max-width: 460px;
+              "
+            >
+              The future of verification is almost here. Get ahead of the curve
+              with early access and exclusive perks.
+            </p>
+            <ul class="benefit-list">
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7fc07a"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 12l5 5L20 6" /></svg
+                >Priority sandbox access
+              </li>
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7fc07a"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 12l5 5L20 6" /></svg
+                >Smooth migration support
+              </li>
+              <li>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7fc07a"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 12l5 5L20 6" /></svg
+                >Early-bird launch pricing
+              </li>
+            </ul>
+          </div>
+          <div class="reveal">
+            <div class="waitlist-form">
+              <h3>Join the Verifsage Waitlist</h3>
+              <p class="hint">Takes 20 seconds. No spam, ever.</p>
+              <form
+                id="waitlistForm"
+                data-portal-id="148975546"
+                data-form-id="b030cbec-1d7b-4503-abb0-45978ed2db09"
+              >
+                <div class="field">
+                  <label for="wname">Full name</label>
+                  <input
+                    id="wname"
+                    type="text"
+                    placeholder="Your Fullname"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="wemail">Work email</label>
+                  <input
+                    id="wemail"
+                    type="email"
+                    placeholder="you@company.com"
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="wcompany">Company</label>
+                  <input id="wcompany" type="text" placeholder="Company name" />
+                </div>
+                <div class="hp-field" aria-hidden="true">
+                  <label for="w_hp">Leave this field empty</label>
+                  <input
+                    id="w_hp"
+                    type="text"
+                    tabindex="-1"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="consent-field">
+                  <input type="checkbox" id="wconsent" required />
+                  <label for="wconsent"
+                    >I agree to allow Verifsage to store and process my personal
+                    data.</label
+                  >
+                </div>
+                <div class="turnstile-field" id="w_turnstile"></div>
+                <button type="submit" class="btn btn-primary">
+                  Join the Verifsage Waitlist <span class="btn-arrow">→</span>
+                </button>
+              </form>
+              <div class="form-success" id="formSuccess">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7fc07a"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 12l5 5L20 6" />
+                </svg>
+                You're on the list. We'll be in touch soon.
+              </div>
+              <div class="form-note">
+                By joining, you agree to receive early-access updates from
+                Verifsage.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section faq" id="faq">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow"><span class="mono">06</span> — Questions</div>
+          <h2>Frequently Asked.</h2>
+        </div>
+        <div class="faq-list reveal">
+          <div class="faq-item">
+            <button class="faq-q">
+              <span>When does Verifsage launch?</span><span class="plus"></span>
+            </button>
+            <div class="faq-a">
+              <p>
+                We're launching in stages, and waitlist members get access
+                first. Join the waitlist and we'll let you know as soon as your
+                access is ready.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              <span
+                >How is Verifsage different from other verification
+                providers?</span
+              ><span class="plus"></span>
+            </button>
+            <div class="faq-a">
+              <p>
+                Verifsage delivers faster integrations, deeper KYB coverage,
+                clearer pricing, and more control.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              <span>Which regions are covered?</span><span class="plus"></span>
+            </button>
+            <div class="faq-a">
+              <p>
+                We're launching in the UK first, with more regions to follow.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q">
+              <span>What about compliance certifications?</span
+              ><span class="plus"></span>
+            </button>
+            <div class="faq-a">
+              <p>
+                We're working towards ISO 27001 certification, with independent
+                penetration tests every release.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <div class="contact-grid">
+          <div class="contact-copy reveal">
+            <div class="eyebrow">
+              <span class="mono">07</span> — Get in Touch
+            </div>
+            <h2>Let's Talk Verification.</h2>
+            <p>
+              Questions about coverage, pricing, or getting your team set up?
+              Send us a note and we'll get back to you.
+            </p>
+          </div>
+
+          <div class="reveal">
+            <div class="contact-form">
+              <form
+                id="contactForm"
+                data-portal-id="148975546"
+                data-form-id="f9032add-8931-467e-8c2e-7a1b1da3f6b5"
+              >
+                <div class="row2">
+                  <div class="field">
+                    <label for="cname">Full name</label>
+                    <input
+                      id="cname"
+                      type="text"
+                      placeholder="Your Fullname"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="cemail">Work email</label>
+                    <input
+                      id="cemail"
+                      type="email"
+                      placeholder="you@company.com"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="ctopic">What can we help with?</label>
+                  <input
+                    id="ctopic"
+                    type="text"
+                    placeholder="Enterprise, API access, general question..."
+                  />
+                </div>
+                <div class="field">
+                  <label for="cmessage">Message</label>
+                  <textarea
+                    id="cmessage"
+                    placeholder="Tell us a bit about what you're looking for"
+                    required
+                  ></textarea>
+                </div>
+                <div class="hp-field" aria-hidden="true">
+                  <label for="c_hp">Leave this field empty</label>
+                  <input
+                    id="c_hp"
+                    type="text"
+                    tabindex="-1"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="consent-field">
+                  <input type="checkbox" id="cconsent" required />
+                  <label for="cconsent"
+                    >I agree to allow Verifsage to store and process my personal
+                    data.</label
+                  >
+                </div>
+                <div class="turnstile-field" id="c_turnstile"></div>
+                <button type="submit" class="btn btn-primary">
+                  Send Message <span class="btn-arrow">→</span>
+                </button>
+              </form>
+              <div class="contact-success" id="contactSuccess">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#1c6a73"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                >
+                  <path d="M4 12l5 5L20 6" />
+                </svg>
+                Thanks — we've received your message and will be in touch soon.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="final-cta">
+      <div class="wrap reveal">
+        <h2>Global verification without friction.</h2>
+        <p class="sub">Join Verifsage today and shape the future of KYC/KYB.</p>
+        <a href="#waitlist" class="btn btn-primary"
+          >Join the Verifsage Waitlist <span class="btn-arrow">→</span></a
+        >
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="footer-top">
+          <div class="footer-brand-col">
+            <div class="footer-brand">
+              <img src="verifsage-logo.png" alt="Verifsage" />
+            </div>
+            <p class="footer-tagline">
+              Global KYC &amp; KYB verification on one platform. Verify people
+              and businesses anywhere in the world.
+            </p>
+            <p class="footer-tagline" style="margin-top: -8px">
+              Questions?
+              <a
+                href="#contact"
+                style="color: var(--white); text-decoration: underline"
+                >Get in touch</a
+              >
+            </p>
+            <div class="footer-social">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener"
+                aria-label="Verifsage on LinkedIn"
+              >
+                <svg viewBox="0 0 24 24" stroke-width="1.6">
+                  <path
+                    d="M6.5 8.5v9M6.5 5.5v.01M11 17.5v-5.2c0-1.8 1.2-2.8 2.7-2.8 1.4 0 2.3 1 2.3 2.8v5.2M11 12.3v5.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener"
+                aria-label="Verifsage on X"
+              >
+                <svg viewBox="0 0 24 24" stroke-width="1.6">
+                  <path d="M5 5l14 14M19 5L5 19" stroke-linecap="round" />
+                </svg>
+              </a>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener"
+                aria-label="Verifsage on GitHub"
+              >
+                <svg viewBox="0 0 24 24" stroke-width="1.6">
+                  <path
+                    d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.4c0-1 .3-1.6.7-2-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.4-2.3 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.9 1.2 2 1.2 3.2 0 4.5-2.7 5.5-5.4 5.8.5.4.9 1.2.9 2.4V21"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+              <a href="#contact" aria-label="Contact Verifsage">
+                <svg viewBox="0 0 24 24" stroke-width="1.6">
+                  <path d="M4 6h16v12H4z" />
+                  <path
+                    d="M4 7l8 6 8-6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h5>Platform</h5>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#industries">Industries</a></li>
+              <li><a href="#compliance">Compliance &amp; Security</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Company</h5>
+            <ul>
+              <li><a href="#why">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Resources</h5>
+            <ul>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#waitlist">Waitlist</a></li>
+              <li><a href="status.html">Status</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Legal</h5>
+            <ul>
+              <li><a href="terms.html">Terms &amp; Conditions</a></li>
+              <li><a href="privacy.html">Privacy Policy</a></li>
+              <li><a href="cookies.html">Cookie Policy</a></li>
+              <li><a href="data-processing.html">Data Processing</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-row">
+          <div class="footer-copy">© 2026 VERIFSAGE</div>
+          <div class="footer-links">
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ============ DEMO VIDEO ============ -->
+    <dialog
+      class="demo-modal"
+      id="demoModal"
+      aria-label="Verifsage product demo"
+    >
+      <button
+        type="button"
+        class="demo-close"
+        id="demoClose"
+        aria-label="Close demo"
+      >
+        &times;
+      </button>
+      <video
+        id="demoVideo"
+        controls
+        playsinline
+        preload="none"
+        poster="verifsage-demo-poster.jpg"
+      >
+        <source src="verifsage-demo.mp4" type="video/mp4" />
+        <source src="verifsage-demo.webm" type="video/webm" />
+      </video>
+    </dialog>
+
+    <script>
+      // Demo video: opens from any [data-open-demo] link, or when the URL ends in #demo
+      const demoModal = document.getElementById("demoModal");
+      const demoVideo = document.getElementById("demoVideo");
+      function openDemo() {
+        demoModal.showModal();
+        demoVideo.currentTime = 0;
+        demoVideo.play().catch(() => {});
+        if (typeof gtag === "function")
+          gtag("event", "video_start", { video_title: "Verifsage demo" });
+      }
+      function closeDemo() {
+        demoVideo.pause();
+        demoModal.close();
+      }
+      document.querySelectorAll("[data-open-demo]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          openDemo();
+        }),
+      );
+      document.getElementById("demoClose").addEventListener("click", closeDemo);
+      demoModal.addEventListener("click", (e) => {
+        if (e.target === demoModal) closeDemo();
+      });
+      demoModal.addEventListener("close", () => demoVideo.pause());
+      if (location.hash === "#demo") openDemo();
+
+      // Reveal on scroll
+      const revealEls = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      revealEls.forEach((el) => io.observe(el));
+
+      // FAQ accordion
+      document.querySelectorAll(".faq-item").forEach((item) => {
+        const q = item.querySelector(".faq-q");
+        const a = item.querySelector(".faq-a");
+        q.addEventListener("click", () => {
+          const isOpen = item.classList.contains("open");
+          document.querySelectorAll(".faq-item.open").forEach((o) => {
+            o.classList.remove("open");
+            o.querySelector(".faq-a").style.maxHeight = null;
+          });
+          if (!isOpen) {
+            item.classList.add("open");
+            a.style.maxHeight = a.scrollHeight + "px";
+          }
+        });
+      });
+
+      // ---------- Cloudflare Turnstile (silent bot check) ----------
+      // Site key from the Cloudflare dashboard: Turnstile > your widget > Site key.
+      // For local testing you can use Cloudflare's test key '1x00000000000000000000AA'.
+      const TURNSTILE_SITE_KEY = "0x4AAAAAAGF3jm_99y-ZXMNV";
+      // Replace with the *.workers.dev URL printed after you deploy cloudflare-worker/
+      const WORKER_URL = "https://verifsage-form-proxy.verifsage.workers.dev";
+
+      // One widget per form. Each runs quietly in the background as soon as the page
+      // loads; it only becomes visible if Cloudflare needs the visitor to click.
+      const bot = {
+        waitlist: { el: "w_turnstile", id: null, token: "", waiters: [] },
+        contact: { el: "c_turnstile", id: null, token: "", waiters: [] },
+      };
+
+      window.onTurnstileReady = function () {
+        if (TURNSTILE_SITE_KEY === "YOUR_TURNSTILE_SITE_KEY") return; // don't render with a placeholder key
+        Object.values(bot).forEach((w) => {
+          try {
+            w.id = turnstile.render("#" + w.el, {
+              sitekey: TURNSTILE_SITE_KEY,
+              appearance: "interaction-only",
+              theme: w.el === "w_turnstile" ? "dark" : "light",
+              callback: (token) => {
+                w.token = token;
+                w.waiters.splice(0).forEach((fn) => fn(token));
+              },
+              "expired-callback": () => {
+                w.token = "";
+              },
+              "error-callback": () => {
+                w.token = "";
+              },
+            });
+          } catch (err) {
+            console.error(
+              "Turnstile failed to render. Check TURNSTILE_SITE_KEY and that this domain is added to the widget in Cloudflare.",
+              err,
+            );
+          }
+        });
+      };
+
+      // Resolves with a fresh token, waiting briefly if the background check is still running.
+      // The longer timeout leaves time for the rare visitor who is asked to click the checkbox.
+      function getBotToken(w, timeoutMs = 30000) {
+        if (w.token) return Promise.resolve(w.token);
+        return new Promise((resolve, reject) => {
+          const waiter = (token) => {
+            clearTimeout(timer);
+            resolve(token);
+          };
+          const timer = setTimeout(() => {
+            w.waiters = w.waiters.filter((fn) => fn !== waiter);
+            reject(new Error("Verification timed out"));
+          }, timeoutMs);
+          w.waiters.push(waiter);
+        });
+      }
+
+      // Tokens are single-use: clear and re-run the check after every submission attempt.
+      function resetBot(w) {
+        w.token = "";
+        if (w.id !== null && window.turnstile) turnstile.reset(w.id);
+      }
+
+      // ---------- HubSpot tracking cookie (links submissions to known visitors) ----------
+      function getCookie(name) {
+        const match = document.cookie.match(
+          "(^|;)\\s*" + name + "\\s*=\\s*([^;]+)",
+        );
+        return match ? decodeURIComponent(match.pop()) : "";
+      }
+
+      // ---------- Submit through the verification proxy ----------
+      // The proxy verifies the Turnstile token server-side with Cloudflare (using a
+      // secret key that never touches the browser), then forwards to HubSpot.
+      function submitViaWorker(portalId, formId, fields, turnstileToken) {
+        return fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            turnstileToken,
+            portalId,
+            formId,
+            fields: fields.map((f) => ({ name: f.name, value: f.value })),
+            pageUri: window.location.href,
+            pageName: document.title,
+            hutk: getCookie("hubspotutk"),
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.ok) throw new Error(data.error || "Submission failed");
+            return data;
+          });
+      }
+
+      // Waitlist form -> HubSpot
+      const form = document.getElementById("waitlistForm");
+      const success = document.getElementById("formSuccess");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Honeypot: if this hidden field got filled in, silently treat as spam
+        if (document.getElementById("w_hp").value) {
+          form.style.display = "none";
+          success.classList.add("show");
+          return;
+        }
+        if (!document.getElementById("wconsent").checked) return;
+
+        if (
+          TURNSTILE_SITE_KEY === "YOUR_TURNSTILE_SITE_KEY" ||
+          WORKER_URL.includes("YOUR-WORKER-SUBDOMAIN")
+        ) {
+          alert(
+            "Form submission isn't configured yet. Add your Turnstile site key and Worker URL in the script.",
+          );
+          return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const submitLabel = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+
+        const fullname = document.getElementById("wname").value.trim();
+        const company = document.getElementById("wcompany").value.trim();
+        const message = company ? `Company: ${company}` : "";
+
+        getBotToken(bot.waitlist)
+          .then((token) =>
+            submitViaWorker(
+              form.dataset.portalId,
+              form.dataset.formId,
+              [
+                { name: "fullname", value: fullname },
+                {
+                  name: "email",
+                  value: document.getElementById("wemail").value.trim(),
+                },
+                { name: "message", value: message },
+              ],
+              token,
+            ),
+          )
+          .then(() => {
+            form.style.display = "none";
+            success.classList.add("show");
+          })
+          .catch((err) => {
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitLabel;
+            alert(
+              "Sorry, something went wrong sending that. Please try again in a moment.",
+            );
+            resetBot(bot.waitlist);
           });
       });
-  });
-</script>
 
-</body>
+      // Contact form -> HubSpot
+      const contactForm = document.getElementById("contactForm");
+      const contactSuccess = document.getElementById("contactSuccess");
+      contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        // Honeypot: if this hidden field got filled in, silently treat as spam
+        if (document.getElementById("c_hp").value) {
+          contactForm.style.display = "none";
+          contactSuccess.classList.add("show");
+          return;
+        }
+        if (!document.getElementById("cconsent").checked) return;
+
+        if (
+          TURNSTILE_SITE_KEY === "YOUR_TURNSTILE_SITE_KEY" ||
+          WORKER_URL.includes("YOUR-WORKER-SUBDOMAIN")
+        ) {
+          alert(
+            "Form submission isn't configured yet. Add your Turnstile site key and Worker URL in the script.",
+          );
+          return;
+        }
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const submitLabel = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+
+        getBotToken(bot.contact)
+          .then((token) =>
+            submitViaWorker(
+              contactForm.dataset.portalId,
+              contactForm.dataset.formId,
+              [
+                {
+                  name: "fullname",
+                  value: document.getElementById("cname").value.trim(),
+                },
+                {
+                  name: "email",
+                  value: document.getElementById("cemail").value.trim(),
+                },
+                {
+                  name: "what_can_we_help_you_with_",
+                  value: document.getElementById("ctopic").value.trim(),
+                },
+                {
+                  name: "message",
+                  value: document.getElementById("cmessage").value.trim(),
+                },
+              ],
+              token,
+            ),
+          )
+          .then(() => {
+            contactForm.style.display = "none";
+            contactSuccess.classList.add("show");
+          })
+          .catch((err) => {
+            console.error(err);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitLabel;
+            alert(
+              "Sorry, something went wrong sending that. Please try again in a moment.",
+            );
+            resetBot(bot.contact);
+          });
+      });
+
+      // track section jumps
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          gtag("event", "select_content", {
+            content_type: "section_jump",
+            item_id: this.getAttribute("href"), // e.g., "#pricing"
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

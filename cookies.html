@@ -4,71 +4,377 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cookie Policy — Verifsage</title>
+<meta name="description" content="How Verifsage uses cookies and similar technologies on its website, and how you can control them.">
 <link rel="icon" href="verifsage-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  EDITING GUIDE
+  - Text in [[double square brackets]] is a placeholder. Search for "[[" to find them all.
+  - The .todo highlight shows placeholders in yellow while drafting. Before publishing,
+    delete the `.todo` rule in the <style> block (or replace every placeholder).
+  - Keep the cookie tables in step with the scripts actually loaded on index.html.
+    If you add or remove a tool (e.g. LinkedIn Insight Tag, Hotjar), add or remove its rows here.
+-->
 <style>
   :root{
     --ink:#0a2226; --teal:#2f98a3; --teal-deep:#1c6a73; --teal-bright:#3fb0ba;
     --green:#7fc07a; --green-soft:#bfe6b8; --paper:#f6f8f6; --white:#ffffff;
     --line:rgba(10,34,38,.12); --line-light:rgba(255,255,255,.14);
+    --ink-70:rgba(10,34,38,.72); --ink-50:rgba(10,34,38,.52);
     --white-70:rgba(255,255,255,.72); --white-50:rgba(255,255,255,.52);
     --grad: linear-gradient(120deg, var(--green) 0%, var(--teal) 60%, var(--teal-deep) 100%);
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{margin:0; background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
   a{color:inherit; text-decoration:none;}
   .nav{position:sticky; top:0; z-index:10; background:rgba(246,248,246,.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
   .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
   .nav .wrap{height:76px; display:flex; align-items:center; justify-content:space-between;}
-  .nav img{height:34px;}
+  .nav img{height:48px;}
   .nav a.back{font-size:14.5px; font-weight:600; color:var(--teal-deep); display:flex; align-items:center; gap:8px;}
-  main{padding:100px 0 140px;}
+  main{padding:90px 0 130px;}
   .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal-deep); margin-bottom:18px;}
   h1{font-family:'Instrument Sans',sans-serif; font-size:clamp(32px,4.5vw,48px); font-weight:700; letter-spacing:-0.02em; max-width:680px; line-height:1.1; margin:0 0 22px;}
-  .lede{font-size:17px; line-height:1.7; color:rgba(10,34,38,.7); max-width:560px; margin-bottom:44px;}
-  .notice{
-    border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px;
-    background:var(--white); padding:26px 28px; max-width:620px; font-size:15px; line-height:1.7; color:rgba(10,34,38,.75);
-  }
-  .notice strong{color:var(--ink);}
-  .cta-row{margin-top:40px; display:flex; gap:14px; flex-wrap:wrap;}
-  .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:100px; font-weight:600; font-size:14.5px;}
+  .lede{font-size:17px; line-height:1.7; color:var(--ink-70); max-width:620px; margin:0;}
+  .meta{margin-top:18px; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-50);}
+
+  .layout{display:grid; grid-template-columns:220px minmax(0,1fr); gap:64px; margin-top:64px; align-items:start;}
+  .toc{position:sticky; top:110px; font-size:14px;}
+  .toc p{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-50); margin:0 0 14px;}
+  .toc ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .toc a{color:var(--ink-70);}
+  .toc a:hover{color:var(--teal-deep);}
+
+  .policy{max-width:720px;}
+  .policy section{padding-top:8px; margin-bottom:52px; scroll-margin-top:100px;}
+  .policy h2{font-family:'Instrument Sans',sans-serif; font-size:24px; font-weight:700; letter-spacing:-0.01em; margin:0 0 16px;}
+  .policy h3{font-family:'Instrument Sans',sans-serif; font-size:18px; font-weight:600; margin:30px 0 10px;}
+  .policy p, .policy li{font-size:15.5px; line-height:1.75; color:var(--ink-70);}
+  .policy p{margin:0 0 14px;}
+  .policy ul{margin:0 0 14px; padding-left:20px;}
+  .policy li{margin-bottom:6px;}
+  .policy strong{color:var(--ink); font-weight:600;}
+  .policy a.inline{color:var(--teal-deep); text-decoration:underline; text-underline-offset:3px;}
+
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--white); margin:14px 0 8px;}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:560px;}
+  th, td{text-align:left; padding:13px 16px; vertical-align:top; border-bottom:1px solid var(--line);}
+  th{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-50); font-weight:500; background:var(--paper);}
+  tr:last-child td{border-bottom:none;}
+  td code{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); white-space:nowrap;}
+  td{color:var(--ink-70); line-height:1.55;}
+  .tag{display:inline-block; padding:3px 10px; border-radius:100px; font-size:12px; font-weight:600; white-space:nowrap;}
+  .tag-necessary{background:#e3f1f2; color:var(--teal-deep);}
+  .tag-analytics{background:#e7f4e5; color:#2f6b2a;}
+
+  .settings-box{border:1px solid var(--line); border-left:3px solid var(--teal); border-radius:12px; background:var(--white); padding:22px 24px; margin:18px 0;}
+  .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 22px; border-radius:100px; font-weight:600; font-size:14.5px; border:0; cursor:pointer; font-family:inherit;}
   .btn-primary{background:var(--grad); color:var(--ink);}
-  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
+
+  /* Draft highlight for placeholders. Delete this rule before publishing. */
+  .todo{background:#fff1b8; color:var(--ink); padding:0 4px; border-radius:3px;}
+
   footer{background:var(--ink); padding:34px 0; border-top:1px solid var(--line-light);}
   footer .wrap{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;}
-  footer img{height:24px;}
+  footer img{height:40px;}
+  .flinks{display:flex; gap:22px; flex-wrap:wrap; font-size:13.5px; color:var(--white-50);}
+  .flinks a:hover{color:var(--white);}
   .fcopy{font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--white-50);}
+
+  @media (max-width: 900px){
+    .layout{grid-template-columns:minmax(0,1fr); gap:32px; margin-top:44px;}
+    .toc{position:static; padding:20px 22px; border:1px solid var(--line); border-radius:12px; background:var(--white);}
+  }
+  @media (max-width: 560px){
+    .wrap{padding:0 20px;}
+    main{padding:60px 0 90px;}
+  }
 </style>
 </head>
 <body>
 <nav class="nav">
   <div class="wrap">
-    <img src="verifsage-logo.png" alt="Verifsage">
+    <a href="index.html"><img src="verifsage-logo.png" alt="Verifsage"></a>
     <a class="back" href="index.html">&larr; Back to home</a>
   </div>
 </nav>
+
 <main>
   <div class="wrap">
     <div class="eyebrow">Legal</div>
     <h1>Cookie Policy</h1>
-    <p class="lede">Details on the cookies and similar technologies used across the Verifsage website and dashboard.</p>
-    <div class="notice">
-      <strong>This page is coming soon.</strong> Our Cookie Policy will be published here before public launch.
-    </div>
-    <div class="cta-row">
-      <a href="index.html#waitlist" class="btn btn-primary">Join the Verifsage Waitlist →</a>
-      <a href="index.html" class="btn btn-ghost">Back to home</a>
+    <p class="lede">This policy explains what cookies are, which ones we use on the Verifsage website, why we use them and how you can control them.</p>
+    <p class="meta">Last updated: <span class="todo">[[DD Month YYYY]]</span></p>
+
+    <div class="layout">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#about">About this policy</a></li>
+          <li><a href="#what">What cookies are</a></li>
+          <li><a href="#how">How we use cookies</a></li>
+          <li><a href="#list">Cookies we use</a></li>
+          <li><a href="#manage">Managing your choices</a></li>
+          <li><a href="#third-parties">Third-party providers</a></li>
+          <li><a href="#changes">Changes to this policy</a></li>
+          <li><a href="#contact">Contact us</a></li>
+        </ol>
+      </aside>
+
+      <article class="policy">
+        <section id="about">
+          <h2>1. About this policy</h2>
+          <p>
+            This Cookie Policy applies to the Verifsage website at
+            <span class="todo">[[verifsage.com]]</span> (the "website"). The website is operated by
+            <span class="todo">[[Legal company name]]</span>, a company registered in
+            <span class="todo">[[England and Wales]]</span> under company number
+            <span class="todo">[[00000000]]</span>, with its registered office at
+            <span class="todo">[[Registered address]]</span> ("Verifsage", "we", "us").
+          </p>
+          <p>
+            It should be read alongside our <a class="inline" href="privacy.html">Privacy Policy</a>,
+            which explains how we handle personal data more generally.
+          </p>
+          <p>
+            This policy covers our public marketing website only. Cookies used in the Verifsage
+            platform and dashboard will be described in a separate notice provided to customers.
+          </p>
+        </section>
+
+        <section id="what">
+          <h2>2. What cookies are</h2>
+          <p>
+            Cookies are small text files that a website stores on your device when you visit it.
+            They let the site remember things about your visit, such as your preferences or whether
+            you've been here before. Similar technologies, such as pixels, local storage and scripts
+            that read information from your device, work in a similar way. In this policy we call
+            them all "cookies".
+          </p>
+          <p>
+            <strong>First-party cookies</strong> are set by us. <strong>Third-party cookies</strong> are set by
+            another company's service that we use on our site. Some cookies last only until you close
+            your browser (<strong>session cookies</strong>); others stay on your device for a set period
+            (<strong>persistent cookies</strong>).
+          </p>
+        </section>
+
+        <section id="how">
+          <h2>3. How we use cookies</h2>
+          <p>We group the cookies on our website into two categories:</p>
+          <ul>
+            <li>
+              <strong>Strictly necessary cookies</strong> are needed for the website to work securely,
+              for example to protect our forms from spam and abuse and to remember your cookie choices.
+              The law allows us to use these without asking for your consent.
+            </li>
+            <li>
+              <strong>Analytics cookies</strong> help us understand how visitors find and use the
+              website, which pages are popular and how people move between them, so we can improve it.
+              They also help us connect a waitlist or contact form submission with earlier visits.
+              We only set these cookies if you agree to them.
+            </li>
+          </ul>
+          <p>
+            We do not use advertising or targeting cookies, and we do not sell any information
+            collected through cookies.
+            <!-- If you later add ad pixels (e.g. LinkedIn Insight Tag, Meta Pixel) or retargeting,
+                 add an "Advertising cookies" category here and in the table below. -->
+          </p>
+        </section>
+
+        <section id="list">
+          <h2>4. Cookies we use</h2>
+          <p>
+            The tables below list the cookies currently used on our website. Expiry times are the
+            maximum periods set by each provider. Some browsers delete cookies sooner.
+          </p>
+
+          <h3>Strictly necessary</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cookie</th><th>Provider</th><th>Purpose</th><th>Expiry</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>__hs_cookie_cat_pref</code></td>
+                  <td>HubSpot</td>
+                  <td>Records which categories of cookies you have accepted.</td>
+                  <td>6 months</td>
+                </tr>
+                <tr>
+                  <td><code>__hs_opt_out</code></td>
+                  <td>HubSpot</td>
+                  <td>Remembers if you have declined cookies, so we don't ask again.</td>
+                  <td>6 months</td>
+                </tr>
+                <tr>
+                  <td><code>__hs_do_not_track</code></td>
+                  <td>HubSpot</td>
+                  <td>Stops HubSpot's tracking code from sending information about your visit.</td>
+                  <td>6 months</td>
+                </tr>
+                <tr>
+                  <td><code>__hs_initial_opt_in</code></td>
+                  <td>HubSpot</td>
+                  <td>Prevents the cookie banner from reappearing on every page in some browsers.</td>
+                  <td>7 days</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            To protect our waitlist and contact forms from spam and abuse, we use
+            <strong>Cloudflare Turnstile</strong>. It checks in the background that a form is being sent
+            by a real person, using technical signals from your browser at the moment you visit. Cloudflare
+            states that Turnstile does not use cookies to collect or store information, and these signals
+            are used only to detect and block bots.
+          </p>
+
+          <h3>Analytics</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cookie</th><th>Provider</th><th>Purpose</th><th>Expiry</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><code>_ga</code></td>
+                  <td>Google Analytics</td>
+                  <td>Distinguishes one visitor from another so we can count visits and see how the site is used.</td>
+                  <td>2 years</td>
+                </tr>
+                <tr>
+                  <td><code>_ga_BLBJL4Y8QB</code></td>
+                  <td>Google Analytics</td>
+                  <td>Keeps track of the current session for the statistics above.</td>
+                  <td>2 years</td>
+                </tr>
+                <tr>
+                  <td><code>__hstc</code></td>
+                  <td>HubSpot</td>
+                  <td>Main visitor tracking cookie. Records when you first visited, your last and current visits, and how many sessions you've had.</td>
+                  <td>6 months</td>
+                </tr>
+                <tr>
+                  <td><code>hubspotutk</code></td>
+                  <td>HubSpot</td>
+                  <td>Identifies your browser with a random ID, which is linked to your details if you submit one of our forms.</td>
+                  <td>6 months</td>
+                </tr>
+                <tr>
+                  <td><code>__hssc</code></td>
+                  <td>HubSpot</td>
+                  <td>Tracks sessions, so HubSpot can tell when a new visit starts.</td>
+                  <td>30 minutes</td>
+                </tr>
+                <tr>
+                  <td><code>__hssrc</code></td>
+                  <td>HubSpot</td>
+                  <td>Detects when you have restarted your browser.</td>
+                  <td>End of session</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Our website also loads fonts from Google Fonts. This does not set cookies, but your browser
+            shares your IP address with Google so the fonts can be delivered.
+          </p>
+        </section>
+
+        <section id="manage">
+          <h2>5. Managing your choices</h2>
+          <p>
+            When you first visit our website, we ask whether you accept analytics cookies. Strictly
+            necessary cookies are always active. You can change your mind at any time:
+          </p>
+          <div class="settings-box">
+            <p style="margin-bottom:14px;">Review or change the cookies you've allowed on this website.</p>
+            <!-- Opens the HubSpot cookie banner. Requires the HubSpot cookie consent banner to be
+                 switched on (HubSpot: Settings > Privacy & Consent > Cookies). If you use a
+                 different consent tool, change the onclick handler to that tool's "open" call. -->
+            <button type="button" class="btn btn-primary" id="cookieSettings">Cookie settings</button>
+          </div>
+          <p>
+            You can also control cookies through your browser settings, including blocking or
+            deleting them. Blocking strictly necessary cookies may stop our forms from working.
+            Your browser's help pages explain how:
+          </p>
+          <ul>
+            <li><a class="inline" href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+            <li><a class="inline" href="https://support.apple.com/en-gb/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
+            <li><a class="inline" href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+            <li><a class="inline" href="https://support.microsoft.com/en-gb/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener">Microsoft Edge</a></li>
+          </ul>
+          <p>
+            To stop Google Analytics on every website, you can install the
+            <a class="inline" href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics opt-out browser add-on</a>.
+          </p>
+        </section>
+
+        <section id="third-parties">
+          <h2>6. Third-party providers</h2>
+          <p>
+            Some of the cookies above are set by the companies that provide these services. They may
+            process information about your visit in other countries, including the United States, under
+            appropriate safeguards. You can read how each one handles your information here:
+          </p>
+          <ul>
+            <li>Google (Analytics, Fonts): <a class="inline" href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+            <li>Cloudflare (Turnstile): <a class="inline" href="https://www.cloudflare.com/turnstile-privacy-policy/" target="_blank" rel="noopener">Turnstile Privacy Addendum</a></li>
+            <li>HubSpot: <a class="inline" href="https://legal.hubspot.com/privacy-policy" target="_blank" rel="noopener">HubSpot Privacy Policy</a></li>
+          </ul>
+        </section>
+
+        <section id="changes">
+          <h2>7. Changes to this policy</h2>
+          <p>
+            We may update this policy when we change the cookies we use or when the law changes.
+            The "last updated" date at the top shows when it was last revised. If we make significant
+            changes, we will ask for your consent again where required.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2>8. Contact us</h2>
+          <p>
+            If you have any questions about this policy or our use of cookies, email us at
+            <a class="inline" href="mailto:hello@verifsage.com">hello@verifsage.com</a> or write to
+            <span class="todo">[[Legal company name]]</span>, <span class="todo">[[Registered address]]</span>.
+          </p>
+          <p>
+            You also have the right to complain to the Information Commissioner's Office (ICO), the UK
+            data protection regulator, at
+            <a class="inline" href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener">ico.org.uk</a>.
+          </p>
+        </section>
+      </article>
     </div>
   </div>
 </main>
+
 <footer>
   <div class="wrap">
     <img src="verifsage-logo.png" alt="Verifsage">
+    <div class="flinks">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
     <span class="fcopy">© 2026 VERIFSAGE</span>
   </div>
 </footer>
+
+<script>
+  // "Cookie settings" opens the HubSpot consent banner if it's enabled on the portal.
+  document.getElementById('cookieSettings').addEventListener('click', function(){
+    var _hsp = window._hsp = window._hsp || [];
+    _hsp.push(['showBanner']);
+  });
+</script>
+<!-- HubSpot tracking code, needed here so the Cookie settings button can open the banner -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/148975546.js"></script>
 </body>
 </html>
