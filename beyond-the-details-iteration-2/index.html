@@ -239,6 +239,81 @@
         object-fit: cover;
       }
 
+      /* ---------- Cover carousel ---------- */
+      .cover-slide {
+        opacity: 0;
+        transition: opacity 1.4s ease, transform 7s ease-out;
+        transform: scale(1.04);
+      }
+      .cover-slide.is-active {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .cover-dots {
+        position: absolute;
+        left: 50%;
+        bottom: 1.1rem;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.2rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        background: rgba(58, 42, 34, 0.35);
+        backdrop-filter: blur(4px);
+        z-index: 2;
+      }
+      .cover-dots[hidden] {
+        display: none;
+      }
+      .cover-dots button {
+        width: 2.4rem;
+        height: 1.6rem;
+        padding: 0;
+        border: 0;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .cover-dots button::before {
+        content: "";
+        width: 1.6rem;
+        height: 2px;
+        background: rgba(251, 248, 245, 0.5);
+        transition: background 0.3s;
+      }
+      .cover-dots button[aria-current="true"]::before {
+        background: var(--cream);
+      }
+      .cover-dots button:focus-visible {
+        outline-color: var(--cream);
+      }
+
+      /* ---------- Enquiry form status ---------- */
+      .form-error {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #8a2f1f;
+        background: rgba(138, 47, 31, 0.07);
+        border-left: 2px solid #8a2f1f;
+        padding: 0.7rem 0.9rem;
+      }
+      .form-error a {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .btn[disabled] {
+        opacity: 0.65;
+        cursor: wait;
+      }
+      .hp-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
       /* ---------- Portfolio gallery ---------- */
       .gallery {
         display: grid;
@@ -603,17 +678,43 @@
 
       <!-- HERO -->
       <div id="top" style="border-bottom: 1px solid var(--line)">
-        <!-- Cover photo: save the image as images/cover.jpg (landscape, ~2400px wide) -->
+        <!-- Cover carousel: photos live in images/cover/. Each has a large (2400px)
+             and small (1200px) version. To add a slide, copy an <img class="cover-slide">
+             line; the dots are generated automatically. -->
         <figure
           class="photo-slot hero-rise"
+          id="cover"
           data-label="Cover photo"
+          aria-roledescription="carousel"
+          aria-label="Photos of tables styled for celebrations"
           style="height: clamp(16rem, 62vh, 40rem)"
         >
           <img
-            src="images/cover.jpg"
-            alt="A table beautifully styled by Beyond The Details"
-            onerror="this.remove()"
+            class="cover-slide is-active"
+            src="images/cover/cover-1.jpg"
+            srcset="images/cover/cover-1-sm.jpg 1200w, images/cover/cover-1.jpg 2400w"
+            sizes="100vw"
+            alt="Long celebration table with wildflowers in glass bottles, blue gingham napkins and handwritten name tags"
+            fetchpriority="high"
           />
+          <img
+            class="cover-slide"
+            src="images/cover/cover-2.jpg"
+            srcset="images/cover/cover-2-sm.jpg 800w, images/cover/cover-2.jpg 1600w"
+            sizes="100vw"
+            alt="Outdoor table set with dried-flower centrepieces, grey plates and gold cutlery"
+            style="object-position: center 55%"
+            decoding="async"
+          />
+          <img
+            class="cover-slide"
+            src="images/cover/cover-3.jpg"
+            srcset="images/cover/cover-3-sm.jpg 1200w, images/cover/cover-3.jpg 2400w"
+            sizes="100vw"
+            alt="Round table with a candle in a glass hurricane, green napkins tied with twine and garden roses"
+            decoding="async"
+          />
+          <div class="cover-dots" role="group" aria-label="Choose a photo"></div>
         </figure>
 
         <div
@@ -1669,8 +1770,14 @@
           <div>
             <form
               id="enquiryForm"
+              novalidate
               style="display: flex; flex-direction: column; gap: 1.5rem"
             >
+              <!-- Spam trap: hidden from people, often filled in by bots -->
+              <label class="hp-field" aria-hidden="true"
+                >Leave this empty
+                <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"
+              /></label>
               <div
                 class="form-row-2"
                 style="
@@ -1901,9 +2008,11 @@
                   >privacy policy</a
                 >.
               </p>
+              <p class="form-error" id="enquiryError" role="alert" hidden></p>
               <button
                 type="submit"
                 class="btn"
+                id="enquirySubmit"
                 style="align-self: flex-start; border: none"
               >
                 Send enquiry
@@ -2093,24 +2202,182 @@
         });
       });
 
-      // Enquiry form: client-side only demo submit.
-      // NOTE: this does not send an email. Wire it to a form backend
-      // (e.g. Formspree, Azure Function, or your own endpoint) before going live.
+      // ---------- Enquiry form -> email (via Web3Forms) ----------
+      // Get a free access key at https://web3forms.com by entering the inbox that
+      // should receive enquiries (beyondthedetailseventsuk@gmail.com). The key is
+      // safe to keep in this file. Paste it below.
+      var WEB3FORMS_ACCESS_KEY = "0340e8bf-b442-4192-ab17-22c45e57b2f8";
+      var ENQUIRY_EMAIL = "beyondthedetailseventsuk@gmail.com";
+
       var form = document.getElementById("enquiryForm");
       var thanks = document.getElementById("enquiryThanks");
+      var formError = document.getElementById("enquiryError");
+      var submitBtn = document.getElementById("enquirySubmit");
+
+      function showFormError(html) {
+        formError.innerHTML = html;
+        formError.hidden = false;
+      }
+      function prettyDate(value) {
+        if (!value) return "";
+        var d = new Date(value + "T12:00:00");
+        return isNaN(d) ? value : d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        form.style.display = "none";
-        thanks.style.display = "block";
+        formError.hidden = true;
+
+        // Use the browser's own required-field messages
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        var f = form.elements;
+        // A ticked spam trap means a bot: pretend it worked and send nothing
+        if (f.botcheck.checked) {
+          form.style.display = "none";
+          thanks.style.display = "block";
+          return;
+        }
+        if (WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
+          showFormError("The enquiry form isn't connected yet. Please email us at " +
+            '<a href="mailto:' + ENQUIRY_EMAIL + '">' + ENQUIRY_EMAIL + "</a>.");
+          return;
+        }
+
+        var name = f.name.value.trim();
+        var service = f.service.options[f.service.selectedIndex].text;
+        // Field names below become the labels in the email Vida receives
+        var payload = {
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: "New enquiry from " + name + " (" + service + ")",
+          from_name: "Beyond The Details website",
+          replyto: f.email.value.trim(),
+          botcheck: false,
+          "Name": name,
+          "Partner's name": f.partner.value.trim(),
+          "Email": f.email.value.trim(),
+          "Contact number": f.phone.value.trim(),
+          "Service": service,
+          "Budget": f.budget.value.trim(),
+          "Guest count": f.guests.value.trim(),
+          "Event date": prettyDate(f.date.value),
+          "Venue": f.venue.value.trim(),
+          "Heard about us via": f.source.value,
+          "Message": f.message.value.trim()
+        };
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+        var controller = "AbortController" in window ? new AbortController() : null;
+        var timer = controller && setTimeout(function () { controller.abort(); }, 15000);
+
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              if (!res.ok || !data.success) throw new Error(data.message || "Request failed");
+            });
+          })
+          .then(function () {
+            form.style.display = "none";
+            thanks.style.display = "block";
+            thanks.scrollIntoView({ behavior: "smooth", block: "center" });
+          })
+          .catch(function (err) {
+            console.error("Enquiry failed:", err);
+            showFormError("Sorry, your enquiry didn't send. Please try again, or email us at " +
+              '<a href="mailto:' + ENQUIRY_EMAIL + '">' + ENQUIRY_EMAIL + "</a>.");
+          })
+          .finally(function () {
+            if (timer) clearTimeout(timer);
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Send enquiry";
+          });
       });
       document
         .getElementById("resetForm")
         .addEventListener("click", function (e) {
           e.preventDefault();
           form.reset();
+          formError.hidden = true;
           form.style.display = "flex";
           thanks.style.display = "none";
         });
+
+      // ---------- Cover carousel ----------
+      (function () {
+        var cover = document.getElementById("cover");
+        var slides = Array.prototype.slice.call(cover.querySelectorAll(".cover-slide"));
+        var dotsWrap = cover.querySelector(".cover-dots");
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var INTERVAL = 6000;
+        var index = 0, timer = null, paused = false;
+
+        // If a photo file is missing, drop that slide rather than show a gap
+        slides.forEach(function (img) {
+          img.addEventListener("error", function () {
+            var i = slides.indexOf(img);
+            if (i > -1) { slides.splice(i, 1); img.remove(); buildDots(); go(0); }
+          });
+        });
+
+        function buildDots() {
+          dotsWrap.innerHTML = "";
+          dotsWrap.hidden = slides.length < 2;
+          slides.forEach(function (img, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.setAttribute("aria-label", "Show photo " + (i + 1) + " of " + slides.length);
+            b.addEventListener("click", function () { go(i); restart(); });
+            dotsWrap.appendChild(b);
+          });
+        }
+        function go(i) {
+          if (!slides.length) return;
+          index = (i + slides.length) % slides.length;
+          slides.forEach(function (img, n) {
+            img.classList.toggle("is-active", n === index);
+            img.setAttribute("aria-hidden", n === index ? "false" : "true");
+          });
+          Array.prototype.forEach.call(dotsWrap.children, function (b, n) {
+            b.setAttribute("aria-current", n === index ? "true" : "false");
+          });
+        }
+        function restart() {
+          clearInterval(timer);
+          if (reduceMotion || paused || slides.length < 2) return;
+          timer = setInterval(function () { go(index + 1); }, INTERVAL);
+        }
+
+        // Pause while someone hovers, focuses a dot, or the tab is hidden
+        cover.addEventListener("mouseenter", function () { paused = true; restart(); });
+        cover.addEventListener("mouseleave", function () { paused = false; restart(); });
+        cover.addEventListener("focusin", function () { paused = true; restart(); });
+        cover.addEventListener("focusout", function () { paused = false; restart(); });
+        document.addEventListener("visibilitychange", function () {
+          paused = document.hidden; restart();
+        });
+
+        // Swipe on touch screens
+        var startX = null;
+        cover.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; }, { passive: true });
+        cover.addEventListener("touchend", function (e) {
+          if (startX === null) return;
+          var dx = e.changedTouches[0].clientX - startX;
+          if (Math.abs(dx) > 50) { go(index + (dx < 0 ? 1 : -1)); restart(); }
+          startX = null;
+        });
+
+        buildDots();
+        go(0);
+        restart();
+      })();
 
       // Portfolio: category filter (only shown once 2+ categories have photos)
       var items = Array.prototype.slice.call(
